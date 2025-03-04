@@ -19,48 +19,65 @@
 </head>
 <body>
 
-<!-- TODO: Add Bootstrap js -->
-<!-- <div id="chart-area"></div> -->
+	<div id="fullpage">
+		<div class="section">Some section
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-2"> </div>
 
-<!-- Example of a nested Bootstrap grid layout -->
-<div class="container">
-    <div class="row text-center">
-        <div class="col-2"> </div>
+				<!-- create column of size 8 -->
+				<div class="col-8">
+					<div class="row-sm-4">
+						<h2>Canadian Chess Visualization</h2>
+						<h1>Global Attractions Attendance</h1>
+					</div>
 
-		<!-- create column of size 8 -->
-        <div class="col-8">
-			<div class="row-sm-4">
-				<h2>Theme Parks, Water Parks and Museums</h2>
-				<h1>Global Attractions Attendance</h1>
-			</div>
-
-			<div class="row" >
-				<div class="col-sm-4"></div>
-				<div class="col-sm-4 text-center user-control">
-					<div class="form-group">
-						<label for="attraction-category">Choose Category:</label>
-							<select id="attraction-category" class="form-control" onchange="updateChart()">
-								<option value="all">All Attractions</option>
-								<option value="Water Park">Water Park</option>
-								<option value="Museum">Museum</option>
-								<option value="Theme Park">Theme Park</option>
-							</select>
+					<div class="row" >
+						<div class="col-sm-4"></div>
+						<div class="col-sm-4 text-center user-control">
+							<div class="form-group">
+								<label for="attraction-category">Choose Category:</label>
+									<select id="attraction-category" class="form-control" onchange="updateChart()">
+										<option value="all">All Attractions</option>
+										<option value="Water Park">Water Park</option>
+										<option value="Museum">Museum</option>
+										<option value="Theme Park">Theme Park</option>
+									</select>
+							</div>
+						</div>
+						<div class="col-sm-4"></div>
+					</div>
+					<div class="row" style="background: #e0e4e8">
+						<div class="col">
+							<div id="chart-area"></div>
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-4"></div>
-			</div>
-			<div class="row" style="background: #e0e4e8">
-				<div class="col">
-					<div id="chart-area"></div>
-				</div>
+				<div class="col-sm-2"></div>
 			</div>
 		</div>
-		<div class="col-sm-2"></div>
-    </div>
+	</div>
+	<div class="section">Some section</div>
+	<div class="section">Some section</div>
+	<div class="section">Some section</div>
 </div>
 
-<!-- Completed: d3 included -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<!-- d3 -->
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<!-- Load d3-cloud -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+<!-- Fullpage Stepper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.js"></script>
+	<!-- <script src="
+	https://cdn.jsdelivr.net/npm/fullpage.js@4.0.34/dist/fullpage.min.js
+	"></script> -->
+
+<!-- Slick Carousel -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="js/slick/slick.min.js"></script>
 
 <!-- Completed: data loading, bar-chart rendering -->
 <script src="js/global-attractions.js"></script>
@@ -70,5 +87,24 @@
 <script src="js/activity_2.js"></script>
 <script src="js/activity_3.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- Initialize Fullpage stepper-->
+<script>
+    new fullpage('#fullpage', {
+        // options here
+        anchors: ['Home', 'firstPage', 'secondPage', '3rdPage', '4thPage', '5thPage', '6thPage', '7thPage', '8thPage', '9thPage', '10thPage', 'AboutUs', 'Sources'],
+        // autoScrolling false because story boxes need vertical scrolling
+        autoScrolling: false,
+        scrollingSpeed: 1000,
+        scrollHorizontally: false,
+        onLeave: function(origin, destination){
+            destination.item.classList.add('load-background');
+        },
+        slidesNavigation: true,
+        navigation: true,
+        navigationPosition: 'right',
+    });
+</script>
+
 </body>
 </html>
