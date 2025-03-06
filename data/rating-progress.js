@@ -11,12 +11,19 @@ const nationalMastersOutput = 'national_masters.csv';
 // Command line argument or default CFC ID
 const argCfcID = process.argv[2];
 const cfcID = argCfcID || '167084';
-const ratingHistoryOutput = `rating_histories\rating_history_${cfcID}.csv`;
+const ratingHistoriesDir = 'rating_histories';
+const ratingHistoryOutput = `${ratingHistoriesDir}/rating_history_${cfcID}.csv`;
 
 // For processing multiple national masters
 const nationalMastersInput = 'national_masters.csv';
 let nationalMasterIds = [];
 let processSinglePlayer = true;
+
+// Create the rating histories directory if it doesn't exist
+if (!fs.existsSync(ratingHistoriesDir)) {
+  fs.mkdirSync(ratingHistoriesDir, { recursive: true });
+  console.log(`Created directory: ${ratingHistoriesDir}`);
+}
 
 // Check if we should process all national masters
 if (process.argv[2] === '--all-masters') {
@@ -92,6 +99,9 @@ fs.createReadStream(filePath)
     });
   });
 
+// Store rating history by player ID
+const playerRatingHistories = {};
+
 fs.createReadStream(crosstablesFilePath)
   .pipe(csv())
   .on('data', (row) => {
@@ -105,10 +115,7 @@ fs.createReadStream(crosstablesFilePath)
     const ratingIndicator = parseInt(row['rating_indicator'], 10);
     const eventId = row['event_id'];
 
-    // console.log("Event ID: " + eventId)
-
     const eventDetails = eventsData[eventId] || {};
-    // console.log("Event with " + eventDetails)
     const eventDate = eventDetails['date_end'] || '';
     const eventName = eventDetails['name'] || '';
     const eventLocation = eventDetails['province'] || '';
@@ -132,9 +139,19 @@ fs.createReadStream(crosstablesFilePath)
       );
     }
 
-    // Capture rating history for CFC ID cfcid
-    if (cfcId === cfcID) {
+    // Capture rating history for the specified player or all national masters
+    if (processSinglePlayer && cfcId === cfcID) {
+      // For single player mode
+      if (!ratingHistory[cfcId]) ratingHistory[cfcId] = [];
       ratingHistory.push({ eventId, eventDate, eventName, eventLocation, numPlayers, organizer, score, ratingPerf, ratingPost });
+    } else if (!processSinglePlayer) {
+      // For all masters mode
+      if (!playerRatingHistories[cfcId]) {
+        playerRatingHistories[cfcId] = [];
+      }
+      playerRatingHistories[cfcId].push({ 
+        eventId, eventDate, eventName, eventLocation, numPlayers, organizer, score, ratingPerf, ratingPost 
+      });
     }
   })
   .on('end', () => {
@@ -149,6 +166,7 @@ fs.createReadStream(crosstablesFilePath)
       }
     }
 
+    // Save national masters list
     stringify(nationalMastersArray, { header: true }, (err, output) => {
       if (err) {
         console.error('Error writing national masters CSV:', err);
@@ -158,13 +176,38 @@ fs.createReadStream(crosstablesFilePath)
       console.log(`National masters saved to ${nationalMastersOutput}`);
     });
 
-    // Save rating history for CFC ID cfcid
-    stringify(ratingHistory, { header: true }, (err, output) => {
-      if (err) {
-        console.error('Error writing rating history CSV:', err);
-        return;
-      }
-      fs.writeFileSync(ratingHistoryOutput, output);
-      console.log(`Rating history for CFC ID ${cfcID} saved to ${ratingHistoryOutput}`);
-    });
+    if (processSinglePlayer) {
+      // Save rating history for single player
+      stringify(ratingHistory, { header: true }, (err, output) => {
+        if (err) {
+          console.error('Error writing rating history CSV:', err);
+          return;
+        }
+        fs.writeFileSync(ratingHistoryOutput, output);
+        console.log(`Rating history for CFC ID ${cfcID} saved to ${ratingHistoryOutput}`);
+      });
+    } else {
+      // Save rating histories for all national masters
+      console.log(`Saving rating histories for ${Object.keys(playerRatingHistories).length} players...`);
+      
+      // Process national masters that were identified in the CSV file
+      nationalMasterIds.forEach(masterId => {
+        const playerHistory = playerRatingHistories[masterId] || [];
+        if (playerHistory.length > 0) {
+          const playerOutputPath = `${ratingHistoriesDir}/rating_history_${masterId}.csv`;
+          stringify(playerHistory, { header: true }, (err, output) => {
+            if (err) {
+              console.error(`Error writing rating history CSV for ${masterId}:`, err);
+              return;
+            }
+            fs.writeFileSync(playerOutputPath, output);
+            console.log(`Rating history for CFC ID ${masterId} saved to ${playerOutputPath}`);
+          });
+        } else {
+          console.log(`No rating history found for CFC ID ${masterId}`);
+        }
+      });
+      
+      console.log('All rating histories have been processed');
+    }
   });

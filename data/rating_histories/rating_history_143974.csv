@@ -1,0 +1,9 @@
+eventId,eventDate,eventName,eventLocation,numPlayers,organizer,score,ratingPerf,ratingPost
+200605029,2006-04-17,Edmonton International,AB,10,135072,6.5,2490,2490
+200608020,2006-07-23,2006 Canadian Open Open Section,ON,91,111830,6.0,2434,2462
+200706221,2007-08-06,2nd Edmonton International,AB,10,100907,6.5,2574,2485
+200808014,2008-08-04,3rd Edmonton International,AB,25,109502,5.0,2483,2484
+200912084,2009-12-21,4th Edmonton International,AB,10,104137,5.0,2502,2492
+201008010,2010-08-02,5th Edmonton International,AB,10,135072,7.0,2588,2524
+201105052,2011-05-23,2011 Calgary International Classic,AB,10,104137,6.5,2565,2542
+201511053,2015-11-11,2015 Edmonton Invitational,AB,10,156393,7.5,2605,2564

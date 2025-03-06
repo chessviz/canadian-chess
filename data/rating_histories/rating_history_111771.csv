@@ -1,0 +1,10 @@
+eventId,eventDate,eventName,eventLocation,numPlayers,organizer,score,ratingPerf,ratingPost
+200002034,2000-01-23,Vers La Maitrise,QC,8,0,4.0,2174,2392
+200103069,2001-03-11,2001 Toronto Class Champs Masters,ON,19,0,3.0,2260,2381
+200202033,2002-01-27,Tournoi de l avenir,QC,10,0,2.5,2172,2343
+200308004,2003-07-20,2003 Quebec Open,QC,68,0,5.5,2245,2329
+200408014,2004-07-24,Quebec Open 2004,QC,67,0,5.0,2352,2333
+200409031,2004-08-29,Canadian Closed 2004,ON,69,0,4.5,2256,2318
+200501098,2005-01-16,2005 Cdn University Championship,ON,52,0,3.0,2262,2320
+200502073,2005-02-13,Kingston Open 2005,ON,24,0,3.0,2131,2307
+200509047,2005-07-24,Quebec Open 2005,QC,45,0,6.5,2416,2321
