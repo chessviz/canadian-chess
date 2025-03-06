@@ -8,15 +8,41 @@ const crosstablesFilePath = 'crosstable.csv'; // Change this to the actual cross
 const eventsFilePath = 'event.csv'; // Change this to the actual events CSV file path
 const nationalMastersOutput = 'national_masters.csv';
 
-const cfcID = '132534';
-const ratingHistoryOutput = `rating_history_${cfcID}.csv`;
+// Command line argument or default CFC ID
+const argCfcID = process.argv[2];
+const cfcID = argCfcID || '167084';
+const ratingHistoryOutput = `rating_histories\rating_history_${cfcID}.csv`;
+
+// For processing multiple national masters
+const nationalMastersInput = 'national_masters.csv';
+let nationalMasterIds = [];
+let processSinglePlayer = true;
+
+// Check if we should process all national masters
+if (process.argv[2] === '--all-masters') {
+  processSinglePlayer = false;
+  console.log('Processing rating history for all national masters');
+  
+  // Read national masters file if it exists
+  if (fs.existsSync(nationalMastersInput)) {
+    nationalMasterIds = fs.readFileSync(nationalMastersInput)
+      .toString()
+      .split('\n')
+      .slice(1) // Skip header
+      .filter(line => line.trim())
+      .map(line => line.split(',')[0]); // Extract CFC ID
+    
+    console.log(`Found ${nationalMasterIds.length} national masters to process`);
+  } else {
+    console.log(`${nationalMastersInput} not found, will create it first`);
+  }
+}
 
 let highRatingCount = 0;
 let activeMembershipCount = 0;
 const today = new Date();
 const activePlayers = [];
 const performanceRecords = {};
-const nationalMasters = new Map();
 const regularPlayers = new Map();
 const ratingHistory = [];
 const eventsData = {};
