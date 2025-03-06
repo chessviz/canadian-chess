@@ -57,6 +57,19 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="section">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-12">
+					<h2>Canadian National Chess Masters</h2>
+					<p>Visualization of when players achieved their National Master titles over time</p>
+					<div id="masters-visualization" class="mt-4"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="section">
 		<div class="container">
 			<div class="row text-center">
@@ -96,6 +109,9 @@
 <script src="js/global-attractions.js"></script>
 <script src="js/barchart.js"></script>
 
+<!-- National Masters Visualization -->
+<script src="js/masters-timeline.js"></script>
+
 <!-- TODO: Add your activity_2.js file -->
 <script src="js/activity_2.js"></script>
 <script src="js/activity_3.js"></script>
@@ -105,7 +121,7 @@
 <script>
     new fullpage('#fullpage', {
         // options here
-        anchors: ['Home', 'firstPage', 'secondPage', '3rdPage', '4thPage', '5thPage', '6thPage', '7thPage', '8thPage', '9thPage', '10thPage', 'AboutUs', 'Sources'],
+        anchors: ['Home', 'Masters', 'Ratings', '3rdPage', '4thPage', '5thPage', '6thPage', '7thPage', '8thPage', '9thPage', '10thPage', 'AboutUs', 'Sources'],
         // autoScrolling false because story boxes need vertical scrolling
         autoScrolling: false,
         scrollingSpeed: 1000,
