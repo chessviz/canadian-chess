@@ -12,7 +12,8 @@ let activeMembershipCount = 0;
 const today = new Date();
 const activePlayers = [];
 const performanceRecords = {};
-const nationalMasters = new Set();
+const nationalMasters = new Map();
+const regularPlayers = new Set();
 
 fs.createReadStream(filePath)
   .pipe(csv())
@@ -29,6 +30,10 @@ fs.createReadStream(filePath)
         activeMembershipCount++;
         activePlayers.push(row);
       }
+    }
+
+    if (regularRating > 0) {
+      regularPlayers.add(row['cfc_id']);
     }
   })
   .on('end', () => {
@@ -49,15 +54,20 @@ fs.createReadStream(crosstablesFilePath)
   .pipe(csv())
   .on('data', (row) => {
     const cfcId = row['cfc_id'];
+    if (!regularPlayers.has(cfcId)) return;
+
     const ratingPerf = parseInt(row['rating_perf'], 10);
     const ratingIndicator = parseInt(row['rating_indicator'], 10);
+    const eventId = row['event_id'];
+    const ratingPost = row['rating_post'];
 
     if (!performanceRecords[cfcId]) {
-      performanceRecords[cfcId] = { count2300: 0, maxIndicator: 0 };
+      performanceRecords[cfcId] = { count2300: 0, maxIndicator: 0, tournaments: [] };
     }
 
     if (!isNaN(ratingPerf) && ratingPerf >= 2300) {
       performanceRecords[cfcId].count2300++;
+      performanceRecords[cfcId].tournaments.push({ eventId, ratingPerf });
     }
     if (!isNaN(ratingIndicator) && ratingIndicator >= 2300) {
       performanceRecords[cfcId].maxIndicator = Math.max(
@@ -70,13 +80,16 @@ fs.createReadStream(crosstablesFilePath)
       performanceRecords[cfcId].count2300 >= 3 &&
       performanceRecords[cfcId].maxIndicator >= 2200
     ) {
-      nationalMasters.add(cfcId);
+      nationalMasters.set(cfcId, performanceRecords[cfcId].tournaments);
     } else if (performanceRecords[cfcId].maxIndicator >= 2300) {
-      nationalMasters.add(cfcId);
+      nationalMasters.set(cfcId, performanceRecords[cfcId].tournaments);
     }
   })
   .on('end', () => {
-    const nationalMastersArray = Array.from(nationalMasters).map((id) => ({ cfc_id: id }));
+    const nationalMastersArray = Array.from(nationalMasters.entries()).map(([id, tournaments]) => ({
+      cfc_id: id,
+      tournaments: tournaments.map(t => `${t.eventId}:${t.ratingPerf}`).join('; ')
+    }));
 
     stringify(nationalMastersArray, { header: true }, (err, output) => {
       if (err) {
