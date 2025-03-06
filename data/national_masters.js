@@ -13,7 +13,7 @@ const today = new Date();
 const activePlayers = [];
 const performanceRecords = {};
 const nationalMasters = new Map();
-const regularPlayers = new Set();
+const regularPlayers = new Map();
 
 fs.createReadStream(filePath)
   .pipe(csv())
@@ -33,7 +33,7 @@ fs.createReadStream(filePath)
     }
 
     if (regularRating > 0) {
-      regularPlayers.add(row['cfc_id']);
+      regularPlayers.set(row['cfc_id'], 0);
     }
   })
   .on('end', () => {
@@ -54,7 +54,10 @@ fs.createReadStream(crosstablesFilePath)
   .pipe(csv())
   .on('data', (row) => {
     const cfcId = row['cfc_id'];
-    if (!regularPlayers.has(cfcId)) return;
+    if (!regularPlayers.has(cfcId) || row['rating_type'] !== 'R') return; // Ensure only regular rated games are counted
+
+    const gamesPlayed = parseInt(row['games_played'], 10) || 0;
+    regularPlayers.set(cfcId, regularPlayers.get(cfcId) + gamesPlayed);
 
     const ratingPerf = parseInt(row['rating_perf'], 10);
     const ratingIndicator = parseInt(row['rating_indicator'], 10);
@@ -62,7 +65,7 @@ fs.createReadStream(crosstablesFilePath)
     const ratingPost = row['rating_post'];
 
     if (!performanceRecords[cfcId]) {
-      performanceRecords[cfcId] = { count2300: 0, maxIndicator: 0, tournaments: [] };
+      performanceRecords[cfcId] = { count2300: 0, maxIndicator: 0, tournaments: [], totalGames: 0 };
     }
 
     if (!isNaN(ratingPerf) && ratingPerf >= 2300) {
@@ -75,21 +78,18 @@ fs.createReadStream(crosstablesFilePath)
         ratingIndicator
       );
     }
-
-    if (
-      performanceRecords[cfcId].count2300 >= 3 &&
-      performanceRecords[cfcId].maxIndicator >= 2200
-    ) {
-      nationalMasters.set(cfcId, performanceRecords[cfcId].tournaments);
-    } else if (performanceRecords[cfcId].maxIndicator >= 2300) {
-      nationalMasters.set(cfcId, performanceRecords[cfcId].tournaments);
-    }
   })
   .on('end', () => {
-    const nationalMastersArray = Array.from(nationalMasters.entries()).map(([id, tournaments]) => ({
-      cfc_id: id,
-      tournaments: tournaments.map(t => `${t.eventId}:${t.ratingPerf}`).join('; ')
-    }));
+    const nationalMastersArray = [];
+
+    for (const [cfcId, data] of Object.entries(performanceRecords)) {
+      if (regularPlayers.get(cfcId) >= 25 && (data.count2300 >= 3 && data.maxIndicator >= 2200 || data.maxIndicator >= 2300)) {
+        nationalMastersArray.push({
+          cfc_id: cfcId,
+          tournaments: data.tournaments.map(t => `${t.eventId}:${t.ratingPerf}`).join('; ')
+        });
+      }
+    }
 
     stringify(nationalMastersArray, { header: true }, (err, output) => {
       if (err) {
