@@ -90,6 +90,31 @@
       stroke: #e0e0e0;
       stroke-opacity: 0.7;
     }
+    .brush .selection {
+      fill: #69b3a2;
+      fill-opacity: 0.2;
+      stroke: #2a7b9b;
+    }
+    .context-chart {
+      margin-top: 15px;
+    }
+    .reset-button {
+      margin: 10px auto;
+      display: block;
+      padding: 6px 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .reset-button:hover {
+      background-color: #45a049;
+    }
+    .reset-button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -125,6 +150,12 @@
       <div id="tooltip" class="tooltip" style="display: none;"></div>
     </div>
     
+    <button id="resetZoom" class="reset-button" disabled>Reset Zoom</button>
+    
+    <div class="context-chart">
+      <div id="context"></div>
+    </div>
+    
     <div class="player-details">
       <h3>Player Information</h3>
       <p>This chart displays the rating progress over time for two chess players:</p>
@@ -133,6 +164,7 @@
         <li><strong>Player 132534:</strong> An established player with a longer history</li>
       </ul>
       <p>Hover over points on the chart to see details about specific tournaments.</p>
+      <p><strong>New feature:</strong> Select a region on the smaller chart below to zoom in. Use the Reset Zoom button to return to the full view.</p>
     </div>
   </div>
 
@@ -164,19 +196,33 @@
       const processedPlayer1 = processData(player1Data, "167084");
       const processedPlayer2 = processData(player2Data, "132534");
       
-      // Create the chart
-      createChart(processedPlayer1, processedPlayer2);
+      // Combine data for domain calculations
+      const allData = [...processedPlayer1, ...processedPlayer2];
       
-      function createChart(data1, data2) {
-        // Clear the chart container
+      // Define time domain
+      const timeDomain = [
+        d3.min(allData, d => d.eventDate),
+        d3.max(allData, d => d.eventDate)
+      ];
+      
+      // Create the chart with initial full domain
+      createCharts(processedPlayer1, processedPlayer2, timeDomain);
+      
+      function createCharts(data1, data2, xDomain) {
+        // Clear the chart containers
         d3.select("#chart").html("");
+        d3.select("#context").html("");
         
-        // Set dimensions and margins
+        // Set dimensions and margins for main chart
         const margin = {top: 40, right: 80, bottom: 60, left: 80};
         const width = 1100 - margin.left - margin.right;
         const height = 500 - margin.top - margin.bottom;
         
-        // Create SVG
+        // Set dimensions and margins for context chart (brush)
+        const marginContext = {top: 20, right: 80, bottom: 30, left: 80};
+        const heightContext = 100 - marginContext.top - marginContext.bottom;
+        
+        // Create SVG for main chart
         const svg = d3.select("#chart")
           .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -184,18 +230,25 @@
           .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
         
-        // Combine data for domain calculations
-        const allData = [...data1, ...data2];
+        // Create SVG for context chart
+        const svgContext = d3.select("#context")
+          .append("svg")
+            .attr("width", width + marginContext.left + marginContext.right)
+            .attr("height", heightContext + marginContext.top + marginContext.bottom)
+          .append("g")
+            .attr("transform", `translate(${marginContext.left},${marginContext.top})`);
         
-        // Scale for X axis (time)
+        // Scale for X axis (time) - main chart
         const xScale = d3.scaleTime()
-          .domain([
-            d3.min(allData, d => d.eventDate),
-            d3.max(allData, d => d.eventDate)
-          ])
+          .domain(xDomain)
           .range([0, width]);
         
-        // Scale for Y axis (rating)
+        // Scale for X axis (time) - context chart (always full domain)
+        const xScaleContext = d3.scaleTime()
+          .domain(timeDomain)
+          .range([0, width]);
+        
+        // Scale for Y axis (rating) - main chart
         const yAxisType = document.getElementById("yAxisType").value;
         const yScale = d3.scaleLinear()
           .domain(yAxisType === "fixed" ? 
@@ -207,7 +260,12 @@
           )
           .range([height, 0]);
         
-        // Add X axis
+        // Scale for Y axis (rating) - context chart (always full domain)
+        const yScaleContext = d3.scaleLinear()
+          .domain([800, 2700])
+          .range([heightContext, 0]);
+        
+        // Add X axis - main chart
         svg.append("g")
           .attr("class", "axis")
           .attr("transform", `translate(0,${height})`)
@@ -215,19 +273,19 @@
             .tickFormat(d3.timeFormat("%Y-%m"))
             .ticks(10));
         
-        // Add X axis label
+        // Add X axis label - main chart
         svg.append("text")
           .attr("class", "axis-label")
           .attr("x", width / 2)
           .attr("y", height + 40)
           .text("Date");
         
-        // Add Y axis
+        // Add Y axis - main chart
         svg.append("g")
           .attr("class", "axis")
           .call(d3.axisLeft(yScale));
         
-        // Add Y axis label
+        // Add Y axis label - main chart
         svg.append("text")
           .attr("class", "axis-label")
           .attr("transform", "rotate(-90)")
@@ -235,7 +293,7 @@
           .attr("y", -60)
           .text("Rating");
         
-        // Add horizontal grid lines
+        // Add horizontal grid lines - main chart
         svg.append("g")
           .attr("class", "grid")
           .call(d3.axisLeft(yScale)
@@ -245,7 +303,7 @@
         // Define smoothing factor
         const smoothingFactor = +document.getElementById("smoothing").value;
         
-        // Create line generators
+        // Create line generators - main chart
         const line = d3.line()
           .x(d => xScale(d.eventDate))
           .y(d => yScale(d.ratingPost));
@@ -254,19 +312,37 @@
           line.curve(d3.curveMonotoneX);
         }
         
-        // Add line for player 1
+        // Create line generators - context chart
+        const lineContext = d3.line()
+          .x(d => xScaleContext(d.eventDate))
+          .y(d => yScaleContext(d.ratingPost))
+          .curve(d3.curveMonotoneX);
+        
+        // Add line for player 1 - main chart
         svg.append("path")
           .datum(data1)
           .attr("class", "line line-167084")
           .attr("d", line);
         
-        // Add line for player 2
+        // Add line for player 2 - main chart
         svg.append("path")
           .datum(data2)
           .attr("class", "line line-132534")
           .attr("d", line);
         
-        // Add dots for player 1
+        // Add line for player 1 - context chart
+        svgContext.append("path")
+          .datum(processedPlayer1)
+          .attr("class", "line line-167084")
+          .attr("d", lineContext);
+        
+        // Add line for player 2 - context chart
+        svgContext.append("path")
+          .datum(processedPlayer2)
+          .attr("class", "line line-132534")
+          .attr("d", lineContext);
+        
+        // Add dots for player 1 - main chart
         svg.selectAll(".dot-167084")
           .data(data1)
           .enter()
@@ -283,7 +359,7 @@
               hideTooltip();
             });
         
-        // Add dots for player 2
+        // Add dots for player 2 - main chart
         svg.selectAll(".dot-132534")
           .data(data2)
           .enter()
@@ -299,6 +375,47 @@
             .on("mouseout", function() {
               hideTooltip();
             });
+        
+        // Add X axis - context chart
+        svgContext.append("g")
+          .attr("class", "axis")
+          .attr("transform", `translate(0,${heightContext})`)
+          .call(d3.axisBottom(xScaleContext)
+            .tickFormat(d3.timeFormat("%Y"))
+            .ticks(6));
+        
+        // Add brush to context chart
+        const brush = d3.brushX()
+          .extent([[0, 0], [width, heightContext]])
+          .on("end", brushed);
+        
+        svgContext.append("g")
+          .attr("class", "brush")
+          .call(brush);
+        
+        // Brush function - updates main chart when brush is used
+        function brushed(event) {
+          if (!event.selection) return;
+          
+          // Get the selected time range from the brush
+          const [x0, x1] = event.selection.map(xScaleContext.invert);
+          
+          // Enable reset button
+          d3.select("#resetZoom").property("disabled", false);
+          
+          // Filter data to show only what's in the brushed range
+          const filteredData1 = processedPlayer1.filter(d => d.eventDate >= x0 && d.eventDate <= x1);
+          const filteredData2 = processedPlayer2.filter(d => d.eventDate >= x0 && d.eventDate <= x1);
+          
+          // Update the main chart with the filtered data and new domain
+          createCharts(filteredData1, filteredData2, [x0, x1]);
+        }
+        
+        // Reset zoom button functionality
+        d3.select("#resetZoom").on("click", function() {
+          d3.select(this).property("disabled", true);
+          createCharts(processedPlayer1, processedPlayer2, timeDomain);
+        });
       }
       
       // Add tooltip functionality
@@ -326,11 +443,40 @@
       
       // Add event listeners to controls
       document.getElementById("yAxisType").addEventListener("change", function() {
-        createChart(processedPlayer1, processedPlayer2);
+        // Get current zoom state
+        const resetDisabled = d3.select("#resetZoom").property("disabled");
+        if (resetDisabled) {
+          // Full view
+          createCharts(processedPlayer1, processedPlayer2, timeDomain);
+        } else {
+          // We're zoomed in, need to get current x domain
+          const svg = d3.select("#chart svg");
+          const xScale = d3.scaleTime();
+          const domain = xScale.domain(); // Current domain of the zoomed view
+          
+          // Filter data based on current view
+          const filteredData1 = processedPlayer1.filter(d => d.eventDate >= domain[0] && d.eventDate <= domain[1]);
+          const filteredData2 = processedPlayer2.filter(d => d.eventDate >= domain[0] && d.eventDate <= domain[1]);
+          
+          createCharts(filteredData1, filteredData2, domain);
+        }
       });
       
       document.getElementById("smoothing").addEventListener("change", function() {
-        createChart(processedPlayer1, processedPlayer2);
+        // Similar logic to yAxisType change handler
+        const resetDisabled = d3.select("#resetZoom").property("disabled");
+        if (resetDisabled) {
+          createCharts(processedPlayer1, processedPlayer2, timeDomain);
+        } else {
+          const svg = d3.select("#chart svg");
+          const xScale = d3.scaleTime();
+          const domain = xScale.domain();
+          
+          const filteredData1 = processedPlayer1.filter(d => d.eventDate >= domain[0] && d.eventDate <= domain[1]);
+          const filteredData2 = processedPlayer2.filter(d => d.eventDate >= domain[0] && d.eventDate <= domain[1]);
+          
+          createCharts(filteredData1, filteredData2, domain);
+        }
       });
     }).catch(function(error) {
       console.log("Error loading CSV files:", error);

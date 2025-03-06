@@ -68,15 +68,18 @@ fs.createReadStream(crosstablesFilePath)
       performanceRecords[cfcId] = { count2300: 0, maxIndicator: 0, tournaments: [], totalGames: 0 };
     }
 
-    if (!isNaN(ratingPerf) && ratingPerf >= 2300) {
-      performanceRecords[cfcId].count2300++;
-      performanceRecords[cfcId].tournaments.push({ eventId, ratingPerf });
-    }
-    if (!isNaN(ratingIndicator) && ratingIndicator >= 2300) {
-      performanceRecords[cfcId].maxIndicator = Math.max(
-        performanceRecords[cfcId].maxIndicator,
-        ratingIndicator
-      );
+    // Only consider tournaments where player played at least 5 games
+    if (gamesPlayed >= 5) {
+      if (!isNaN(ratingPerf) && ratingPerf >= 2300) {
+        performanceRecords[cfcId].count2300++;
+        performanceRecords[cfcId].tournaments.push({ eventId, ratingPerf });
+      }
+      if (!isNaN(ratingIndicator) && ratingIndicator >= 2300) {
+        performanceRecords[cfcId].maxIndicator = Math.max(
+          performanceRecords[cfcId].maxIndicator,
+          ratingIndicator
+        );
+      }
     }
   })
   .on('end', () => {
