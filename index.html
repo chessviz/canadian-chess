@@ -65,6 +65,10 @@
 					<h2>Canadian National Chess Masters</h2>
 					<p>Visualization of when players achieved their National Master titles over time</p>
 					<div id="masters-visualization" class="mt-4"></div>
+					<!-- Add tooltip container -->
+					<div id="masters-tooltip" class="hidden">
+						<p><span id="masters-value"></span></p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -124,7 +128,7 @@
         anchors: ['Home', 'Masters', 'Ratings', '3rdPage', '4thPage', '5thPage', '6thPage', '7thPage', '8thPage', '9thPage', '10thPage', 'AboutUs', 'Sources'],
         // autoScrolling false because story boxes need vertical scrolling
         autoScrolling: false,
-        scrollingSpeed: 1000,
+        scrollingSpeed: 500,
         scrollHorizontally: false,
         onLeave: function(origin, destination){
             destination.item.classList.add('load-background');
