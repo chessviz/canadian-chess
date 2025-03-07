@@ -1,20 +1,20 @@
 /* NEW STYLES */
 
 h1 {
-  font-family: 'Arial Narrow Bold', sans-serif;
+  font-family: "Arial Narrow Bold", sans-serif;
   font-weight: 200;
   font-size: 3em;
 }
 
 h2 {
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-weight: 100;
   font-size: 2em;
-  color: #3C948B;
+  color: #3c948b;
 }
 
 .row {
-  height:auto;
+  height: auto;
   background: scroll;
   padding: 10px;
 }
@@ -57,7 +57,7 @@ h2 {
   display: none;
 }
 
-.x-axis text {
+.x-axis text  {
   font-weight: bold;
 }
 
@@ -66,7 +66,6 @@ h2 {
   font-size: 14px;
   font-weight: bold;
 }
-
 
 /****************/
 /*   TOOLTIPS   */
@@ -263,3 +262,17 @@ h2 {
 .bottom-right { bottom: 20px; right: 20px; }
 .center-left { top: 50%; left: 20px; transform: translateY(-50%); }
 .center-right { top: 50%; right: 20px; transform: translateY(-50%); }
+
+/* Map styles */
+#map-container {
+  width: 100%;
+  height: 70vh;
+  margin: 0 auto;
+}
+
+/* Make section heights full viewport height */
+.section {
+  height: 100vh;
+  padding: 20px 0;
+}
+
