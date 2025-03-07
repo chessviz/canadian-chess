@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .style("font-family", "Roboto, sans-serif")
     .style("font-size", "28px") // Slightly larger subtitle
     .style("opacity", 0)
-    .text("Exploring Canadian Chess");
+    .text("What does it take to get to the top of Canadian Chess?");
 
   // Transition for subtitle
   subtitle.transition().delay(1000).duration(1500).style("opacity", 1);
