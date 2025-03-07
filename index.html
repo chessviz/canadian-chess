@@ -228,8 +228,8 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		// Load both CSV files
 		Promise.all([
-			d3.csv('data/rating_history_167084.csv'),
-			d3.csv('data/rating_history_132534.csv')
+			d3.csv('data/rating_histories/rating_history_167084.csv'),
+			d3.csv('data/rating_histories/rating_history_132534.csv')
 		]).then(function(data) {
 			const player1Data = data[0];
 			const player2Data = data[1];
