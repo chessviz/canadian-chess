@@ -37,87 +37,8 @@
         </div>
       </div>
     </div>
-    
-	<!-- Masters Section -->
-	<div class="section chess-pattern-dark chess-pieces-bg chess-border">
-	  <div class="container">
-		<div class="row text-center">
-		  <div class="col-12">
-			<h2>Canadian National Masters</h2>
-			<p>Visualization of when players achieved their National Master titles over time</p>
-			<div class="masters-container" style="height: 100vh; overflow-y: auto; position: relative;">
-			  <div id="masters-visualization" class="mt-4"></div>
-			  <!-- Add tooltip container -->
-			  <div id="masters-tooltip" class="tooltip hidden">
-				<p><span id="masters-value"></span></p>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
-    
-    <!-- Player Rating Comparison -->
-    <div class="section chess-pattern-light chess-pieces-bg chess-border">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Player Rating Comparison</h2>
-            <p>Compare the rating progression of two chess players over time</p>
-            
-            <div class="legend">
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #2b83ba;"></div>
-                <span>Aaron Reeve Mendes</span>
-              </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #d7191c;"></div>
-                <span>Nikolay Noritsyn</span>
-              </div>
-            </div>
-            
-            <div class="chart-container" style="position: relative;">
-              <div id="chart"></div>
-            </div>
-            <div id="rating-tooltip" class="rating-tooltip hidden"></div>
-            
-            <button id="resetZoom" class="reset-button" disabled>Reset Zoom</button>
-            
-            <div class="context-chart">
-              <div id="context"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Additional Sections -->
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
-      <!-- Knight piece on the left center -->
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Chess Player Demographics</h2>
-            <p>Exploring the diverse community of Canadian chess players</p>
-            <!-- Content to be added -->
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Map Section -->
-    <div class="section" id="map_section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h2 class="text-center mb-4">Journey to the West</h2>
-            <div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+
+
 <!-- Title Section - Outside fullpage -->
 <div class="section" id="title-section">
 	<div class="title-content">
@@ -214,6 +135,74 @@
 		</div>
 	</div>
 	</div>
+    
+    
+    <!-- Player Rating Comparison -->
+    <div class="section chess-pattern-light chess-pieces-bg chess-border">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h2>Player Rating Comparison</h2>
+            <p>Compare the rating progression of two chess players over time</p>
+            
+            <div class="legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #2b83ba;"></div>
+                <span>Aaron Reeve Mendes</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #d7191c;"></div>
+                <span>Nikolay Noritsyn</span>
+              </div>
+            </div>
+            
+            <div class="chart-container" style="position: relative;">
+              <div id="chart"></div>
+            </div>
+            <div id="rating-tooltip" class="rating-tooltip hidden"></div>
+            
+            <button id="resetZoom" class="reset-button" disabled>Reset Zoom</button>
+            
+            <div class="context-chart">
+              <div id="context"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<!-- Masters Section -->
+	<div class="section chess-pattern-dark chess-pieces-bg chess-border">
+		<div class="container">
+		  <div class="row text-center">
+			<div class="col-12">
+			  <h2>Canadian National Masters</h2>
+			  <p>Visualization of when players achieved their National Master titles over time</p>
+			  <div class="masters-container" style="height: 100vh; overflow-y: auto; position: relative;">
+				<div id="masters-visualization" class="mt-4"></div>
+				<!-- Add tooltip container -->
+				<div id="masters-tooltip" class="tooltip hidden">
+				  <p><span id="masters-value"></span></p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+    
+    <!-- Map Section -->
+    <div class="section" id="map_section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="text-center mb-4">Journey to the West</h2>
+            <div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
