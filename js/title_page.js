@@ -6,7 +6,22 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add Bootstrap classes for vertical and horizontal centering
   titleContainer
     .classed("d-flex justify-content-center align-items-center", true)
-    .style("height", "100vh"); // Make container full height of viewport
+    .style("height", "85vh") // Make container full height of viewport
+    .style("background-image", "url('../img/chess-toronto.jpg')")
+    .style("background-size", "cover")
+    .style("background-position", "center")
+    .style("background-repeat", "no-repeat")
+    .style("position", "relative");
+    
+  // Add a semi-transparent overlay to make text more readable
+  titleContainer
+    .append("div")
+    .style("position", "absolute")
+    .style("top", 0)
+    .style("left", 0)
+    .style("width", "100%")
+    .style("height", "100%")
+    .style("background-color", "rgba(255, 255, 255, 0.7)"); // white with 0.7 opacity
 
   // Get the dimensions of the container
   const containerWidth = document.getElementById("title-container").clientWidth;
@@ -18,7 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .append("svg")
     .attr("width", containerWidth)
     .attr("height", containerHeight)
-    .attr("id", "title-svg");
+    .attr("id", "title-svg")
+    .style("position", "relative")
+    .style("z-index", "1");
 
   // Title text
   const titleText = svg
