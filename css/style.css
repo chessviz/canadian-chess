@@ -118,3 +118,84 @@ h2 {
 .dot:hover {
   cursor: pointer;
 }
+
+.chart-container {
+  position: relative;
+}
+.line {
+  fill: none;
+  stroke-width: 2.5;
+}
+.line-167084 {
+  stroke: #2b83ba;
+}
+.line-132534 {
+  stroke: #d7191c;
+}
+.axis-label {
+  font-size: 12px;
+  text-anchor: middle;
+}
+.rating-tooltip {
+  position: absolute;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  pointer-events: none;
+  font-size: 12px;
+}
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 0 15px;
+}
+.legend-color {
+  width: 20px;
+  height: 10px;
+  margin-right: 5px;
+}
+.axis path,
+.axis line {
+  stroke: #888;
+}
+.axis text {
+  fill: #333;
+}
+.grid line {
+  stroke: #e0e0e0;
+  stroke-opacity: 0.7;
+}
+.brush .selection {
+  fill: #69b3a2;
+  fill-opacity: 0.2;
+  stroke: #2a7b9b;
+}
+.context-chart {
+  margin-top: 15px;
+}
+.reset-button {
+  margin: 10px auto;
+  display: block;
+  padding: 6px 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.reset-button:hover {
+  background-color: #45a049;
+}
+.reset-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+.hidden {
+  display: none;
+}
