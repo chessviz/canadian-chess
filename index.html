@@ -32,19 +32,26 @@
   </head>
   <body>
     <div id="fullpage">
+      <div class="section" id="title-page">
+        <div class="container h-100">
+          <div class="row h-100">
+            <div class="col-12 h-100">
+              <div id="title-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="section">
         Some section
         <div class="container">
           <div class="row text-center">
             <div class="col-2"></div>
-
             <!-- create column of size 8 -->
             <div class="col-8">
               <div class="row-sm-4">
                 <h2>Canadian Chess Visualization</h2>
                 <h1>Global Attractions Attendance</h1>
               </div>
-
               <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4 text-center user-control">
@@ -74,7 +81,6 @@
           </div>
         </div>
       </div>
-      <div class="section">Some section</div>
       <div class="section">Some section</div>
       <div class="section" id="map_section">
         <div class="container">
@@ -127,6 +133,9 @@
     <!-- Completed: data loading, bar-chart rendering -->
     <script src="js/global-attractions.js"></script>
     <script src="js/barchart.js"></script>
+
+    <!-- Load title page JavaScript -->
+    <script src="js/title_page.js"></script>
 
     <!-- Load world map JavaScript -->
     <script src="js/world_map.js"></script>
