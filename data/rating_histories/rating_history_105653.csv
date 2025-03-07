@@ -1,0 +1,9 @@
+eventId,eventDate,eventName,eventLocation,numPlayers,organizer,score,ratingPerf,ratingPost,rating_type
+199607026,1996-06-16,Eastern Ontario Open A,ON,27,0,3.0,2312,2303,R
+199609066,1996-08-03,Quebec Open,QC,48,0,5.0,2291,2301,R
+199701088,1997-01-12,RA Winter Open,ON,21,0,3.0,2329,2304,R
+200105129,2001-05-13,Vers la Maitrise 2001,QC,10,0,5.5,2177,2282,R
+200108044,2001-07-28,Championnat Ouvert du Quebec 2001,QC,49,0,3.5,2001,2249,R
+200207046,2002-07-21,2002 Canadian Open,QC,326,0,5.0,2087,2225,R
+200308004,2003-07-20,2003 Quebec Open,QC,68,0,4.5,2064,2200,R
+200408014,2004-07-24,Quebec Open 2004,QC,67,0,3.0,2192,2198,R

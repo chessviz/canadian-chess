@@ -2,11 +2,11 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const { stringify } = require('csv-stringify');
 
-const filePath = 'player.csv'; 
-const outputFilePath = 'active_players.csv';
-const crosstablesFilePath = 'crosstable.csv';
-const eventsFilePath = 'event.csv'; // Add event file path to get event dates
-const nationalMastersOutput = 'national_masters.csv';
+const filePath = '../player.csv'; 
+const outputFilePath = '../active_players.csv';
+const crosstablesFilePath = '../crosstable.csv';
+const eventsFilePath = '../event.csv'; // Add event file path to get event dates
+const nationalMastersOutput = '../national_masters.csv';
 
 let highRatingCount = 0;
 let activeMembershipCount = 0;
@@ -150,13 +150,13 @@ function processCrosstables() {
           }
           
           nationalMastersArray.push({
+            cfc_id: cfcId,
             player_name: playerData[cfcId].name,
             birth_year: playerData[cfcId].birthYear,
             postal_code: playerData[cfcId].postalCode,
             city: playerData[cfcId].city,
             province: playerData[cfcId].province,
             member_expiry: playerData[cfcId].member_expiry,
-            cfc_id: cfcId,
             tournaments: data.tournaments
               .filter((t, i) => i < 3) // Ensure only first 3 tournaments are included
               .map(t => `${t.eventId}:${t.ratingPerf}`)
