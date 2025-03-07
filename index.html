@@ -109,6 +109,104 @@
 		Some section
 	</div>
     
+	<section id="title-section" class="section">
+		<div class="title-content">
+		  <h1 class="title-text">How many chess players are in Canada?</h1>
+		  <p class="subtitle-text">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada. Take a guess below.</p>
+		  <div class="guess-container">
+			<div class="guess-label">Your estimate:</div>
+			<div class="guess-input-container">
+			  <input type="number" class="guess-input" id="player-guess" placeholder="Enter a number..." min="0">
+			</div>
+			<button class="guess-button" id="submit-guess">Submit Guess</button>
+			<div class="feedback" id="guess-feedback"></div>
+		  </div>
+		</div>
+		<div class="history-content" id="chess-history-container">
+		  <h2 class="history-title">Chess in Canadian History</h2>
+		  <p class="history-text">Chess has played a significant role in Canadian cultural history since the late 19th century. The Chess Federation of Canada, founded in 1932, has been instrumental in organizing national tournaments and promoting the game across the country's diverse communities.</p>
+		  <p class="history-text">Notable Canadian chess players have included Grandmaster Duncan Suttles, International Master Lawrence Day, and more recently, Grandmaster Anton Kovalyov. The Canadian Open Chess Championship, established in 1956, remains one of North America's premier chess events, drawing competitors from around the world.</p>
+		  <p class="history-text">Today, chess continues to grow in popularity across Canada, with programs in schools, community centers, and online platforms fostering new generations of players from diverse backgrounds.</p>
+		</div>
+		<div class="nav-indicator">Scroll down to see more</div>
+	  </section>
+	  
+	  <!-- Grid Section -->
+	  <section id="grid-section" class="section">
+		<div class="grid-container" id="grid-display-container">
+		  <!-- Grid goes here, will be created by JavaScript -->
+		  <svg id="grid-svg" width="100%" height="100%"></svg>
+		</div>
+		<div class="info-container" id="grid-info-container">
+		  <h2 class="info-title">Chess Player Rating Distribution</h2>
+		  <p class="info-stat">There are approximately 10,000 chess players in the Canadian Chess Federation database. Their rating distribution reveals the pyramid structure of competitive chess.</p>
+		  <h3 class="legend-title">Rating Ranges</h3>
+		  <div class="legend">
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #0072B2;"></div>
+			  <div>1-1199 (50.9%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #56B4E9;"></div>
+			  <div>1200-1699 (33.1%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #F0E442;"></div>
+			  <div>1700-1899 (9.4%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #E69F00;"></div>
+			  <div>1900-2299 (5.6%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #D55E00;"></div>
+			  <div>2300+ (1.0%)</div>
+			</div>
+		  </div>
+		</div>
+		<div class="nav-indicator">Scroll down to see animation</div>
+	  </section>
+	  
+	  <!-- Hourglass Section -->
+	  <section id="hourglass-section" class="section">
+		<div class="hourglass-container" style="position: relative; width: 100%; height: 100vh; overflow: hidden;">
+		  <!-- SVG now has the highest z-index -->
+		  <svg id="hourglass-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 30;"></svg>
+		  
+		  <!-- Info panels have lower z-index -->
+		  <div class="legend-container" id="hourglass-legend" style="z-index: 20;">
+			<h3 class="legend-title">Rating Ranges</h3>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #0072B2;"></div>
+			  <div>1-1199 (50.9%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #56B4E9;"></div>
+			  <div>1200-1699 (33.1%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #F0E442;"></div>
+			  <div>1700-1899 (9.4%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #E69F00;"></div>
+			  <div>1900-2299 (5.6%)</div>
+			</div>
+			<div class="legend-item">
+			  <div class="legend-color" style="background-color: #D55E00;"></div>
+			  <div>2300+ (1.0%)</div>
+			</div>
+		  </div>
+		  
+		  <div class="explanation-text" id="chess-explanation-hourglass" style="z-index: 20;">
+			<h3 class="explanation-title">The Chess Pyramid</h3>
+			<p>The journey from beginner to master in chess is one of the most challenging progressions in competitive games.</p>
+			<p>Only 1% of players ever reach the 2300+ rating threshold where FIDE titles like International Master and Grandmaster begin.</p>
+			<p>Each step up the rating ladder represents exponentially increasing difficulty, with small improvements requiring significant study and practice.</p>
+		  </div>
+		</div>
+	  </section>
+
     
 <!--Map Section-->
   <div class="section" id="map_section">
