@@ -633,31 +633,6 @@ h2 {
   opacity: 0;
 }
 
-/* Chess Pieces */
-.chess-piece-icon {
-  position: absolute;
-  opacity: 0.7;
-  z-index: 1;
-  transition: transform 0.3s ease;
-}
-.chess-piece-icon:hover {
-  transform: scale(1.1);
-  opacity: 0.9;
-}
-.piece-king { width: 80px; height: 80px; }
-.piece-queen { width: 75px; height: 75px; }
-.piece-rook { width: 65px; height: 65px; }
-.piece-bishop { width: 70px; height: 70px; }
-.piece-knight { width: 70px; height: 70px; }
-.piece-pawn { width: 60px; height: 60px; }
-
-.top-right { top: 20px; right: 20px; }
-.bottom-left { bottom: 20px; left: 20px; }
-.top-left { top: 20px; left: 20px; }
-.bottom-right { bottom: 20px; right: 20px; }
-.center-left { top: 50%; left: 20px; transform: translateY(-50%); }
-.center-right { top: 50%; right: 20px; transform: translateY(-50%); }
-
 /* Map styles */
 #map-container {
   width: 100%;
