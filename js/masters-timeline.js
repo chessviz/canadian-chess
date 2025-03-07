@@ -124,7 +124,7 @@ function loadMastersData() {
             mastersSvg.append("text")
                 .attr("text-anchor", "middle")
                 .attr("x", mastersWidth / 2)
-                .attr("fill", "white")
+               
                 .attr("y", mastersHeight + mastersMargin.bottom - 10)
                 .text("Year");
             
@@ -142,7 +142,7 @@ function loadMastersData() {
             mastersSvg.append("text")
                 .attr("text-anchor", "middle")
                 .attr("transform", "rotate(-90)")
-                .attr("fill", "white")
+               
                 .attr("y", -mastersMargin.left + 20)
                 .attr("x", -mastersHeight / 2)
                 .text("Number of New National Masters");
@@ -282,7 +282,7 @@ function loadMastersData() {
                 .attr("text-anchor", "middle")
                 .style("font-size", "20px")
                 .style("font-weight", "bold")
-                .attr("fill", "white")
+               
                 .text("Canadian National Chess Masters By Year Since 2000");
             
             // Add cumulative line
@@ -311,7 +311,7 @@ function loadMastersData() {
             mastersSvg.append("text")
                 .attr("text-anchor", "middle")
                 .attr("transform", "rotate(90)")
-                .attr("fill", "white")
+               
                 .attr("y", -mastersWidth - mastersMargin.right + 20)
                 .attr("x", mastersHeight / 2)
                 .text("Cumulative Number of Masters");
@@ -366,7 +366,7 @@ function loadMastersData() {
             legend.append("text")
                 .attr("x", 30)
                 .attr("y", 15)
-                .attr("fill", "white")
+               
                 .text("New Masters Per Year");
             
             // Add line legend
@@ -381,7 +381,7 @@ function loadMastersData() {
             legend.append("text")
                 .attr("x", 30)
                 .attr("y", 45)
-                .attr("fill", "white")
+               
                 .text("Cumulative Masters");
     }).catch(error => {
         console.error("Error loading the CSV data: ", error);
