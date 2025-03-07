@@ -30,7 +30,7 @@
   }
   
   .brush .selection {
-    fill: #69b3a2;
+    fill: #64b0df;
     fill-opacity: 0.2;
     stroke: #2a7b9b;
   }
@@ -162,10 +162,10 @@
   }
   
   h2 {
-    font-family: Georgia, "Times New Roman", Times, serif;
+    font-family: "Playfair Display", serif;
     font-weight: 300;
     font-size: 2em;
-    color: #3c948b;
+    color: #216f5c;
   }
   
   .section {
@@ -575,8 +575,8 @@
   }
   
   .chess-border {
-    border-top: 5px solid #3c948b;
-    border-bottom: 5px solid #3c948b;
+    border-top: 1px solid #1a3a5f;
+    border-bottom: 1px solid #1a3a5f;
   }
   
   .chess-animate {
@@ -621,12 +621,13 @@
      =============================== */
   /* Bar chart */
   .bar {
-    fill: #3C948B;
+    fill: #2b83ba;
     transition: fill 0.3s ease;
   }
+
   
   .bar:hover {
-    fill: #327972;
+    fill: #096ba8;
     cursor: pointer;
   }
   
