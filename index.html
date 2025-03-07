@@ -17,6 +17,8 @@
 	
 <!--Title Page Section-->
       <div class="section" id="title-page">
+		<img src="img/pirouetti/bQ.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece">
+
         <div class="container h-100">
           <div class="row h-100">
             <div class="col-12 h-100">
@@ -25,35 +27,15 @@
           </div>
         </div>
       </div>
-    
 
-    <div class="section chess-pattern-light chess-pieces-bg chess-border">
-			<!-- King piece in top right corner -->
-			<img src="img/pirouetti/bK.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece">
-		<div class="container">
-			<div class="row text-center">
-				<div class="col-2"> </div>
-
-				<!-- create column of size 8 -->
-				<div class="col-8">
-					<div class="row-sm-4">
-						<h2>Canadian Chess with chessviz</h2>
-						<h1>What does it take to get to the top of Canadian Chess?</h1>
-					</div>
-				</div>
-				<div class="col-sm-2"></div>
-			</div>
-		</div>
-	</div>
-	
 	<div class="section chess-pattern-dark chess-pieces-bg chess-border">
 		<!-- Queen piece in bottom left -->
-		<div class="container">
-			<div class="row text-center">
+		<div class="container h-100">
+			<div class="row h-100">
 				<div class="col-12">
 					<h2>Canadian National Chess Masters</h2>
 					<p>Visualization of when players achieved their National Master titles over time</p>
-					<div id="masters-visualization" class="mt-4"></div>
+					<div id="masters-visualization" class="mt-4 mb-5" style="max-height: 70vh; overflow-y: auto;"></div>
 					<!-- Add tooltip container -->
 					<div id="masters-tooltip" class="tooltip hidden">
 						<p><span id="masters-value"></span></p>
