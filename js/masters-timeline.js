@@ -1,7 +1,7 @@
 // National Masters Timeline Visualization
 
 // Set the dimensions and margins of the graph
-const mastersMargin = {top: 50, right: 80, bottom: 70, left: 60};
+const mastersMargin = {top: 50, right: 80, bottom: 100, left: 60};
 
 let mastersWidth = document.getElementById('masters-visualization') ? 
     document.getElementById('masters-visualization').clientWidth - mastersMargin.left - mastersMargin.right : 
@@ -271,9 +271,9 @@ function loadMastersData() {
                       .style("top", (event.pageY - 28) + "px");
                   });
             
-            // Add legend
+            // Relocate legend to bottom right, below the graph
             const legend = mastersSvg.append("g")
-                .attr("transform", `translate(${mastersWidth - 150})`);
+                .attr("transform", `translate(${mastersWidth - 150}, ${mastersHeight + 30})`);
             
             // Add bar legend
             legend.append("rect")
