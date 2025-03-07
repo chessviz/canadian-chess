@@ -24,19 +24,6 @@ function loadMastersData() {
         .then(data => {
             console.log("Loaded data:", data.length, "masters");
 
-            // Check what columns are being loaded
-            if (data.length > 0) {
-                console.log("Sample record columns:", Object.keys(data[0]));
-                console.log("Sample record values:", Object.values(data[0]));
-                console.log("First record:", data[0]);
-            }
-            
-            // Log a few records to inspect the data structure
-            console.log("First 3 records:");
-            data.slice(0, 3).forEach((d, i) => {
-                console.log(`Record ${i}:`, d);
-            });
-            
             // Filter out entries without a valid title_achieved date
             data = data.filter(d => d.title_achieved && d.title_achieved.trim().length > 0);
             console.log("Data with valid title_achieved date:", data.length);
@@ -195,6 +182,72 @@ function loadMastersData() {
                     
                     d3.select(this)
                         .attr("fill", d.count > 0 ? "#4682b4" : "#dddddd");
+                })
+                .on("click", function(event, d) {
+                    // Only process click if there are masters in this year
+                    if (d.count === 0) return;
+                    
+                    // Get the masters from this year
+                    const mastersThisYear = yearGroups.get(d.year) || [];
+                    
+                    // Create or update the masters list container
+                    let mastersListContainer = d3.select("#masters-list-container");
+                    
+                    // If the container doesn't exist, create it
+                    if (mastersListContainer.empty()) {
+                        mastersListContainer = d3.select("#masters-visualization")
+                            .append("div")
+                            .attr("id", "masters-list-container")
+                            .style("margin-top", "20px")
+                            .style("padding", "10px")
+                            .style("border", "1px solid #ddd")
+                            .style("border-radius", "5px")
+                            .style("background-color", "#f9f9f9");
+                    }
+                    
+                    // Create the content for the masters list
+                    let mastersListHTML = `
+                        <h4>National Masters Achieved in ${d.year} (${d.count} total)</h4>
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Player Name</th>
+                                    <th>Player ID</th>
+                                    <th>Date Achieved</th>
+                                    <th>Province</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    // Add each master to the table
+                    mastersThisYear.forEach(master => {
+                        mastersListHTML += `
+                            <tr>
+                                <td>${master.player_name}</td>
+                                <td>${master.cfc_id}</td>
+                                <td>${master.title_achieved}</td>
+                                <td>${master.province}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    mastersListHTML += `
+                            </tbody>
+                        </table>
+                        <button id="close-masters-list" class="btn btn-sm btn-secondary">Close</button>
+                    `;
+                    
+                    // Set the HTML content
+                    mastersListContainer.html(mastersListHTML);
+                    
+                    // Add click event listener to the close button
+                    d3.select("#close-masters-list").on("click", function() {
+                        mastersListContainer.style("display", "none");
+                    });
+                    
+                    // Show the container
+                    mastersListContainer.style("display", "block");
                 });
             
             // Add title
