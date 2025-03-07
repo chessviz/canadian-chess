@@ -38,22 +38,24 @@
       </div>
     </div>
     
-    <!-- Masters Section -->
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Canadian National Chess Masters</h2>
-            <p>Visualization of when players achieved their National Master titles over time</p>
-            <div id="masters-visualization" class="mt-4"></div>
-            <!-- Add tooltip container -->
-            <div id="masters-tooltip" class="tooltip hidden">
-              <p><span id="masters-value"></span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+	<!-- Masters Section -->
+	<div class="section chess-pattern-dark chess-pieces-bg chess-border">
+	  <div class="container">
+		<div class="row text-center">
+		  <div class="col-12">
+			<h2>Canadian National Masters</h2>
+			<p>Visualization of when players achieved their National Master titles over time</p>
+			<div class="masters-container" style="height: 100vh; overflow-y: auto; position: relative;">
+			  <div id="masters-visualization" class="mt-4"></div>
+			  <!-- Add tooltip container -->
+			  <div id="masters-tooltip" class="tooltip hidden">
+				<p><span id="masters-value"></span></p>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
     
     <!-- Player Rating Comparison -->
     <div class="section chess-pattern-light chess-pieces-bg chess-border">
