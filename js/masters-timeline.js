@@ -15,6 +15,29 @@ let mastersSvg = d3.select("#masters-visualization").append("svg")
     .append("g")
     .attr("transform", `translate(${mastersMargin.left},${mastersMargin.top})`);
 
+// Create chess-themed background patterns
+function createChessPatterns(svg) {
+    // Define defs element for patterns
+    const defs = svg.append("defs");
+    
+    // Chess board pattern
+    defs.append("pattern")
+        .attr("id", "chess-board")
+        .attr("patternUnits", "userSpaceOnUse")
+        .attr("width", 40)
+        .attr("height", 40)
+        .append("g")
+            .selectAll("rect")
+            .data([0, 1, 2, 3])
+            .enter()
+            .append("rect")
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("x", d => d % 2 === 0 ? 0 : 20)
+            .attr("y", d => Math.floor(d / 2) * 20)
+            .attr("fill", "#f0f0f0");
+}
+
 // Parse the date string
 const parseDate = d3.timeParse("%Y-%m-%d");
 // Function to load and visualize the data
