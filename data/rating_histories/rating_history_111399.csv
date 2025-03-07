@@ -1,0 +1,10 @@
+eventId,eventDate,eventName,eventLocation,numPlayers,organizer,score,ratingPerf,ratingPost,rating_type
+199609043,1996-07-23,UBC Tues June,BC,26,100314,4.0,2135,2288,R
+199609076,1996-08-05,Vancouver Open,BC,18,0,4.0,2332,2299,R
+199609096,1996-08-27,UBC Tuesday Night August,BC,24,100934,1.5,1860,2252,R
+199610071,1996-10-01,UBC Tuesday Night September,BC,30,0,3.5,2252,2258,R
+199610087,1996-10-14,Thanksgiving Open,BC,29,0,4.5,2318,2277,R
+199701040,1997-01-02,Canadian Junior,AB,12,0,9.0,2364,2309,R
+199702036,1997-02-02,Canadian Under 14,ON,10,0,4.0,2307,2309,R
+199703099,1997-03-14,Canadian Cadet,BC,10,100205,8.5,2475,2341,R
+199711009,1997-10-26,BC Junior Closed,BC,24,0,5.0,2349,2352,R
