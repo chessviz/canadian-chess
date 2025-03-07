@@ -72,9 +72,10 @@ function loadMastersData() {
             const maxYear = d3.max(data, d => d.year);
             console.log(`Year range: ${minYear} to ${maxYear}`);
             
-            // Create a continuous array of years
+            // Create a continuous array of years, starting from 2000
             const years = [];
-            for (let year = minYear; year <= maxYear; year++) {
+            const startYear = Math.max(2000, minYear); // Use 2000 or minYear, whichever is larger
+            for (let year = startYear; year <= maxYear; year++) {
                 years.push(year);
             }
             
@@ -84,6 +85,15 @@ function loadMastersData() {
                 year: year,
                 count: yearGroups.has(year) ? yearGroups.get(year).length : 0
             }));
+            
+            // Calculate cumulative total before 2000 to use as starting point
+            let priorTotal = 0;
+            if (startYear > minYear) {
+                for (let year = minYear; year < startYear; year++) {
+                    priorTotal += yearGroups.has(year) ? yearGroups.get(year).length : 0;
+                }
+                console.log(`Masters before ${startYear}: ${priorTotal}`);
+            }
             
             // Set up X axis
             const x = d3.scaleBand()
@@ -194,11 +204,11 @@ function loadMastersData() {
                 .attr("text-anchor", "middle")
                 .style("font-size", "20px")
                 .style("font-weight", "bold")
-                .text("Canadian National Chess Masters By Year");
+                .text("Canadian National Chess Masters By Year Since 2000");
             
             // Add cumulative line
             const cumulativeData = [];
-            let cumulative = 0;
+            let cumulative = priorTotal; // Start with the count of masters before 2000
             
             yearCounts.forEach(d => {
                 cumulative += d.count;
@@ -263,7 +273,7 @@ function loadMastersData() {
             
             // Add legend
             const legend = mastersSvg.append("g")
-                .attr("transform", `translate(${mastersWidth - 150}, 0)`);
+                .attr("transform", `translate(${mastersWidth - 150})`);
             
             // Add bar legend
             legend.append("rect")
