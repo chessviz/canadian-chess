@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   titleContainer
     .classed("d-flex justify-content-center align-items-center", true)
     .style("height", "85vh") // Make container full height of viewport
-    .style("background-image", "url('/img/chess-toronto.jpg')")
+    .style("background-image", "url('/canadian-chess/img/chess-toronto.jpg')")
     .style("background-size", "cover")
     .style("background-position", "center")
     .style("background-repeat", "no-repeat")
