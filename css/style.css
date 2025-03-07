@@ -7,10 +7,10 @@ h1 {
 }
 
 h2 {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Arial Narrow Bold", sans-serif;
   font-weight: 100;
   font-size: 2em;
-  color: #3c948b;
+  color: #003072;
 }
 
 .row {
@@ -32,12 +32,12 @@ h2 {
 /****************/
 
 .bar {
-  fill: #3C948B;
+  fill: #5b84be;
   transition: fill 0.3s ease;
 }
 
 .bar:hover {
-  fill: #327972;
+  fill: #003072;
   cursor: pointer;
 }
 
@@ -273,6 +273,6 @@ h2 {
 /* Make section heights full viewport height */
 .section {
   height: 100vh;
-  padding: 20px 0;
+  padding: 50px 0;
 }
 
