@@ -138,12 +138,16 @@ h2 {
 }
 .rating-tooltip {
   position: absolute;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
   border-radius: 4px;
   pointer-events: none;
-  font-size: 12px;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.rating-tooltip.hidden {
+  display: none;
 }
 .legend {
   display: flex;
