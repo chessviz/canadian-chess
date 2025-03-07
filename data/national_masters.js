@@ -16,6 +16,7 @@ const performanceRecords = {};
 const nationalMasters = new Map();
 const regularPlayers = new Map();
 const eventDates = new Map(); // Store event dates
+const playerData = {}; // Store player data
 
 // First, load event dates
 fs.createReadStream(eventsFilePath)
@@ -52,6 +53,17 @@ function processPlayers() {
       if (regularRating > 0) {
         regularPlayers.set(row['cfc_id'], 0);
       }
+
+      // Store player data
+      playerData[row['cfc_id']] = {
+        name: row['name_first'] + ' ' + row['name_last'],
+        birthYear: row['birthyear'],
+        postalCode: row['addr_postalcode_prefix'],
+        city: row['addr_city'],
+        province: row['addr_province'],
+        member_expiry: row['cfc_expiry']
+      };
+
     })
     .on('end', () => {
       console.log(`Number of people with regular ratings greater than 2200: ${highRatingCount}`);
@@ -118,7 +130,8 @@ function processCrosstables() {
       const nationalMastersArray = [];
 
       for (const [cfcId, data] of Object.entries(performanceRecords)) {
-        if (regularPlayers.get(cfcId) >= 25 && (data.count2300 >= 3 && data.maxIndicator >= 2200 || data.maxIndicator >= 2300)) {
+        if (regularPlayers.get(cfcId) >= 25 && ((data.count2300 >= 3 && data.maxIndicator >= 2200) || data.maxIndicator >= 2300)
+          && playerData[cfcId].province != 'FO' && playerData[cfcId].province != 'US') {
           // Calculate when they achieved the title
           let titleAchieved = '';
           if (data.count2300 >= 3) {
@@ -136,6 +149,12 @@ function processCrosstables() {
           }
           
           nationalMastersArray.push({
+            player_name: playerData[cfcId].name,
+            birth_year: playerData[cfcId].birthYear,
+            postal_code: playerData[cfcId].postalCode,
+            city: playerData[cfcId].city,
+            province: playerData[cfcId].province,
+            member_expiry: playerData[cfcId].member_expiry,
             cfc_id: cfcId,
             tournaments: data.tournaments
               .filter((t, i) => i < 3) // Ensure only first 3 tournaments are included

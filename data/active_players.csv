@@ -1226,7 +1226,6 @@ cfc_id,cfc_expiry,cfc_type,gomembership_id,fide_id,name_first,name_last,gender,a
 162725,2025-06-08,A,,0,Guy,Hulbert,M,Scarborough,ON,1545,1545,1343,10,,guy,hulbert,M1R,1910
 162760,2119-08-31,A,,2639475,Avery,Michalchuk,M,CALGARY,AB,1865,1900,1717,1717,,avery,michalchuk,T3H,2000
 162771,2025-05-24,A,,2635062,Charles,Wu,M,Richmond,BC,1856,1891,1778,1686,,charles,wu,V6X,1980
-162781,2025-03-07,J,,2633159,Richard,Chen,M,Mississauga,ON,2039,2248,1896,1896,,richard,chen,L5R,2007
 162803,2025-12-02,A,,2628112,Mark,Tuvera,M,Viking,AB,1831,1831,2026,2039,,mark,tuvera,,1992
 162815,2025-11-18,A,,0,Timothy,Coish,M,Surrey,BC,1432,16,1166,6,,timothy,coish,V4P,1901
 162819,2026-01-18,A,,2627965,Bruce,Coates,M,Calgary,AB,1632,1632,1199,10,,bruce,coates,T4A,1991
@@ -2454,7 +2453,6 @@ cfc_id,cfc_expiry,cfc_type,gomembership_id,fide_id,name_first,name_last,gender,a
 180417,2025-04-03,,,2665980,Eric,Zhao,M,West Vancouver,BC,1132,1132,1209,13,,eric,zhao,V7S,2014
 180424,2025-03-15,,,2657481,Josh,Toor,M,Markham,ON,1590,1590,1565,1565,,josh,toor,L6E,2011
 180426,2025-08-10,Z,,2654229,Reid,Sun,M,Saskatoon,SK,1214,1214,1430,1430,,reid,sun,S7T,2016
-180439,2025-03-07,,,0,Chase,Shu,M,Vancouver,BC,1684,1684,1596,1596,,chase,shu,V6S,2012
 180441,2025-05-28,Z,,0,Kaustubh,Nagidi,M,Brampton,ON,0,0,1257,1327,,kaustubh,nagidi,L6R,2013
 180462,2025-03-17,,,0,Aaron,Ge,M,Richmond Hill,ON,1444,1444,1692,5,,aaron,ge,L4S,2011
 180470,2026-01-06,,,0,Marco,Brucculeri,M,Stoney Creek,ON,1097,16,0,0,,marco,brucculeri,L8E,2007
@@ -2701,7 +2699,6 @@ cfc_id,cfc_expiry,cfc_type,gomembership_id,fide_id,name_first,name_last,gender,a
 182534,2025-05-19,,,2662892,Marissa,Yeung,F,Toronto,ON,1378,1378,1351,1351,,marissa,yeung,M4N,2014
 182558,2025-10-23,,,0,Justin,Davis,M,Burford,ON,0,0,1524,1524,,justin,davis,N0E,2001
 182560,2025-08-05,,,0,Timothy,Lin,M,Waterloo,ON,1462,10,1376,13,,timothy,lin,N2K,2011
-182569,2025-03-07,,,0,Akash,Adhikary,M,Vancouver,BC,0,0,1306,5,,akash,adhikary,V5V,2002
 182574,2122-05-23,,,2652188,Youri,Karabanov,M,Calgary,AB,1513,1520,1465,24,,youri,karabanov,T2G,1951
 182586,2025-07-03,,,2667800,Ryan,Tomilin,M,Vancouver,BC,1905,17,2061,2061,,ryan,tomilin,V6S,2008
 182589,2025-07-02,,,2654326,Anya,Jain,F,Kanata,ON,1448,1448,1571,1572,,anya,jain,K2K,2013
@@ -3209,13 +3206,10 @@ cfc_id,cfc_expiry,cfc_type,gomembership_id,fide_id,name_first,name_last,gender,a
 187280,2025-06-03,,,2667827,Olivier,Trottier,M,Kapuskasing,ON,1492,12,1149,22,,olivier,trottier,X,2008
 187301,2025-06-16,Z,,0,Hiroko,Serizawa,F,Mississauga,ON,882,7,950,3,,hiroko,serizawa,L5L,1965
 187312,2025-08-09,,,0,Nathan,Lampman,M,Victoria,BC,0,0,1297,7,,nathan,lampman,V8S,2017
-187326,2025-03-07,,,0,Julian,Zhou,M,Montreal,QC,0,0,0,0,,julian,zhou,H1K,2013
 187347,2025-05-31,Z,,2666189,Philippe,Cazacu,M,Dollard-des-ormeaux,QC,1419,1419,0,0,,philippe,cazacu,H9G,2013
 187354,2025-04-26,,,2664348,Chaarvik,Madhu Vikram,M,Mississauga,ON,1396,1432,1472,1472,,chaarvik,madhu vikram,L5N,2015
 187357,2025-12-16,,,2671026,Ysabella,Landas,F,Calgary,AB,1152,9,1236,1246,,ysabella,landas,T1Y,2011
-187392,2025-03-07,,,0,Jacob,Wiebe,M,Halbstadt,MB,0,0,0,0,,jacob,wiebe,R0A,2006
 187401,2123-03-03,,,0,Derek,Zwynenburg,M,Nanaimo,BC,0,0,0,0,,derek,zwynenburg,V9R,1982
-187402,2025-03-07,,,0,Emma,Nonaka,F,Cornwall,ON,0,0,1180,4,,emma,nonaka,K6H,2014
 187404,2025-03-12,,,0,Sam,Zhuang,M,Kanata,ON,0,0,1665,12,,sam,zhuang,K2K,2012
 187407,2025-04-27,,,2665956,Ethan,Wu,M,Kanata,ON,1079,8,1412,17,,ethan,wu,K2T,2014
 187418,2025-03-13,,,0,Anna,Dinu,F,Calgary,AB,0,0,921,4,,anna,dinu,T3G,2015
@@ -3226,12 +3220,7 @@ cfc_id,cfc_expiry,cfc_type,gomembership_id,fide_id,name_first,name_last,gender,a
 187467,2025-09-24,,,2667029,Rayhaan,Baban Bhai,M,Kanata,ON,1408,12,1348,13,,rayhaan,baban bhai,K2K,2011
 187469,2026-03-20,,,0,ZiFan,Feng,F,Vancouver,BC,0,0,1419,9,,zifan,feng,V5S,2015
 187470,2025-04-27,,,2665115,Tejvaran,Thakur,M,Nepean,ON,1229,7,1306,17,,tejvaran,thakur,K2G,2016
-187472,2025-03-07,,,0,David,Antoniuk,M,Vancouver,BC,0,0,0,0,,david,antoniuk,V6T,1993
-187473,2025-03-07,,,0,Caleb,Wu,M,Windsor,ON,0,0,757,4,,caleb,wu,N1G,2011
-187474,2025-03-07,,,0,Michael,Banks,M,Hamilton,ON,1240,1,0,0,,michael,banks,L9C,1985
-187475,2025-03-07,,,0,Archer,Banks,M,Hamilton,ON,1438,2,0,0,,archer,banks,L9C,2018
 187476,2025-03-08,,,0,Rohith,Srinivasan,M,Oakville,ON,1149,1,1322,10,,rohith,srinivasan,L6H,2013
-187477,2025-03-07,,,2661543,Sam,Kantor,M,Richmond Hill,ON,0,0,0,0,,sam,kantor,L3T,1997
 187502,2025-11-22,,,0,Luca,Ning,M,Nepean,ON,0,0,1310,9,,luca,ning,K2R,2014
 187540,2025-03-08,,,0,Suhayl,Amanat,M,Vancouver,BC,0,0,1140,5,,suhayl,amanat,V6K,2016
 187542,2025-03-08,Z,,0,Kavin,Meyyappan,M,Calgary,AB,900,3,869,23,,kavin,meyyappan,T3P,2016
