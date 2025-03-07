@@ -1,3 +1,4 @@
+
 // This script runs after DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Load both CSV files
@@ -175,18 +176,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     .attr("r", 4)
                     .attr("fill", "#2b83ba")
                     .on("mouseover", function(event, d) {
-                        d3.select(this).attr("r", 6); // Enlarge the point
                         showTooltip(event, d);
                     })
                     .on("mouseout", function() {
-                        d3.select(this).attr("r", 3.5); // Reset the point size
                         hideTooltip();
-                    })
-                    .on("mousemove", function(event, d) {
-                        // Update tooltip position as mouse moves
-                        d3.select("#rating-tooltip")
-                            .style("left", (event.pageX + 10) + "px")
-                            .style("top", (event.pageY - 28) + "px");
                     });
             
             // Add dots for player 2 - main chart
@@ -200,18 +193,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     .attr("r", 4)
                     .attr("fill", "#d7191c")
                     .on("mouseover", function(event, d) {
-                        d3.select(this).attr("r", 6); // Enlarge the point
                         showTooltip(event, d);
                     })
                     .on("mouseout", function() {
-                        d3.select(this).attr("r", 3.5); // Reset the point size
                         hideTooltip();
-                    })
-                    .on("mousemove", function(event, d) {
-                        // Update tooltip position as mouse moves
-                        d3.select("#rating-tooltip")
-                            .style("left", (event.pageX + 10) + "px")
-                            .style("top", (event.pageY - 28) + "px");
                     });
             
             // Add X axis - context chart
@@ -259,15 +244,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add tooltip functionality
         function showTooltip(event, d) {
             const tooltip = d3.select("#rating-tooltip");
-            const date = new Date(d.date).toLocaleDateString();
-            
+
             tooltip
-                .html(`<strong>${d.name || 'Player ' + d.player}</strong><br>
-                      Date: ${date}<br>
-                      Rating: ${d.rating}${d.province ? '<br>Province: ' + d.province : ''}`)
+                .classed("hidden", false)
                 .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - 28) + "px")
-                .classed("hidden", false);
+                .style("top", (event.pageY - 20) + "px")
+                .html(`
+                    <strong>Player:</strong> ${d.playerId}<br>
+                    <strong>Date:</strong> ${d.eventDate.toISOString().split('T')[0]}<br>
+                    <strong>Event:</strong> ${d.eventName}<br>
+                    <strong>Location:</strong> ${d.eventLocation}<br>
+                    <strong>Score:</strong> ${d.score}<br>
+                    <strong>Performance:</strong> ${d.ratingPerf}<br>
+                    <strong>Rating After:</strong> ${d.ratingPost}
+                `);
         }
         
         function hideTooltip() {
