@@ -146,9 +146,22 @@ h2 {
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
 .rating-tooltip.hidden {
   display: none;
 }
+
+.masters-tooltip {
+  position: absolute;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
 .legend {
   display: flex;
   justify-content: center;
@@ -202,4 +215,26 @@ h2 {
 }
 .hidden {
   display: none;
+}
+
+/* Masters Tooltip Styling */
+#masters-tooltip {
+  position: absolute;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 100;
+  transition: opacity 0.3s;
+}
+
+#masters-tooltip.visible {
+  opacity: 1;
+}
+
+#masters-tooltip.hidden {
+  opacity: 0;
 }

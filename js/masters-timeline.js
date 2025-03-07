@@ -249,22 +249,17 @@ function loadMastersData() {
                 .attr("r", 3)
                 .attr("fill", "#e41a1c")
                 .on("mouseover", function(event, d) {
-                    tooltip.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    tooltip.html(`<strong>Total by end of ${d.year}:</strong><br>${d.count} National Masters`)
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                    
-                    d3.select(this).attr("r", 5);
-                })
-                .on("mouseout", function() {
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                    
-                    d3.select(this).attr("r", 3);
-                });
+                    showTooltip(event, d);
+                  })
+                  .on("mouseout", function() {
+                    hideTooltip();
+                  })
+                  .on("mousemove", function(event, d) {
+                    // Update tooltip position as mouse moves
+                    d3.select("#masters-tooltip")
+                      .style("left", (event.pageX + 15) + "px")
+                      .style("top", (event.pageY - 28) + "px");
+                  });
             
             // Add legend
             const legend = mastersSvg.append("g")
@@ -305,6 +300,31 @@ function loadMastersData() {
             .style("margin-top", "20px")
             .html(`<strong>Error loading data:</strong><br>${error}`);
     });
+}
+
+// Add or update the tooltip logic in your visualization code
+
+// Inside your visualization code add these functions for tooltip handling
+function showTooltip(event, d) {
+    console.log("Show tooltip for data point");
+  const tooltip = d3.select("#masters-tooltip");
+  
+  // Set tooltip content
+  tooltip.select("#masters-value")
+    .html(`Year: ${d.year}<br>Total Masters: ${d.count}`);
+  
+  // Position the tooltip near the mouse pointer
+  tooltip
+    .style("left", (event.pageX + 15) + "px")
+    .style("top", (event.pageY - 28) + "px")
+    .classed("hidden", false)
+    .classed("visible", true);
+}
+
+function hideTooltip() {
+  d3.select("#masters-tooltip")
+    .classed("visible", false)
+    .classed("hidden", true);
 }
 
 // Add event listener for window resize
