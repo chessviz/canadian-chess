@@ -123,6 +123,7 @@ function processCrosstables() {
             performanceRecords[cfcId].maxIndicator,
             ratingIndicator
           );
+          performanceRecords[cfcId].dates.push(eventDate);
         }
       }
     })
