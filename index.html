@@ -5,6 +5,23 @@
   <meta name="description" content="Interactive visualizations of chess statistics in Canada" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Canadian Chess Statistics</title>
+  <!-- D3.js -->
+  <!-- <script src="https://d3js.org/d3.v7.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script>
+	  window.d3v7 = window.d3; // Store D3 v7
+	  delete window.d3; // Remove it from global scope
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+  <script>
+	  window.d3v3 = window.d3; // Store D3 v3
+	  window.d3 = window.d3v7; // Restore D3 v7 as the default
+
+	  console.log("D3 v7:", d3v7.version); // Should log 7.9.0
+	  console.log("D3 v3:", d3v3.version); // Should log 3.5.12
+  </script>
+  
+
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,22 +32,41 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-  
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.css"> -->
+  <!-- <script src="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/style.css">
+  <link rel="stylesheet" type="text/css" href="css/ChessDataViz.css">
+  <script src="js/ChessDataViz.min.js"></script>
+
   <!-- Fullpage Stepper -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet">
   
   <!-- Custom CSS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-<link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.css">
-<script src="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/style.css">
-
-  <link rel="stylesheet" href="css/style.css"> 
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="chess-animated-bg">
 	<div id="fullpage">
-            <div class="title-content">
+	
+<!--Title Page Section-->
+      <div class="section" id="title-page">
+		<!-- <img src="img/pirouetti/bQ.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece"> -->
+
+        <div class="container h-100">
+          <div class="row h-100">
+            <div class="col-12 h-100">
+              <div id="title-container"></div>
+            </div>
+          </div>
+          <div class="col-sm-2"></div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Title Section - Outside fullpage -->
+<div class="section" id="title-section">
+	<div class="title-content">
 		<h1 class="title-text">How many chess players are in Canada?</h1>
 		<p class="subtitle-text">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada. Take a guess below.</p>
 		<div class="guess-container">
@@ -176,38 +212,128 @@
 		</div>
 		</div>
 
+	<!-- Masters Section -->
+	<div class="section chess-pattern-dark chess-pieces-bg chess-border">
+		<div id="masters-parent" class="container">
+		  <div class="row text-center">
+			<div class="col-12">
+			  <h2>Canadian National Masters</h2>
+			  <p>Visualization of when players achieved their National Master titles over time.</p>
+			  <p>The number of National Masters in Canada has grown steadily over the years.</p>
+			  <p>Is this still to be expected with the changing way the game is being played?</p>
+			  <div class="masters-container" style="height: 100vh; overflow-y: auto; position: relative;">
+				<div id="masters-visualization" class="mt-4"></div>
+				<!-- Add tooltip container -->
+				<div id="masters-tooltip" class="tooltip hidden">
+				  <p><span id="masters-value"></span></p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+  </div>
+  
+  <!-- Adding Chess Board  -->
+  <div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
+	<div class="container">
+	  <div class="row text-center">
+		<div class="col-12">
+		  <h2>Chess Piece Movement Visualization</h2>
+		  <p>Watch the journey of chess pieces across the board during a game.</p>
+		  <div class="cdv-move-paths" id="movepaths" ></div>
+		  <div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.</div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
 
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-12">
-              <h2>Chess Piece Movement Visualization</h2>
-              <p>Watch the journey of chess pieces across the board during a game.</p>
-              <div class="cdv-move-paths" id="movepaths" ></div>
-              <div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-  <!-- <div class="cdv-move-paths" id="movepaths">
-</div>
-<div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.
-</div> -->
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- jQuery (for Slick Carousel) -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  
 
-
-<script src="js/Balls.js"></script>
-<script src="js/title_page.js"></script>
-<script src="js/masters-timeline.js"></script>
-<script src="js/ratings-progress.js"></script>
-<script src="js/world_map.js"></script>
-
+  <!-- TopoJSON -->
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+  
+  <!-- Load d3-cloud -->
+  <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+  
+  <!-- Fullpage Stepper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.js"></script>
+  
+  <!-- Slick Carousel -->
+  <script type="text/javascript" src="js/slick/slick.min.js"></script>
+  
+  <!-- Custom JS -->
+  <script src="js/Balls.js"></script>
+  <script src="js/title_page.js"></script>
+  <script src="js/masters-timeline.js"></script>
+  <script src="js/ratings-progress.js"></script>
+  <script src="js/world_map.js"></script>
+  
+  <!-- Initialize Fullpage stepper -->
   <script>
-    d3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
-  var movePaths = new ChessDataViz.MovePaths('#movepaths', null, data.moves);
-});
 
+	d3v3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
+	var movePaths = new ChessDataViz.MovePaths('#movepaths', null, data.moves);
+	});
 
+    // Setup for initial sections
+    document.addEventListener('DOMContentLoaded', function() {
+      // Custom navigation for first three sections
+      document.querySelector('#title-section .nav-indicator').addEventListener('click', function() {
+        window.scrollTo({
+          top: document.getElementById('grid-section').offsetTop,
+          behavior: 'smooth'
+        });
+      });
+      
+      document.querySelector('#grid-section .nav-indicator').addEventListener('click', function() {
+        window.scrollTo({
+          top: document.getElementById('hourglass-section').offsetTop,
+          behavior: 'smooth'
+        });
+      });
+      
+      document.querySelector('#hourglass-section').addEventListener('wheel', function(e) {
+        if (e.deltaY > 0) { // Scrolling down
+          // Scroll to the start of fullpage content
+          window.scrollTo({
+            top: document.getElementById('fullpage').offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+      
+      // Initialize fullpage.js
+      new fullpage("#fullpage", {
+        // Options here
+        anchors: ['ChessViz', 'Masters', 'Ratings', 'Demographics', 'Map'],
+        
+        // AutoScrolling false because story boxes need vertical scrolling
+        autoScrolling: false,
+        scrollingSpeed: 500,
+        scrollHorizontally: false,
+        
+        onLeave: function(origin, destination) {
+          destination.item.classList.add('load-background');
+          
+          // Add chess animation class on section change
+          destination.item.classList.add('chess-animate');
+          setTimeout(() => {
+            destination.item.classList.remove('chess-animate');
+          }, 800);
+        },
+        slidesNavigation: true,
+        navigation: true,
+        navigationPosition: 'right',
+      });
+    });
   </script>
 </body>
 </html>
