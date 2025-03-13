@@ -6,7 +6,7 @@ class ChessRatingVisualization {
     this.CORRECT_PLAYER_COUNT = 10000;
     this.ACCEPTABLE_ERROR_MARGIN = 2000; // ±20%
     
-    // Rating ranges and their percentages
+    // Rating ranges and their percentages (using colorblind-friendly palette)
     this.ratingRanges = [
       { range: "1-1199", percent: 50.9, color: "#0072B2" },    // Blue (colorblind-friendly)
       { range: "1200-1699", percent: 33.1, color: "#56B4E9" }, // Light blue
@@ -29,10 +29,10 @@ class ChessRatingVisualization {
     // Setup events
     this.setupEvents();
     
-    // Handle scroll events to initialize sections as they come into view
-    this.setupScrollHandling();
+    // Initialize visibility handlers for fullpage.js integration
+    this.setupFullpageHandlers();
     
-    // Initialize the first section
+    // Initialize the visualizations that should appear first
     this.initializeVisibleSections();
   }
   
@@ -40,16 +40,24 @@ class ChessRatingVisualization {
   updateDimensions() {
     // Get grid section dimensions
     const gridContainer = document.getElementById('grid-display-container');
-    this.gridWidth = gridContainer.clientWidth;
-    this.gridHeight = gridContainer.clientHeight;
+    if (gridContainer) {
+      this.gridWidth = gridContainer.clientWidth;
+      this.gridHeight = gridContainer.clientHeight;
+    }
     
     // Get hourglass section dimensions
     const hourglassSection = document.getElementById('hourglass-section');
-    this.hourglassWidth = hourglassSection.clientWidth;
-    this.hourglassHeight = hourglassSection.clientHeight;
+    if (hourglassSection) {
+      this.hourglassWidth = hourglassSection.clientWidth;
+      this.hourglassHeight = hourglassSection.clientHeight;
+    }
     
-    // Grid ball sizing
-    this.gridBallRadius = Math.min(8, Math.min(this.gridWidth, this.gridHeight) / 25);
+    // Grid ball sizing - adaptive based on screen size
+    const isMobile = window.innerWidth < 768;
+    this.gridBallRadius = isMobile ? 
+      Math.min(6, Math.min(this.gridWidth, this.gridHeight) / 25) : 
+      Math.min(8, Math.min(this.gridWidth, this.gridHeight) / 25);
+    
     this.numRows = 10;
     this.numCols = 10;
     this.numBalls = this.numRows * this.numCols;
@@ -58,77 +66,79 @@ class ChessRatingVisualization {
   // Setup all event listeners
   setupEvents() {
     // Guess submission
-    document.getElementById('submit-guess').addEventListener('click', this.handleGuessSubmission.bind(this));
+    const submitButton = document.getElementById('submit-guess');
+    if (submitButton) {
+      submitButton.addEventListener('click', this.handleGuessSubmission.bind(this));
+    }
     
-    // Fixed binding for keypress event
-    document.getElementById('player-guess').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        this.handleGuessSubmission(); // "this" is already bound correctly in arrow function
-      }
-    });
+    // Input field for guess
+    const guessInput = document.getElementById('player-guess');
+    if (guessInput) {
+      guessInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          this.handleGuessSubmission();
+        }
+      });
+      
+      // Also update when input value changes
+      guessInput.addEventListener('input', () => {
+        const sliderElement = document.getElementById('player-guess-slider');
+        if (sliderElement && !isNaN(guessInput.value)) {
+          sliderElement.value = guessInput.value;
+        }
+      });
+    }
+    
+    // Slider for guess
+    const sliderElement = document.getElementById('player-guess-slider');
+    if (sliderElement) {
+      // Update numeric input when slider changes
+      sliderElement.addEventListener('input', () => {
+        const inputElement = document.getElementById('player-guess');
+        if (inputElement) {
+          inputElement.value = sliderElement.value;
+        }
+      });
+    }
     
     // Window resize
     window.addEventListener('resize', this.handleResize.bind(this));
   }
   
-  // Setup scroll event handling
-  setupScrollHandling() {
-    // Check what's in view when the user scrolls
-    window.addEventListener('scroll', () => {
-      this.checkSectionsInView();
-    });
-  }
-  
-  // Initialize any sections that are visible on page load
-  initializeVisibleSections() {
-    // Show the grid info container right away
-    const gridInfoContainer = document.getElementById('grid-info-container');
-    if (gridInfoContainer) {
-      gridInfoContainer.style.opacity = '1';
-    }
-    
-    // Initialize grid section if it's in view
-    this.checkSectionsInView();
-  }
-  
-  // Check which sections are in the viewport
-  checkSectionsInView() {
-    const sections = document.querySelectorAll('.section');
-    
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      const isInView = (
-        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.bottom >= 0
-      );
-      
-      if (isInView) {
-        this.handleSectionInView(section.id);
-      }
-    });
-  }
-  
-  // Handle when a section comes into view
-  handleSectionInView(sectionId) {
-    console.log(`Section in view: ${sectionId}`);
-    
-    if (sectionId === 'grid-section' && !this.gridInitialized) {
-      this.initializeGrid();
-    }
-    else if (sectionId === 'hourglass-section') {
+  // Setup handlers for fullpage.js integration
+  setupFullpageHandlers() {
+    // This function will be called from fullpage.js onLeave callback
+    window.initializeHourglassOnScroll = () => {
       if (!this.hourglassInitialized) {
         this.initializeHourglass();
       }
       
-      // Only start animation if not already running
       if (!this.simulationRunning) {
         this.startHourglassAnimation();
       }
-      
-      // Show panels
-      document.getElementById('hourglass-legend').style.opacity = 1;
-      document.getElementById('chess-explanation-hourglass').style.opacity = 1;
+    };
+  }
+  
+  // Initialize any visualizations that should be immediately visible
+  initializeVisibleSections() {
+    // Make grid info container visible
+    const gridInfoContainer = document.getElementById('grid-info-container');
+    if (gridInfoContainer) {
+      gridInfoContainer.classList.add('visible');
     }
+    
+    // Initialize grid if we're on a section where it should be visible
+    if (document.getElementById('grid-section') && 
+        document.getElementById('grid-section').classList.contains('active')) {
+      this.initializeGrid();
+    }
+    
+    // Make hourglass panels visible
+    const hourglassLegend = document.getElementById('hourglass-legend');
+    const hourglassExplanation = document.getElementById('chess-explanation-hourglass');
+    
+    if (hourglassLegend) hourglassLegend.classList.add('visible');
+    if (hourglassExplanation) hourglassExplanation.classList.add('visible');
   }
   
   // Handle the guess submission
@@ -136,38 +146,161 @@ class ChessRatingVisualization {
     if (this.guessSubmitted) return;
     
     const guessInput = document.getElementById('player-guess');
+    if (!guessInput) return;
+    
     const guess = parseInt(guessInput.value);
     const feedbackElement = document.getElementById('guess-feedback');
     
     if (isNaN(guess) || guess < 0) {
-      feedbackElement.textContent = "Please enter a valid number.";
-      feedbackElement.style.opacity = 1;
+      if (feedbackElement) {
+        feedbackElement.textContent = "Please enter a valid number.";
+        feedbackElement.classList.add('visible');
+      }
       return;
     }
     
     this.guessSubmitted = true;
     
+    // Disable the submit button and slider
+    const submitButton = document.getElementById('submit-guess');
+    const guessSlider = document.getElementById('player-guess-slider');
+    
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.classList.remove('pulse-animation');
+      submitButton.textContent = "Processing...";
+    }
+    
+    if (guessSlider) {
+      guessSlider.disabled = true;
+    }
+    
+    if (guessInput) {
+      guessInput.disabled = true;
+    }
+    
     // Check if guess is close
     const lowerBound = this.CORRECT_PLAYER_COUNT - this.ACCEPTABLE_ERROR_MARGIN;
     const upperBound = this.CORRECT_PLAYER_COUNT + this.ACCEPTABLE_ERROR_MARGIN;
     
+    let feedbackMessage;
+    let accuracy;
+    
     if (guess >= lowerBound && guess <= upperBound) {
-      feedbackElement.textContent = `Great guess! The actual number is around ${this.CORRECT_PLAYER_COUNT.toLocaleString()} players.`;
+      feedbackMessage = `Great guess! You're within ${Math.round((this.ACCEPTABLE_ERROR_MARGIN / this.CORRECT_PLAYER_COUNT) * 100)}% of the actual number.`;
+      accuracy = "excellent";
     } else if (guess < lowerBound) {
-      feedbackElement.textContent = `That's a bit too low. There are around ${this.CORRECT_PLAYER_COUNT.toLocaleString()} chess players in Canada.`;
+      const percentageLow = Math.round(((this.CORRECT_PLAYER_COUNT - guess) / this.CORRECT_PLAYER_COUNT) * 100);
+      feedbackMessage = `That's ${percentageLow}% lower than the actual number. Let's see the real data!`;
+      accuracy = "low";
     } else {
-      feedbackElement.textContent = `That's a bit too high. There are around ${this.CORRECT_PLAYER_COUNT.toLocaleString()} chess players in Canada.`;
+      const percentageHigh = Math.round(((guess - this.CORRECT_PLAYER_COUNT) / this.CORRECT_PLAYER_COUNT) * 100);
+      feedbackMessage = `That's ${percentageHigh}% higher than the actual number. Let's see the real data!`;
+      accuracy = "high";
     }
     
-    feedbackElement.style.opacity = 1;
+    if (feedbackElement) {
+      feedbackElement.textContent = feedbackMessage;
+      feedbackElement.classList.add('visible');
+    }
     
-    // Show history text - more direct approach without setTimeout
-    const historyContainer = document.getElementById('chess-history-container');
-    if (historyContainer) {
-      historyContainer.style.transition = "opacity 1s ease-in-out";
-      historyContainer.style.opacity = 1;
-    } else {
-      console.error("History container element not found!");
+    // Show the result with animation after a short delay
+    setTimeout(() => {
+      this.showGuessResult(guess, accuracy);
+    }, 1500);
+  }
+  
+  // Show the guess result with animation
+  showGuessResult(userGuess, accuracy) {
+    // Hide the interaction area
+    const interactionArea = document.querySelector('.guess-interaction-area');
+    if (interactionArea) {
+      interactionArea.style.opacity = '0';
+      interactionArea.style.transform = 'translateY(-20px)';
+      interactionArea.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    }
+    
+    // Show the result visualization
+    const resultVisualization = document.getElementById('guess-result-visualization');
+    if (resultVisualization) {
+      setTimeout(() => {
+        // Hide interaction area completely
+        if (interactionArea) {
+          interactionArea.style.display = 'none';
+        }
+        
+        // Show result visualization
+        resultVisualization.classList.add('visible');
+        
+        // Create chess pieces visualization
+        this.createChessPiecesVisualization(accuracy);
+      }, 500);
+    }
+  }
+  
+  // Create animated chess pieces visualization
+  createChessPiecesVisualization(accuracy) {
+    const chessPiecesWrapper = document.querySelector('.chess-pieces-wrapper');
+    if (!chessPiecesWrapper) return;
+    
+    // Clear any existing content
+    chessPiecesWrapper.innerHTML = '';
+    
+    // Chess pieces to use
+    const chessPieces = ['♟', '♜', '♞', '♝', '♛', '♚'];
+    
+    // Number of pieces to display based on the correct player count
+    // We'll show a symbolic representation, not 10,000 pieces
+    const piecesToShow = 50;
+    
+    // Create and append chess pieces with staggered animation
+    for (let i = 0; i < piecesToShow; i++) {
+      const pieceElement = document.createElement('div');
+      pieceElement.className = 'chess-piece';
+      
+      // Randomly select a chess piece
+      const randomPiece = chessPieces[Math.floor(Math.random() * chessPieces.length)];
+      pieceElement.textContent = randomPiece;
+      
+      // Apply color based on accuracy
+      if (accuracy === "excellent") {
+        pieceElement.style.color = '#009E73'; // Green
+      } else if (accuracy === "low") {
+        pieceElement.style.color = '#0072B2'; // Blue
+      } else {
+        pieceElement.style.color = '#D55E00'; // Red-orange
+      }
+      
+      // Set random size variations
+      const randomSize = 0.8 + Math.random() * 0.8; // 0.8 to 1.6
+      pieceElement.style.fontSize = `${randomSize * 2}rem`;
+      
+      // Apply staggered animation delay
+      pieceElement.style.animationDelay = `${i * 0.04}s`;
+      
+      // Append to the wrapper
+      chessPiecesWrapper.appendChild(pieceElement);
+    }
+    
+    // Update actual number with animation
+    const numberValue = document.querySelector('.number-value');
+    if (numberValue) {
+      // Start from 0 and count up to the correct number
+      let currentCount = 0;
+      const duration = 2000; // 2 seconds
+      const interval = 20; // update every 20ms
+      const increment = Math.ceil(this.CORRECT_PLAYER_COUNT / (duration / interval));
+      
+      const countUp = setInterval(() => {
+        currentCount += increment;
+        
+        if (currentCount >= this.CORRECT_PLAYER_COUNT) {
+          currentCount = this.CORRECT_PLAYER_COUNT;
+          clearInterval(countUp);
+        }
+        
+        numberValue.textContent = currentCount.toLocaleString();
+      }, interval);
     }
   }
   
@@ -181,9 +314,13 @@ class ChessRatingVisualization {
     // Create grid balls data
     this.gridBalls = [];
     
-    // Fixed positioning - use a fixed left margin instead of centering
-    const gridLeft = 80; // Fixed left padding
-    const gridTop = (this.gridHeight - (this.numRows * this.gridBallRadius * 3)) / 2;
+    // Calculate positioning
+    const gridContainer = document.getElementById('grid-display-container');
+    if (!gridContainer) return;
+    
+    const containerRect = gridContainer.getBoundingClientRect();
+    const gridLeft = Math.max(80, containerRect.width * 0.1); // Responsive left padding
+    const gridTop = (containerRect.height - (this.numRows * this.gridBallRadius * 3)) / 2;
     
     // Calculate ball positions
     const cellWidth = this.gridBallRadius * 3;
@@ -232,8 +369,9 @@ class ChessRatingVisualization {
     
     // Create grid visualization
     const gridSvg = d3.select("#grid-svg");
+    if (gridSvg.empty()) return;
     
-    // Add balls to the grid
+    // Add balls to the grid with transition
     gridSvg.selectAll(".grid-ball")
       .data(this.gridBalls)
       .enter()
@@ -241,10 +379,14 @@ class ChessRatingVisualization {
       .attr("class", "grid-ball")
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
-      .attr("r", d => d.radius)
+      .attr("r", 0) // Start with radius 0
       .attr("fill", d => d.color)
       .attr("stroke", "#fff")
-      .attr("stroke-width", "1px");
+      .attr("stroke-width", "1px")
+      .transition() // Add transition
+      .duration(800)
+      .delay((d, i) => i * 5) // Stagger the animation
+      .attr("r", d => d.radius); // Grow to full radius
     
     this.gridInitialized = true;
   }
@@ -258,12 +400,13 @@ class ChessRatingVisualization {
     
     // Set up SVG
     const hourglass = d3.select("#hourglass-svg");
+    if (hourglass.empty()) return;
     
-    // Hourglass parameters
+    // Hourglass parameters - made responsive
     const centerX = this.hourglassWidth / 2;
-    const funnelTopY = 100; // Distance from top
+    const funnelTopY = Math.max(80, this.hourglassHeight * 0.1); // Responsive top padding
     const funnelWidth = Math.min(this.hourglassWidth * 0.6, 600); // Width of top of funnel
-    const funnelHeight = this.hourglassHeight - 200; // Height of funnel
+    const funnelHeight = this.hourglassHeight - Math.max(150, this.hourglassHeight * 0.15); // Height of funnel
     const funnelMiddleY = funnelTopY + funnelHeight * 0.7; // Position of middle pinch
     const funnelBottomWidth = 30; // Width of middle pinch
     const funnelBottomY = funnelTopY + funnelHeight; // Bottom of funnel
@@ -279,7 +422,7 @@ class ChessRatingVisualization {
       funnelBottomY
     };
     
-    // Draw individual funnel walls
+    // Draw individual funnel walls with transition effects
     // Left wall of top funnel
     const leftWallPath = `M${centerX - funnelWidth/2},${funnelTopY} 
                           L${centerX - funnelBottomWidth/2},${funnelMiddleY}`;
@@ -288,8 +431,13 @@ class ChessRatingVisualization {
       .attr("class", "funnel-left-wall")
       .attr("d", leftWallPath)
       .style("fill", "none")
-      .style("stroke", "#000")
-      .style("stroke-width", "3px");
+      .style("stroke", "#2c3e50")
+      .style("stroke-width", "3px")
+      .style("stroke-dasharray", function() { return this.getTotalLength(); })
+      .style("stroke-dashoffset", function() { return this.getTotalLength(); })
+      .transition()
+      .duration(1000)
+      .style("stroke-dashoffset", 0);
     
     // Right wall of top funnel
     const rightWallPath = `M${centerX + funnelWidth/2},${funnelTopY} 
@@ -299,8 +447,14 @@ class ChessRatingVisualization {
       .attr("class", "funnel-right-wall")
       .attr("d", rightWallPath)
       .style("fill", "none")
-      .style("stroke", "#000")
-      .style("stroke-width", "3px");
+      .style("stroke", "#2c3e50")
+      .style("stroke-width", "3px")
+      .style("stroke-dasharray", function() { return this.getTotalLength(); })
+      .style("stroke-dashoffset", function() { return this.getTotalLength(); })
+      .transition()
+      .duration(1000)
+      .delay(500)
+      .style("stroke-dashoffset", 0);
     
     // Add dotted line at the top of the funnel
     const dottedTopLine = `M${centerX - funnelWidth/2},${funnelTopY} 
@@ -310,9 +464,14 @@ class ChessRatingVisualization {
       .attr("class", "funnel-top-line")
       .attr("d", dottedTopLine)
       .style("fill", "none")
-      .style("stroke", "#000")
+      .style("stroke", "#2c3e50")
       .style("stroke-width", "2px")
-      .style("stroke-dasharray", "5,5"); // This creates the dotted line effect
+      .style("stroke-dasharray", "5,5") // This creates the dotted line effect
+      .style("opacity", 0)
+      .transition()
+      .duration(800)
+      .delay(1000)
+      .style("opacity", 1);
     
     // Draw bottom funnel
     const bottomFunnelPath = `M${centerX - funnelBottomWidth/2},${funnelMiddleY} 
@@ -324,8 +483,14 @@ class ChessRatingVisualization {
       .attr("class", "funnel-bottom")
       .attr("d", bottomFunnelPath)
       .style("fill", "none")
-      .style("stroke", "#000")
-      .style("stroke-width", "3px");
+      .style("stroke", "#2c3e50")
+      .style("stroke-width", "3px")
+      .style("stroke-dasharray", function() { return this.getTotalLength(); })
+      .style("stroke-dashoffset", function() { return this.getTotalLength(); })
+      .transition()
+      .duration(1200)
+      .delay(1500)
+      .style("stroke-dashoffset", 0);
     
     // Create hourglass balls (exactly the same number and color distribution as grid balls)
     this.hourglassBalls = [];
@@ -357,7 +522,7 @@ class ChessRatingVisualization {
           vy: Math.random() * 1.2, // Small initial downward velocity
           color: range.color,
           initialColor: range.color,
-          currentColor: "#aaaaaa", // Initially gray
+          currentColor: "#cccccc", // Initially light gray
           range: range.range,
           settled: false
         });
@@ -380,7 +545,7 @@ class ChessRatingVisualization {
         vy: Math.random() * 1.2,
         color: this.ratingRanges[this.ratingRanges.length - 1].color,
         initialColor: this.ratingRanges[this.ratingRanges.length - 1].color,
-        currentColor: "#aaaaaa", // Initially gray
+        currentColor: "#cccccc", // Initially light gray
         range: this.ratingRanges[this.ratingRanges.length - 1].range,
         settled: false
       });
@@ -391,23 +556,36 @@ class ChessRatingVisualization {
     // Create a group for the zones
     this.zonesGroup = hourglass.append("g").attr("class", "zones-group");
     
-    // Create balls in the SVG
+    // Create balls in the SVG with delayed appearance
     this.hourglassBallElements = hourglass.selectAll(".hourglass-ball")
       .data(this.hourglassBalls)
       .enter()
       .append("circle")
       .attr("class", "hourglass-ball")
-      .attr("r", d => d.radius)
+      .attr("r", 0) // Start with radius 0
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("fill", d => d.currentColor)
       .attr("stroke", "#fff")
-      .attr("stroke-width", "1px");
+      .attr("stroke-width", "1px")
+      .transition() // Add transition
+      .duration(800)
+      .delay(2000 + (d, i) => i * 10) // Stagger the animation after funnel is drawn
+      .attr("r", d => d.radius); // Grow to full radius
     
     // Calculate physics properties for funnel walls
     this.setupHourglassPhysics();
     
     this.hourglassInitialized = true;
+    
+    // Make explanation and legend visible with delay
+    setTimeout(() => {
+      const explanation = document.getElementById('chess-explanation-hourglass');
+      const legend = document.getElementById('hourglass-legend');
+      
+      if (explanation) explanation.classList.add('visible');
+      if (legend) legend.classList.add('visible');
+    }, 2500);
   }
   
   setupHourglassPhysics() {
@@ -658,7 +836,7 @@ class ChessRatingVisualization {
     this.zonesGroup.selectAll("*").remove();
     
     // Add colored zones to the funnel
-    zones.forEach(zone => {
+    zones.forEach((zone, i) => {
       this.zonesGroup.append("path")
         .attr("class", "funnel-zone")
         .attr("d", zone.path)
@@ -667,8 +845,9 @@ class ChessRatingVisualization {
         .style("stroke-width", "1px")
         .style("opacity", 0)
         .transition()
-        .duration(1000)
-        .style("opacity", 0.3);
+        .duration(800)
+        .delay(i * 200) // Staggered animation
+        .style("opacity", 0.4);
     });
   }
   
@@ -699,7 +878,8 @@ class ChessRatingVisualization {
     // Update the ball colors with transition
     this.hourglassBallElements
       .transition()
-      .duration(1500)
+      .duration(1200)
+      .delay((d, i) => i * 10) // Staggered animation
       .attr("fill", d => d.currentColor);
   }
   
@@ -731,4 +911,23 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize visualization
   window.chessVis = new ChessRatingVisualization();
+  
+  // Setup to reinitialize grid when scrolling to its section
+  document.addEventListener('fullpage_afterLoad', function(event) {
+    const section = event.detail.destination.anchor;
+    
+    if (section === 'grid' && window.chessVis && !window.chessVis.gridInitialized) {
+      window.chessVis.initializeGrid();
+    }
+    
+    if (section === 'hourglass' && window.chessVis) {
+      if (!window.chessVis.hourglassInitialized) {
+        window.chessVis.initializeHourglass();
+      }
+      
+      if (!window.chessVis.simulationRunning) {
+        window.chessVis.startHourglassAnimation();
+      }
+    }
+  });
 });
