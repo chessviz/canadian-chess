@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChessDataViz - Move Paths Example (Defaults)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script>
+	  window.d3v7 = window.d3; // Store D3 v7
+	  delete window.d3; // Remove it from global scope
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+  <script>
+	  window.d3v3 = window.d3; // Store D3 v3
+	  window.d3 = window.d3v7; // Restore D3 v7 as the default
+
+	  console.log("D3 v7:", d3v7.version); // Should log 7.9.0
+	  console.log("D3 v3:", d3v3.version); // Should log 3.5.12
+  </script>
+  <style>
+    .cdv-move-paths {
+  text-align: center;
+}
+
+.cdv-move-paths .black rect {
+  fill: #2b2b2b;
+}
+.cdv-move-paths .white rect {
+  fill: #6c6c6c;
+}
+  </style>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    
+    <!-- Fullpage Stepper -->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/ChessDataViz.css"> -->
+  
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script> -->
+
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.css"> -->
+  <link rel="stylesheet" type="text/css" href="css/ChessDataViz.css">
+  
+  <!-- <script src="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.js"></script> -->
+  <script src="js/ChessDataViz.min.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/style.css"> -->
+
+</head>
+
+<body class="chess-animated-bg">
+	<div id="fullpage">
+            <div class="title-content">
+		<h1 class="title-text">How many chess players are in Canada?</h1>
+		<p class="subtitle-text">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada. Take a guess below.</p>
+		<div class="guess-container">
+		<div class="guess-label">Your estimate:</div>
+		<div class="guess-input-container">
+			<input type="number" class="guess-input" id="player-guess" placeholder="Enter a number..." min="0">
+		</div>
+		<button class="guess-button" id="submit-guess">Submit Guess</button>
+		<div class="feedback" id="guess-feedback"></div>
+		</div>
+	</div>
+
+	<!-- Map Section -->
+	<div class="section" id="map_section">
+		<div class="container">
+			<div class="row">
+			<div class="col-12">
+				<h2 class="text-center mb-4">Journey to the West</h2>
+				<p class="text-center">Nikolay and Aaron are quintesential examples of the change in global chess.</p>
+				<p class="text-center">Socioeconomic forces took these players from their home countries to come to Canada at a young age.</p>
+				<p class="text-center">Russia and the former Soviet Union contained some of the most prolific chess players in the late 1900s.</p>
+				<p class="text-center">India is an emerging power in the chess world, with numerous top young talents competiting on the world's stage.</p>
+				<div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
+			</div>
+			</div>
+		</div>
+		</div>
+
+
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-12">
+              <h2>Chess Piece Movement Visualization</h2>
+              <p>Watch the journey of chess pieces across the board during a game.</p>
+              <div class="cdv-move-paths" id="movepaths" ></div>
+              <div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  <!-- <div class="cdv-move-paths" id="movepaths">
+</div>
+<div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.
+</div> -->
+
+
+<script src="js/Balls.js"></script>
+<script src="js/title_page.js"></script>
+<script src="js/masters-timeline.js"></script>
+<script src="js/ratings-progress.js"></script>
+<script src="js/world_map.js"></script>
+
+  <script>
+    d3v3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
+  var movePaths = new ChessDataViz.MovePaths('#movepaths', null, data.moves);
+});
+
+
+  </script>
+</body>
+</html>

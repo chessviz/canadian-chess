@@ -241,8 +241,16 @@
 		<div class="col-12">
 		  <h2>Chess Piece Movement Visualization</h2>
 		  <p>Watch the journey of chess pieces across the board during a game.</p>
-		  <div class="cdv-move-paths" id="movepaths" ></div>
-		  <div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.</div>
+		  <div class="cdv-openings" id="openings">
+		</div>
+		<div class="caption">
+		  World Rapid Chess Championship 2015 openings breakdown.
+		  <br> Looking at variation: <span id="variation"></span>
+		  <br> Percentage of games with this variation: <span id="percentage"></span>
+		  <br>
+		  <button id="all" class="button button-primary">All Openings</button>
+		  <button id="d4" class="button">d4 Variations</button>
+		</div>
 		</div>
 	  </div>
 	</div>
@@ -275,13 +283,22 @@
   <script src="js/masters-timeline.js"></script>
   <script src="js/ratings-progress.js"></script>
   <script src="js/world_map.js"></script>
+  <script src="js/chess-openings.js"></script>
   
   <!-- Initialize Fullpage stepper -->
   <script>
 
-	d3v3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
-	var movePaths = new ChessDataViz.MovePaths('#movepaths', null, data.moves);
-	});
+	// d3v3.json('data/pgns/noritsyn-2024_stats.json', function(err, data) {
+	// // d3v3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
+	// var movePaths = new ChessDataViz.MovePaths('#movepaths', null, data.moves);
+	// console.log("movePaths");
+	// console.log(movePaths);
+
+	// });
+	// d3v3.json('data/pgns/noritsyn-2024_stats.json', function(err, data) {
+	// // d3v3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
+	// var openings = new ChessDataViz.Openings('#openings', null, data.openings);
+	// });
 
     // Setup for initial sections
     document.addEventListener('DOMContentLoaded', function() {
