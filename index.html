@@ -325,6 +325,49 @@
         </div>
       </div>
 
+    <!-- Winrates section -->
+    <div class="section chess-pattern-light chess-pieces-bg chess-border">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-12 text-center">
+            <h2>Player Performance Comparison</h2>
+            <p class="text-muted">
+              Game statistics breakdown showing wins, losses, and draws for our
+              featured players
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-4 mb-md-0">
+            <div class="card h-100 shadow-sm">
+              <div class="card-header bg-transparent text-center">
+                <h3>Aaron Reeve Mendes</h3>
+                <p class="text-muted mb-0">Performance Analysis</p>
+              </div>
+              <div
+                class="card-body d-flex align-items-center justify-content-center"
+              >
+                <div id="piechart1" class="pie-chart-container"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-header bg-transparent text-center">
+                <h3>Nikolay Noritsyn</h3>
+                <p class="text-muted mb-0">Performance Analysis</p>
+              </div>
+              <div
+                class="card-body d-flex align-items-center justify-content-center"
+              >
+                <div id="piechart2" class="pie-chart-container"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
       <!-- Masters Section -->
       <div class="section chess-pattern-dark chess-pieces-bg chess-border fp-auto-height">
         <div class="container">
@@ -513,12 +556,16 @@
     <script src="js/chess-heat-maps.js"></script>
     <script src="js/organizers.js"></script>
     <script src="js/arbiters.js"></script>
+    <script src="js/winrate-pie.js"></script>
 
     <!-- Initialize Fullpage stepper -->
     <script>
 
       // Initialize fullpage.js
-      new fullpage("#fullpage", {
+
+      // Setup for initial sections
+      document.addEventListener("DOMContentLoaded", function () {
+		new fullpage("#fullpage", {
           // Options here
           anchors: ["ChessViz", "Masters", "Ratings", "Demographics", "Map"],
 
@@ -540,9 +587,7 @@
           navigation: true,
           navigationPosition: "right",
         });
-
-      // Setup for initial sections
-      document.addEventListener("DOMContentLoaded", function () {
+		
         // Custom navigation for first three sections
         document
           .querySelector("#title-section .nav-indicator")

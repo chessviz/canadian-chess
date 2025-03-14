@@ -757,24 +757,3 @@ h2 {
 .player-portrait.nikolay-portrait {
   border: 4px solid #d7191c;
 }
-
-/* Add player names under the portraits */
-.player-portrait::after {
-  content: attr(data-name);
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  font-weight: bold;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-/* Portrait container for layout */
-.portraits-wrapper {
-  position: relative;
-  height: 110px; /* Reduced from 150px */
-  margin-top: 10px; /* Reduced from 20px */
-  margin-bottom: 20px; /* Reduced from 40px */
-}
