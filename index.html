@@ -14,33 +14,29 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
   
-  <!-- Fullpage Stepper -->
+  <!-- Fullpage CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet">
   
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="chess-animated-bg">
-	<div id="fullpage">
-	
-<!--Title Page Section-->
-      <div class="section" id="title-page">
-		<!-- <img src="img/pirouetti/bQ.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece"> -->
-
-        <div class="container h-100">
-          <div class="row h-100">
-            <div class="col-12 h-100">
-              <div id="title-container"></div>
-            </div>
+  <div id="fullpage">
+  
+    <!--Title Page Section-->
+    <div class="section" id="title-page" data-anchor="title">
+      <div class="container h-100">
+        <div class="row h-100">
+          <div class="col-12 h-100">
+            <div id="title-container"></div>
           </div>
-          <div class="col-sm-2"></div>
         </div>
       </div>
+    </div>
     
     <!-- Guess Section -->
-    <div class="section" id="guess-section">
+    <div class="section" id="guess-section" data-anchor="guess">
       <div class="container h-100">
         <div class="row h-100 align-items-center">
           <div class="col-12 text-center">
@@ -99,12 +95,12 @@
     </div>
     
     <!-- Grid Section -->
-    <div class="section" id="grid-section">
+    <div class="section" id="grid-section" data-anchor="grid">
       <div class="container-fluid h-100">
         <div class="row h-100">
           <div class="col-lg-8 order-lg-1 order-2">
             <div class="grid-container" id="grid-display-container">
-              <svg id="grid-svg" width="100%" height="100%"></svg>
+              <!-- Grid visualization will be rendered here -->
             </div>
           </div>
           <div class="col-lg-4 order-lg-2 order-1">
@@ -141,9 +137,9 @@
     </div>
     
     <!-- Hourglass Section -->
-    <div class="section" id="hourglass-section">
+    <div class="section" id="hourglass-section" data-anchor="hourglass">
       <div class="container-fluid h-100 position-relative">
-        <!-- SVG with the highest z-index -->
+        <!-- SVG container for the hourglass visualization -->
         <svg id="hourglass-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 30;"></svg>
         
         <!-- Info panels with lower z-index -->
@@ -181,7 +177,7 @@
     </div>
     
     <!-- Player Rating Comparison -->
-    <div class="section chess-pattern-light chess-pieces-bg chess-border">
+    <div class="section chess-pattern-light chess-pieces-bg chess-border" id="players-section" data-anchor="players">
       <div class="container">
         <div class="row text-center">
           <div class="col-12">
@@ -215,7 +211,7 @@
     </div>
 
     <!-- Map Section -->
-    <div class="section" id="map_section">
+    <div class="section" id="map-section" data-anchor="map">
       <div class="container">
         <div class="row">
           <div class="col-12">
@@ -231,7 +227,7 @@
     </div>
 
     <!-- Masters Section -->
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border" id="masters-section" data-anchor="masters">
       <div class="container">
         <div class="row text-center">
           <div class="col-12">
@@ -239,7 +235,7 @@
             <p>Visualization of when players achieved their National Master titles over time.</p>
             <p>The number of National Masters in Canada has grown steadily over the years.</p>
             <p>Is this still to be expected with the changing way the game is being played?</p>
-            <div class="masters-container" style="height: 100vh; overflow-y: auto; position: relative;">
+            <div class="masters-container" style="height: 50vh; position: relative;">
               <div id="masters-visualization" class="mt-4"></div>
               <!-- Add tooltip container -->
               <div id="masters-tooltip" class="tooltip hidden">
@@ -252,13 +248,11 @@
     </div>
   </div>
   
-
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   
-  <!-- jQuery (for Slick Carousel) -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <!-- jQuery -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   
   <!-- D3.js -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -266,129 +260,69 @@
   <!-- TopoJSON -->
   <script src="https://d3js.org/topojson.v2.min.js"></script>
   
-  <!-- Load d3-cloud -->
-  <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+  <!-- Fullpage.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.js"></script>
   
-  <!-- Fullpage Stepper -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.js"></script>
-  
-  <!-- Slick Carousel -->
-  <script type="text/javascript" src="js/slick/slick.min.js"></script>
-  
-  <!-- Custom JS -->
-  <script src="js/balls.js"></script>
-  <script src="js/title_page.js"></script>
-  <script src="js/masters-timeline.js"></script>
-  <script src="js/ratings-progress.js"></script>
-  <script src="js/world_map.js"></script>
-  
-  <!-- Initialize Fullpage stepper -->
+  <!-- Namespace Fix -->
   <script>
-    // Setup for initial sections
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize fullpage.js
-      new fullpage("#fullpage", {
-        // Options here
-        anchors: ['title', 'guess', 'grid', 'hourglass', 'players', 'map', 'masters'],
-        navigation: true,
-        navigationPosition: 'right',
-        navigationTooltips: ['Home', 'Guess', 'Distribution', 'Progression', 'Players', 'Global', 'Masters'],
-        showActiveTooltip: true,
-        
-        // AutoScrolling false because story boxes need vertical scrolling
-        autoScrolling: true,
-        scrollingSpeed: 700,
-        
-        onLeave: function(origin, destination) {
-          // Special handling for grid section
-          if (destination.anchor === 'grid' && window.chessVis && !window.chessVis.gridInitialized) {
-            window.chessVis.initializeGrid();
-          }
-          
-          // Special handling for hourglass section
-          if (destination.anchor === 'hourglass' && window.chessVis) {
-            if (!window.chessVis.hourglassInitialized) {
-              window.chessVis.initializeHourglass();
-            }
-            
-            if (!window.chessVis.simulationRunning) {
-              window.chessVis.startHourglassAnimation();
-            }
-          }
-        },
-        slidesNavigation: true,
-        navigation: true,
-        navigationPosition: 'right',
-      });
-      
-      // Initialize guess section functionality
-      initGuessSection();
-    });
+    // Ensure ChessVis namespace is properly defined
+    window.ChessVis = window.ChessVis || {};
     
-    // Guess section functionality
-    function initGuessSection() {
-      const slider = document.getElementById('player-guess-slider');
-      const valueDisplay = document.getElementById('guess-value-number');
-      const submitButton = document.getElementById('submit-guess');
-      const resultContainer = document.getElementById('guess-result');
-      const resultMessage = document.getElementById('result-message');
-      const guessInteraction = document.querySelector('.guess-interaction-area');
-      
-      if (!slider || !valueDisplay || !submitButton || !resultContainer || !resultMessage || !guessInteraction) return;
-      
-      // Initialize the slider fill based on initial value
-      updateSliderFill(slider);
-      
-      // Update the value display and slider fill when slider changes
-      slider.addEventListener('input', function() {
-        const value = parseInt(this.value);
-        valueDisplay.textContent = value.toLocaleString();
-        updateSliderFill(this);
-      });
-      
-      // Handle form submission
-      submitButton.addEventListener('click', function() {
-        const guess = parseInt(slider.value);
-        const actualValue = 10000;
-        
-        // Calculate difference
-        const difference = Math.abs(guess - actualValue);
-        const percentDiff = Math.round((difference / actualValue) * 100);
-        
-        // Determine message and class
-        let message;
-        let messageClass;
-        
-        if (guess > actualValue) {
-          message = `That's ${percentDiff}% higher than the actual number.`;
-          messageClass = 'high';
-        } else if (guess < actualValue) {
-          message = `That's ${percentDiff}% lower than the actual number.`;
-          messageClass = 'low';
-        } else {
-          message = 'Perfect guess! That\'s exactly right!';
-          messageClass = 'excellent';
-        }
-        
-        // Update result message
-        resultMessage.textContent = message;
-        resultMessage.className = `result-message ${messageClass}`;
-        
-        // Hide interaction area and show result
-        guessInteraction.style.display = 'none';
-        resultContainer.classList.remove('hidden');
-        
-        // Disable the controls
-        slider.disabled = true;
-        submitButton.disabled = true;
-      });
-      
-      // Helper function to update slider fill
-      function updateSliderFill(slider) {
-        const percentage = (slider.value / slider.max) * 100;
-        slider.style.background = `linear-gradient(to right, #d35400 0%, #d35400 ${percentage}%, #bbb ${percentage}%, #bbb 100%)`;
+    // Fix namespace assignment for visualizations
+    window.addEventListener('load', function() {
+      // Double-check if all visualization classes are in the namespace
+      if (typeof MastersVisualization !== 'undefined' && !window.ChessVis.MastersVisualization) {
+        window.ChessVis.MastersVisualization = MastersVisualization;
+        console.log('Fixed MastersVisualization namespace');
       }
-    }
+      
+      if (typeof PlayerRatingsVisualization !== 'undefined' && !window.ChessVis.PlayerRatingsVisualization) {
+        window.ChessVis.PlayerRatingsVisualization = PlayerRatingsVisualization;
+        console.log('Fixed PlayerRatingsVisualization namespace');
+      }
+      
+      // Force visualization initialization
+      setTimeout(function() {
+        const visualizations = ['grid', 'hourglass', 'players', 'map', 'masters'];
+        
+        visualizations.forEach(function(viz) {
+          if (window.ChessApp && 
+              window.ChessApp.visualizations[viz] && 
+              window.ChessApp.visualizations[viz].instance && 
+              !window.ChessApp.visualizations[viz].initialized) {
+            
+            try {
+              console.log('Force initializing ' + viz + ' visualization');
+              window.ChessApp.ensureContainerVisible(viz);
+              window.ChessApp.visualizations[viz].instance.initialize();
+              window.ChessApp.visualizations[viz].initialized = true;
+              
+              if (window.ChessApp.visualizations[viz].instance.update) {
+                window.ChessApp.visualizations[viz].instance.update();
+              }
+            } catch (e) {
+              console.error('Error initializing ' + viz + ':', e);
+            }
+          }
+        });
+      }, 1000);
+    });
   </script>
+  
+  <!-- Chess Visualization Framework -->
+  <script src="js/ChessVisualizationCore.js"></script>
+  
+  <!-- Visualization Components -->
+  <script src="js/GridVisualization.js"></script>
+  <script src="js/HourglassVisualization.js"></script>
+  <script src="js/SimpleFunnelVisualization.js"></script>
+  <script src="js/PlayerRatingsVisualization.js"></script>
+  <script src="js/WorldMapVisualization.js"></script>
+  <script src="js/MastersVisualization.js"></script>
+  <script src="js/GuessVisualization.js"></script>
+  <script src="js/TransitionManager.js"></script>
+  
+  <!-- Main App -->
+  <script src="js/App.js"></script>
 </body>
 </html>
