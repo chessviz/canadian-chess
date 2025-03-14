@@ -233,47 +233,43 @@
 	  </div>
   </div>
   
-  <!-- Adding Chess Board  -->
-  <div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
+<!-- Chess Visualization Section -->
+<div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
 	<div class="container">
-	  	<div class="row text-center">
-		   <div class="col-12">
-				<h2>Chess Piece Movement Visualization</h2>
-				<p>Watch the journey of chess pieces across the board during a game.</p>
+		<div class="row text-center">
+			<div class="col-12">
+				<h2>Chess Visualizations</h2>
+				<p>Analyzing the patterns and movements in Canadian chess games</p>
+			</div>
+		</div>
+		<div class="row">
+			<!-- Left side - Openings -->
+			<div class="col-md-6">
+				<h3>Chess Opening Variations</h3>
 				<div class="cdv-openings" id="openings"></div>
 				<div class="caption">
-				Visualizing over 60,0000 games played by top Canadian players.
-				<br> Looking at variation: <span id="variation"></span>
-				<br> Percentage of games with this variation: <span id="percentage"></span>
-				<br>
-				<button id="all" class="button button-primary">All Openings</button>
-				<button id="d4" class="button">d4 Variations</button>
+					Visualizing over 60,000 games played by top Canadian players.
+					<br> Looking at variation: <span id="variation"></span>
+					<br> Percentage of games with this variation: <span id="percentage"></span>
+					<br>
+					<button id="all" class="button button-primary">All Openings</button>
+					<button id="d4" class="button">d4 Variations</button>
 				</div>
-		    </div>
-	  	</div>
-	</div>
-  </div>
-  
-   <!-- Adding Chess Board  -->
-   <div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
-	<div class="container">
-	  	<div class="row text-center">
-		   <div class="col-12">
-				<h2>Chess Move Paths Visualization</h2>
-				<p>Watch the journey of chess pieces across the board during a game.</p>
+			</div>
+			
+			<!-- Right side - Move Paths -->
+			<div class="col-md-6">
+				<h3>Piece Movement Analysis</h3>
 				<div id="heatmap-example-1" class="cdv-heatmap"></div>
-				<div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.
+				<div class="caption">
+					Journey of the white queen's knight during games.
+					<br>
+					Visualizing move paths of 60,000 games played by top Canadian players.
 				</div>
-				Visualizing move paths of 60,0000 games played by top Canadian players.
-				<br> Looking at variation: <span id="variation"></span>
-				<br> Percentage of games with this variation: <span id="percentage"></span>
-				<br>
-				</div>
-		    </div>
-	  	</div>
+			</div>
+		</div>
 	</div>
-  </div>
-  
+</div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
