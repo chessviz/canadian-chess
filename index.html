@@ -47,24 +47,14 @@
       type="text/css"
     />
 
-    <!-- <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.css"> -->
-    <!-- <script src="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.js"></script> -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://ebemunk.com/chess-dataviz/style.css"
-    />
     <link rel="stylesheet" type="text/css" href="css/ChessDataViz.css" />
     <script src="js/ChessDataViz.min.js"></script>
 
-    <!-- Fullpage Stepper -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/fullpage.js/dist/fullpage.min.css">
+    <script src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
   <body class="chess-animated-bg">
     <div id="fullpage">
@@ -389,16 +379,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- jQuery (for Slick Carousel) -->
-    <script
-      type="text/javascript"
-      src="https://code.jquery.com/jquery-1.11.0.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"
-    ></script>
-
     <!-- TopoJSON -->
     <script src="https://d3js.org/topojson.v2.min.js"></script>
 
@@ -406,10 +386,7 @@
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 
     <!-- Fullpage Stepper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.js"></script>
-
-    <!-- Slick Carousel -->
-    <script type="text/javascript" src="js/slick/slick.min.js"></script>
+    <script src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
 
     <!-- Custom JS -->
     <script src="js/Balls.js"></script>
@@ -422,64 +399,45 @@
 
     <!-- Initialize Fullpage stepper -->
     <script>
-      // Setup for initial sections
-      document.addEventListener("DOMContentLoaded", function () {
-        // Custom navigation for first three sections
-        document
-          .querySelector("#title-section .nav-indicator")
-          .addEventListener("click", function () {
-            window.scrollTo({
-              top: document.getElementById("grid-section").offsetTop,
-              behavior: "smooth",
-            });
-          });
+      // // Setup for initial sections
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   // Custom navigation for first three sections
+      //   document
+      //     .querySelector("#title-section .nav-indicator")
+      //     .addEventListener("click", function () {
+      //       window.scrollTo({
+      //         top: document.getElementById("grid-section").offsetTop,
+      //         behavior: "smooth",
+      //       });
+      //     });
 
-        document
-          .querySelector("#grid-section .nav-indicator")
-          .addEventListener("click", function () {
-            window.scrollTo({
-              top: document.getElementById("hourglass-section").offsetTop,
-              behavior: "smooth",
-            });
-          });
+      //   document
+      //     .querySelector("#grid-section .nav-indicator")
+      //     .addEventListener("click", function () {
+      //       window.scrollTo({
+      //         top: document.getElementById("hourglass-section").offsetTop,
+      //         behavior: "smooth",
+      //       });
+      //     });
 
-        document
-          .querySelector("#hourglass-section")
-          .addEventListener("wheel", function (e) {
-            if (e.deltaY > 0) {
-              // Scrolling down
-              // Scroll to the start of fullpage content
-              window.scrollTo({
-                top: document.getElementById("fullpage").offsetTop,
-                behavior: "smooth",
-              });
-            }
-          });
+      //   document
+      //     .querySelector("#hourglass-section")
+      //     .addEventListener("wheel", function (e) {
+      //       if (e.deltaY > 0) {
+      //         // Scrolling down
+      //         // Scroll to the start of fullpage content
+      //         window.scrollTo({
+      //           top: document.getElementById("fullpage").offsetTop,
+      //           behavior: "smooth",
+      //         });
+      //       }
+      //     });
 
-        // Initialize fullpage.js
-        new fullpage("#fullpage", {
-          // Options here
-          anchors: ["ChessViz", "Masters", "Ratings", "Demographics", "Map"],
-
-          // AutoScrolling false because story boxes need vertical scrolling
-          autoScrolling: false,
-          scrollingSpeed: 500,
-          scrollHorizontally: false,
-
-          onLeave: function (origin, destination) {
-            destination.item.classList.add("load-background");
-
-            // Add chess animation class on section change
-            destination.item.classList.add("chess-animate");
-            setTimeout(() => {
-              destination.item.classList.remove("chess-animate");
-            }, 800);
-          },
-          slidesNavigation: true,
-          navigation: true,
-          navigationPosition: "right",
-        });
+      new fullpage('#fullpage', {
+        anchors: ['page1', 'page2', 'page3', 'page4'],
+        sectionsColor: ['yellow', 'orangee', '#C0C0C0', '#ADD8E6'],
       });
+      // });
     </script>
   </body>
 </html>

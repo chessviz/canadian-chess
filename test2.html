@@ -4,44 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiple D3 Versions</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-    <script>
-        window.d3v7 = window.d3; // Store D3 v7
-        delete window.d3; // Remove it from global scope
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
-    <script>
-        window.d3v3 = window.d3; // Store D3 v3
-        window.d3 = window.d3v7; // Restore D3 v7 as the default
-
-        console.log("D3 v7:", d3v7.version); // Should log 7.9.0
-        console.log("D3 v3:", d3v3.version); // Should log 3.5.12
-    </script>
+    <link rel="stylesheet" href="https://unpkg.com/fullpage.js/dist/fullpage.min.css">
+    <script src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
 </head>
 <body>
-    <h2>D3 v3 Visualization</h2>
-    <svg id="viz-v3" width="400" height="200"></svg>
-
-    <h2>D3 v7 Visualization</h2>
-    <svg id="viz-v7" width="400" height="200"></svg>
-
-    <script>
-        // D3 v3 Visualization
-        var svgV3 = d3v3.select("#viz-v3");
-        svgV3.append("circle")
-            .attr("cx", 100)
-            .attr("cy", 100)
-            .attr("r", 40)
-            .style("fill", "blue");
-
-        // D3 v7 Visualization
-        var svgV7 = d3v7.select("#viz-v7");
-        svgV7.append("rect")
-            .attr("x", 50)
-            .attr("y", 50)
-            .attr("width", 100)
-            .attr("height", 100)
-            .style("fill", "red");
-    </script>
+<div id="fullpage">
+    <div class="section">One</div>
+    <div class="section">
+       <div class="slide" data-anchor="slide1">
+       <img src="" data-src="https://raw.githubusercontent.com/alvarotrigo/fullPage.js/master/examples/imgs/iphone-blue.png" />
+       </div>
+        <div class="slide" data-anchor="slide2">Two 2</div>
+    </div>
+    <div class="section">
+       <img src="" data-src="https://raw.githubusercontent.com/alvarotrigo/fullPage.js/master/examples/imgs/intro.png" />
+    </div>
+    <div class="section">Four</div>
+</div>
+<script>
+    new fullpage('#fullpage', {
+    anchors: ['page1', 'page2', 'page3', 'page4'],
+    sectionsColor: ['yellow', 'orange', '#C0C0C0', '#ADD8E6'],
+  });
+  </script>
 </body>
 </html>
