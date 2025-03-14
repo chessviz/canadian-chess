@@ -5,19 +5,28 @@ document.addEventListener("DOMContentLoaded", function () {
   let worldmap; // Declare a variable to store the data.
 
   // Get references to containers
-  const mapSection = document.getElementById("map_section");
   const mapContainer = document.getElementById("map-container");
+  const bioContainer = document.getElementById("player-bio-container");
+  const bioName = document.getElementById("bio-name");
+  const bioText = document.getElementById("bio-text");
 
-  // Ensure the map section has adequate height for vertical centering
-  if (mapSection) {
-    // Set minimum height to enable vertical centering
-    mapSection.style.minHeight = "80vh";
-  }
+  // Player biography data
+  const playerBios = {
+    aaron: {
+      name: "Aaron Reeve Mendes",
+      bio: "Aaron Reeve Mendes (born September 2012) is a rising chess prodigy who began playing at the age of five in India before immigrating to Mississauga, Canada, in 2021. Known for his tactical creativity and strategic skill, he became the youngest Canadian to defeat a grandmaster at 9 years old in 2022 and earned the International Master title in 2024 after winning gold in the Under-18 category at the North American Youth Chess Championship. Mentored by grandmasters Stany G.A., Swayams Mishra, and Arjun Kalyan, Aaron is ranked as the world’s second-youngest IM and the No. 2 player under 12, marking him as a global talent in the chess world.",
+    },
+    nikolay: {
+      name: "Nikolay Noritsyn",
+      bio: "Nikolay Noritsyn (born May 1991) is a Russian-born Canadian International Master and chess coach who moved to Canada in 2001. He won the Canadian Closed Championship in 2007, earning his IM title, and has represented Canada in multiple Chess Olympiads. Known for his aggressive play and deep opening preparation, his CFC rating progression, displayed on the right, started high as it reflects only his games played in Canada, following an international chess career that began before his immigration.",
+    },
+  };
 
-  // Make the dimensions responsive
+  // Make the dimensions responsive to the container
+  // Use a responsive approach based on container width
   const containerWidth = mapContainer.clientWidth;
-  const width = Math.min(800, containerWidth);
-  const height = width * 0.625; // Maintain 8:5 aspect ratio
+  const width = Math.min(450, containerWidth * 0.85);
+  const height = width * 0.7;
 
   console.log("Using dimensions:", width, "x", height);
 
@@ -30,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .attr("class", "mx-auto d-block"); // Bootstrap classes for horizontal centering
 
   // Calculate zoom factor based on height, with improved proportions
-  let baseScale = 249.5;
-  let zoomFactor = Math.min(height, width) / 500;
+  let baseScale = 170; // Reduced scale to make globe smaller
+  let zoomFactor = Math.min(height, width) / 400; // Adjusted divisor
   let scaleFactor = baseScale * zoomFactor;
 
   // Create a projection
@@ -104,43 +113,127 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Define connections data - source and target countries
   const connections = [
-    { source: "India", target: "Canada", value: 100, id: "india-canada" },
-    { source: "Russia", target: "Canada", value: 85, id: "russia-canada" },
+    {
+      source: "India",
+      target: "Canada",
+      value: 100,
+      id: "india-canada",
+      playerId: "aaron",
+    },
+    {
+      source: "Russia",
+      target: "Canada",
+      value: 85,
+      id: "russia-canada",
+      playerId: "nikolay",
+    },
     // Add more connections as needed
   ];
 
   // Track active connections
   let activeConnections = []; // Start with no connections active (empty array)
 
-  // Add filter buttons to control connections
-  const controlsDiv = d3
-    .select("#map-container")
-    .append("div")
-    .attr("class", "connection-controls mt-3")
-    .style("text-align", "center");
+  // Remove existing connection controls if present (the buttons we're replacing)
+  d3.select(".connection-controls").remove();
 
-  // Removed "All Connections" button
+  // Initialize portrait buttons
+  setupPortraitButtons();
 
-  connections.forEach((conn) => {
-    let buttonLabel =
-      conn.id === "india-canada"
-        ? "Aaron's Journey"
-        : conn.id === "russia-canada"
-        ? "Nikolay's Journey"
-        : `${conn.source} → ${conn.target}`;
+  function setupPortraitButtons() {
+    // Get references to the portrait buttons
+    const aaronPortrait = document.getElementById("aaron-portrait");
+    const nikolayPortrait = document.getElementById("nikolay-portrait");
 
-    controlsDiv
-      .append("button")
-      .attr("class", "btn btn-sm btn-outline-primary mx-1 connection-btn")
-      .attr("data-connection", conn.id)
-      .text(buttonLabel)
-      .on("click", function () {
-        d3.selectAll(".connection-btn").classed("active", false);
-        d3.select(this).classed("active", true);
-        activeConnections = [conn];
-        animateConnections();
+    if (aaronPortrait) {
+      aaronPortrait.addEventListener("click", function () {
+        // Clear active state from both portraits
+        document.querySelectorAll(".player-portrait").forEach((portrait) => {
+          portrait.classList.remove("active");
+        });
+
+        // Set active state to this portrait
+        this.classList.add("active");
+
+        // Find the connection for Aaron
+        const connection = connections.find(
+          (conn) => conn.id === "india-canada"
+        );
+
+        if (connection) {
+          // Show player bio
+          showPlayerBio(connection.playerId);
+
+          // Set active connection and animate
+          activeConnections = [connection];
+          animateConnections();
+        }
       });
-  });
+    }
+
+    if (nikolayPortrait) {
+      nikolayPortrait.addEventListener("click", function () {
+        // Clear active state from both portraits
+        document.querySelectorAll(".player-portrait").forEach((portrait) => {
+          portrait.classList.remove("active");
+        });
+
+        // Set active state to this portrait
+        this.classList.add("active");
+
+        // Find the connection for Nikolay
+        const connection = connections.find(
+          (conn) => conn.id === "russia-canada"
+        );
+
+        if (connection) {
+          // Show player bio
+          showPlayerBio(connection.playerId);
+
+          // Set active connection and animate
+          activeConnections = [connection];
+          animateConnections();
+        }
+      });
+    }
+  }
+
+  // Function to show player bio
+  function showPlayerBio(playerId) {
+    const playerData = playerBios[playerId];
+
+    if (playerData) {
+      // Set content first
+      bioName.textContent = playerData.name;
+      bioText.textContent = playerData.bio;
+
+      // Remove existing player classes
+      bioContainer.classList.remove("aaron", "nikolay");
+      // Add player-specific class
+      bioContainer.classList.add(playerId);
+
+      // Show container with enhanced animation
+      bioContainer.style.display = "block";
+      bioContainer.style.transform = "translateY(10px)";
+
+      // Trigger animation after a tiny delay to ensure display change is processed
+      setTimeout(() => {
+        bioContainer.style.opacity = "1";
+        bioContainer.style.transform = "translateY(0)";
+      }, 10);
+    } else {
+      hidePlayerBio();
+    }
+  }
+
+  // Function to hide player bio
+  function hidePlayerBio() {
+    bioContainer.style.opacity = "0";
+    bioContainer.style.transform = "translateY(10px)";
+
+    setTimeout(() => {
+      bioContainer.style.display = "none";
+    }, 500); // Match the CSS transition duration
+  }
 
   // Function to find country centroid by name
   function findCountryCentroid(countryName) {
@@ -328,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Animate rotation to source
     d3.transition()
-      .duration(1000)
+      .duration(800) // Reduced from 1000
       .tween("rotate", function () {
         return function (t) {
           projection.rotate(interpolateRotation(t));
@@ -360,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
           sourceMarker.transition().duration(500).attr("r", 5);
         }
 
-        // Wait a moment before animating to target
+        // Wait a moment before animating to target - reduced timeout
         setTimeout(function () {
           // Hide the source marker before starting the path animation
           if (sourceMarker) {
@@ -385,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Animate path from source to target
           d3.transition()
-            .duration(2000)
+            .duration(1500) // Reduced from 2000
             .tween("rotate", function () {
               return function (t) {
                 projection.rotate(pathInterpolator(t));
@@ -455,7 +548,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 animationInProgress = false;
               }
             });
-        }, 750);
+        }, 500); // Reduced from 750
       });
   }
 
@@ -499,6 +592,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
     console.log("Countries rendered:", world.length);
+
+    // Remove the automatic animation trigger
+    // The user will now need to click on a portrait to start the animation
   }
 
   // Load the map data
