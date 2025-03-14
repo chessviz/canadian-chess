@@ -184,6 +184,24 @@
             <h2>Let's Introduce Two Players</h2>
             <p>This visualization compares the rating progression of two different generations of top chess players. Aaron and Nikolay are two Canadian International Chess Masters with two different paths to the top of Canadian Chess. The way that chess is being played is changing.</p>
             
+            <!-- Player Portrait Frames - Added from other branch -->
+            <div class="portraits-wrapper">
+              <div class="player-portrait-container justify-content-center">
+                <div id="aaron-portrait" class="player-portrait aaron-portrait" data-connection="india-canada">
+                  <img src="img/aaron.jpg" alt="Aaron Reeve Mendes" />
+                </div>
+                <div id="nikolay-portrait" class="player-portrait nikolay-portrait" data-connection="russia-canada">
+                  <img src="img/noritsyn.jpg" alt="Nikolay Noritsyn" />
+                </div>
+              </div>
+            </div>
+            
+            <!-- Player Bio Container - Added from other branch -->
+            <div id="player-bio-container" class="player-bio-section mb-3" style="display: none; opacity: 0; transition: all 0.5s ease">
+              <h4 id="bio-name" class="bio-title"></h4>
+              <p id="bio-text" class="bio-text"></p>
+            </div>
+            
             <div class="legend">
               <div class="legend-item">
                 <div class="legend-color" style="background-color: #2b83ba;"></div>
@@ -321,6 +339,24 @@
   <script src="js/MastersVisualization.js"></script>
   <script src="js/GuessVisualization.js"></script>
   <script src="js/TransitionManager.js"></script>
+  
+  <!-- Player Bio Data -->
+  <script>
+    // Added from other branch - Player biography data
+    window.playerBios = {
+      aaron: {
+        name: "Aaron Reeve Mendes",
+        bio: "Aaron Reeve Mendes (born September 2012) is a rising chess prodigy who began playing at the age of five in India before immigrating to Mississauga, Canada, in 2021. Known for his tactical creativity and strategic skill, he became the youngest Canadian to defeat a grandmaster at 9 years old in 2022 and earned the International Master title in 2024 after winning gold in the Under-18 category at the North American Youth Chess Championship."
+      },
+      nikolay: {
+        name: "Nikolay Noritsyn",
+        bio: "Nikolay Noritsyn (born May 1991) is a Russian-born Canadian International Master and chess coach who moved to Canada in 2001. He won the Canadian Closed Championship in 2007, earning his IM title, and has represented Canada in multiple Chess Olympiads. Known for his aggressive play and deep opening preparation, his CFC rating progression reflects his games played in Canada, following an international chess career that began before his immigration."
+      }
+    };
+  </script>
+  
+  <!-- Adapter Scripts -->
+  <script src="js/WorldMapAdapter.js"></script>
   
   <!-- Main App -->
   <script src="js/App.js"></script>
