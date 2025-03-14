@@ -1,4 +1,3 @@
-
 /*eslint no-console: 0*/
 /*eslint no-unused-vars: 0*/
 
@@ -35,6 +34,7 @@ let moves = new Moves();
 
 let start = new Date();
 let numGames = 0;
+let numFailedGames = 0;
 
 debug(argv);
 
@@ -55,6 +55,7 @@ const r10 = /,,+/g;
 highland(fs.createReadStream(argv.file, {encoding: 'utf8'}))
 .splitBy(splitBy) //split pgns with multiple games by game
 .map(file => {
+  try {
 	//dont bother with Set-up games
 	if( r1.test(file) ) {
 		return;
@@ -85,6 +86,10 @@ highland(fs.createReadStream(argv.file, {encoding: 'utf8'}))
 	openings.update(_.take(gameMoves, 7));
 	moves.update(gameMoves);
 	numGames++;
+  } catch (err) {
+	numFailedGames++;
+	debug('Failed to parse game:', err);
+  }
 })
 .done(() => {
 	fs.writeFileAsync(argv.file.split('.pgn')[0] + '_stats.json', JSON.stringify({
@@ -95,5 +100,6 @@ highland(fs.createReadStream(argv.file, {encoding: 'utf8'}))
 	.then(() => {
 		console.log('  done, took'.cyan, new Date().getTime() - start.getTime(), 'ms'.cyan);
 		console.log('  processed games:', numGames);
+		console.log('  failed games:', numFailedGames);
 	});
 });
