@@ -253,6 +253,12 @@
  .fp-scrollable .fp-auto-height .fp-overflow{
      max-height: none;
  }
+
+ .fp-overflow {
+    overflow-y: auto; /* Enables vertical scrolling inside section */
+    max-height: 100vh; /* Prevents content from overflowing the viewport */
+    padding: 20px; /* Adjusts inner spacing */
+  }
  
  .fp-is-overflow .fp-overflow.fp-auto-height-responsive,
  .fp-is-overflow .fp-overflow.fp-auto-height,
@@ -262,6 +268,7 @@
  .fp-overflow{
      outline:none;
  }
+
  
  .fp-overflow.fp-table{
      display: block;
