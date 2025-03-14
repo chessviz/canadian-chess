@@ -1,6 +1,7 @@
-	// d3v3.json('data/pgns/noritsyn-2024_stats.json', function(err, data) {
+// /Users/victorzheng/Documents/canadian-chess/data/pgns/all-games-san_stats.json
 
-d3v3. json('data/pgns/noritsyn-2024_stats.json', function(err, data) {
+d3v3.json('data/pgns/all-games-san_stats.json', function(err, data) {
+	// d3v3.json('data/pgns/noritsyn-2024_stats.json', function(err, data) {
 	var openings = new ChessDataViz.Openings('#openings', {
 	  arcThreshold: 0.002,
 	  textThreshold: 0.03,

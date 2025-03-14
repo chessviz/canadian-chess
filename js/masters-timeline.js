@@ -3,8 +3,13 @@
 // Set the dimensions and margins of the graph
 const mastersMargin = {top: 50, right: 80, bottom: 100, left: 60};
 
-let mastersWidth = document.getElementById("masters-parent").getBoundingClientRect().width - mastersMargin.left - mastersMargin.right;
-let mastersHeight = document.getElementById("masters-parent").getBoundingClientRect().height - mastersMargin.top - mastersMargin.bottom;
+let mastersWidth = document.getElementById('masters-visualization') ? 
+    document.getElementById('masters-visualization').clientWidth - mastersMargin.left - mastersMargin.right : 
+    960 - mastersMargin.left - mastersMargin.right;
+let mastersHeight = 500 - mastersMargin.top - mastersMargin.bottom;
+
+// let mastersWidth = document.getElementById("masters-parent").getBoundingClientRect().width - mastersMargin.left - mastersMargin.right;
+// let mastersHeight = document.getElementById("masters-parent").getBoundingClientRect().height - mastersMargin.top - mastersMargin.bottom;
 
 // Create SVG element
 let mastersSvg = d3.select("#masters-visualization").append("svg")
