@@ -246,6 +246,14 @@
                 <span>Aaron Reeve Mendes</span>
               </div>
               <div class="legend-item">
+              <button
+                id="resetZoom"
+                class="reset-button mt-1 mb-1 mx-2"
+                disabled
+              >
+                Reset Zoom
+              </button>
+              <div class="legend-item ms-2">
                 <div
                   class="legend-color"
                   style="background-color: #d7191c"
@@ -255,6 +263,10 @@
             </div>
 
             <div class="chart-container" style="position: relative">
+            <div
+              class="chart-container"
+              style="position: relative; height: 320px"
+            >
               <div id="chart"></div>
             </div>
             <div id="rating-tooltip" class="rating-tooltip hidden"></div>
@@ -264,6 +276,7 @@
             </button>
 
             <div class="context-chart">
+            <div class="context-chart" style="height: 40px">
               <div id="context"></div>
             </div>
           </div>
@@ -297,6 +310,34 @@
               id="map-container"
               class="d-flex justify-content-center align-items-center flex-column"
             ></div>
+    <!-- Masters Section -->
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h2>Canadian National Masters</h2>
+            <p>
+              Visualization of when players achieved their National Master
+              titles over time.
+            </p>
+            <p>
+              The number of National Masters in Canada has grown steadily over
+              the years.
+            </p>
+            <p>
+              Is this still to be expected with the changing way the game is
+              being played?
+            </p>
+            <div
+              class="masters-container"
+              style="height: 100vh; overflow-y: auto; position: relative"
+            >
+              <div id="masters-visualization" class="mt-4"></div>
+              <!-- Add tooltip container -->
+              <div id="masters-tooltip" class="tooltip hidden">
+                <p><span id="masters-value"></span></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
