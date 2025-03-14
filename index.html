@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="description" content="Interactive visualizations of chess statistics in Canada" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Canadian Chess Statistics</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Interactive visualizations of chess statistics in Canada"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Canadian Chess Statistics</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-  
-  <!-- Fullpage Stepper -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet">
-  
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body class="chess-animated-bg">
-	<div id="fullpage">
-	
-<!--Title Page Section-->
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Satisfy"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <!-- Fullpage Stepper -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="chess-animated-bg">
+    <div id="fullpage">
+      <!--Title Page Section-->
       <div class="section" id="title-page">
-		<!-- <img src="img/pirouetti/bQ.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece"> -->
+        <!-- <img src="img/pirouetti/bQ.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece"> -->
 
         <div class="container h-100">
           <div class="row h-100">
@@ -40,132 +58,240 @@
       </div>
     </div>
 
+    <!-- Title Section - Outside fullpage -->
+    <div class="section" id="title-section">
+      <div class="title-content">
+        <h1 class="title-text">How many chess players are in Canada?</h1>
+        <p class="subtitle-text">
+          Chess has been gaining popularity worldwide, but few people know the
+          exact scale of organized chess in Canada. Take a guess below.
+        </p>
+        <div class="guess-container">
+          <div class="guess-label">Your estimate:</div>
+          <div class="guess-input-container">
+            <input
+              type="number"
+              class="guess-input"
+              id="player-guess"
+              placeholder="Enter a number..."
+              min="0"
+            />
+          </div>
+          <button class="guess-button" id="submit-guess">Submit Guess</button>
+          <div class="feedback" id="guess-feedback"></div>
+        </div>
+      </div>
+      <div class="history-content" id="chess-history-container">
+        <h2 class="history-title">Chess in Canadian History</h2>
+        <p class="history-text">
+          Chess has played a significant role in Canadian cultural history since
+          the late 19th century. The Chess Federation of Canada, founded in
+          1932, has been instrumental in organizing national tournaments and
+          promoting the game across the country's diverse communities.
+        </p>
+        <p class="history-text">
+          Notable Canadian chess players have included Grandmaster Duncan
+          Suttles, International Master Lawrence Day, and more recently,
+          Grandmaster Anton Kovalyov. The Canadian Open Chess Championship,
+          established in 1956, remains one of North America's premier chess
+          events, drawing competitors from around the world.
+        </p>
+        <p class="history-text">
+          Today, chess continues to grow in popularity across Canada, with
+          programs in schools, community centers, and online platforms fostering
+          new generations of players from diverse backgrounds.
+        </p>
+      </div>
+    </div>
 
-<!-- Title Section - Outside fullpage -->
-<div class="section" id="title-section">
-	<div class="title-content">
-		<h1 class="title-text">How many chess players are in Canada?</h1>
-		<p class="subtitle-text">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada. Take a guess below.</p>
-		<div class="guess-container">
-		<div class="guess-label">Your estimate:</div>
-		<div class="guess-input-container">
-			<input type="number" class="guess-input" id="player-guess" placeholder="Enter a number..." min="0">
-		</div>
-		<button class="guess-button" id="submit-guess">Submit Guess</button>
-		<div class="feedback" id="guess-feedback"></div>
-		</div>
-	</div>
-	<div class="history-content" id="chess-history-container">
-		<h2 class="history-title">Chess in Canadian History</h2>
-		<p class="history-text">Chess has played a significant role in Canadian cultural history since the late 19th century. The Chess Federation of Canada, founded in 1932, has been instrumental in organizing national tournaments and promoting the game across the country's diverse communities.</p>
-		<p class="history-text">Notable Canadian chess players have included Grandmaster Duncan Suttles, International Master Lawrence Day, and more recently, Grandmaster Anton Kovalyov. The Canadian Open Chess Championship, established in 1956, remains one of North America's premier chess events, drawing competitors from around the world.</p>
-		<p class="history-text">Today, chess continues to grow in popularity across Canada, with programs in schools, community centers, and online platforms fostering new generations of players from diverse backgrounds.</p>
-	</div>
-	</div>
-	
-	<!-- Grid Section - Outside fullpage -->
-	<div class="section" id="grid-section">
-	<div class="grid-container" id="grid-display-container">
-		<!-- Grid goes here, will be created by JavaScript -->
-		<svg id="grid-svg" width="100%" height="100%"></svg>
-	</div>
-	<div class="info-container" id="grid-info-container">
-		<h2 class="info-title">Chess Player Rating Distribution</h2>
-		<p class="info-stat">There are approximately 10,000 chess players in the Canadian Chess Federation database. Their rating distribution reveals the pyramid structure of competitive chess.</p>
-		<h3 class="legend-title">Rating Ranges</h3>
-		<div class="legend">
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #0072B2;"></div>
-			<div>1-1199 (50.9%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #56B4E9;"></div>
-			<div>1200-1699 (33.1%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #F0E442;"></div>
-			<div>1700-1899 (9.4%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #E69F00;"></div>
-			<div>1900-2299 (5.6%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #D55E00;"></div>
-			<div>2300+ (1.0%)</div>
-		</div>
-		</div>
-	</div>
-	</div>
-	
-	<!-- Hourglass Section - Outside fullpage -->
-	<div class="section" id="hourglass-section">
-	<div class="hourglass-container" style="position: relative; width: 100%; height: 100vh; overflow: hidden;">
-		<!-- SVG with the highest z-index -->
-		<svg id="hourglass-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 30;"></svg>
-		
-		<!-- Info panels with lower z-index -->
-		<div class="legend-container" id="hourglass-legend" style="z-index: 20;">
-		<h3 class="legend-title">Rating Ranges</h3>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #0072B2;"></div>
-			<div>1-1199 (50.9%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #56B4E9;"></div>
-			<div>1200-1699 (33.1%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #F0E442;"></div>
-			<div>1700-1899 (9.4%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #E69F00;"></div>
-			<div>1900-2299 (5.6%)</div>
-		</div>
-		<div class="legend-item">
-			<div class="legend-color" style="background-color: #D55E00;"></div>
-			<div>2300+ (1.0%)</div>
-		</div>
-		</div>
-		
-		<div class="explanation-text" id="chess-explanation-hourglass" style="z-index: 20;">
-		<h3 class="explanation-title">The Chess Pyramid</h3>
-		<p>The journey from beginner to master in chess is one of the most challenging progressions in competitive games.</p>
-		<p>Only 1% of players ever reach the 2300+ rating threshold where FIDE titles like International Master and Grandmaster begin.</p>
-		<p>Each step up the rating ladder represents exponentially increasing difficulty, with small improvements requiring significant study and practice.</p>
-		</div>
-	</div>
-	</div>
-    
-    
-    <!-- Player Rating Comparison -->
+    <!-- Grid Section - Outside fullpage -->
+    <div class="section" id="grid-section">
+      <div class="grid-container" id="grid-display-container">
+        <!-- Grid goes here, will be created by JavaScript -->
+        <svg id="grid-svg" width="100%" height="100%"></svg>
+      </div>
+      <div class="info-container" id="grid-info-container">
+        <h2 class="info-title">Chess Player Rating Distribution</h2>
+        <p class="info-stat">
+          There are approximately 10,000 chess players in the Canadian Chess
+          Federation database. Their rating distribution reveals the pyramid
+          structure of competitive chess.
+        </p>
+        <h3 class="legend-title">Rating Ranges</h3>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #0072b2"></div>
+            <div>1-1199 (50.9%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #56b4e9"></div>
+            <div>1200-1699 (33.1%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #f0e442"></div>
+            <div>1700-1899 (9.4%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #e69f00"></div>
+            <div>1900-2299 (5.6%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #d55e00"></div>
+            <div>2300+ (1.0%)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hourglass Section - Outside fullpage -->
+    <div class="section" id="hourglass-section">
+      <div
+        class="hourglass-container"
+        style="position: relative; width: 100%; height: 100vh; overflow: hidden"
+      >
+        <!-- SVG with the highest z-index -->
+        <svg
+          id="hourglass-svg"
+          width="100%"
+          height="100%"
+          style="position: absolute; top: 0; left: 0; z-index: 30"
+        ></svg>
+
+        <!-- Info panels with lower z-index -->
+        <div class="legend-container" id="hourglass-legend" style="z-index: 20">
+          <h3 class="legend-title">Rating Ranges</h3>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #0072b2"></div>
+            <div>1-1199 (50.9%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #56b4e9"></div>
+            <div>1200-1699 (33.1%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #f0e442"></div>
+            <div>1700-1899 (9.4%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #e69f00"></div>
+            <div>1900-2299 (5.6%)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #d55e00"></div>
+            <div>2300+ (1.0%)</div>
+          </div>
+        </div>
+
+        <div
+          class="explanation-text"
+          id="chess-explanation-hourglass"
+          style="z-index: 20"
+        >
+          <h3 class="explanation-title">The Chess Pyramid</h3>
+          <p>
+            The journey from beginner to master in chess is one of the most
+            challenging progressions in competitive games.
+          </p>
+          <p>
+            Only 1% of players ever reach the 2300+ rating threshold where FIDE
+            titles like International Master and Grandmaster begin.
+          </p>
+          <p>
+            Each step up the rating ladder represents exponentially increasing
+            difficulty, with small improvements requiring significant study and
+            practice.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Combined Player Rating Comparison and Map Section -->
     <div class="section chess-pattern-light chess-pieces-bg chess-border">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Let's Introduce Two Players</h2>
-            <p>This visualization compares the rating progression of two different generations of top chess players. Aaron and Nikolay are two Canadian International Chess Masters with two different paths to the top of Canadian Chess. The way that chess is being played is changing.</p>
-            
-            <div class="legend">
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #2b83ba;"></div>
+      <div class="container-fluid py-3">
+        <!-- New row for portraits -->
+        <div class="row mb-2">
+          <div class="col-12 text-center">
+            <h2 class="mb-4">
+              Let's Introduce Two Elite Canadian Chess Players
+            </h2>
+            <!-- Player Portrait Frames - Now centered above both columns -->
+            <div class="portraits-wrapper">
+              <div class="player-portrait-container justify-content-center">
+                <div
+                  id="aaron-portrait"
+                  class="player-portrait aaron-portrait"
+                  data-connection="india-canada"
+                >
+                  <img src="img/aaron.jpg" alt="Aaron Reeve Mendes" />
+                </div>
+                <div
+                  id="nikolay-portrait"
+                  class="player-portrait nikolay-portrait"
+                  data-connection="russia-canada"
+                >
+                  <img src="img/noritsyn.jpg" alt="Nikolay Noritsyn" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second row for map and rating progression -->
+        <div class="row mt-5">
+          <!-- Map Column (Left) -->
+          <div class="col-lg-6 mb-3 mb-lg-0">
+            <!-- Bio Container - Modified to be borderless -->
+            <div
+              id="player-bio-container"
+              class="mb-3 player-bio-section"
+              style="display: none; opacity: 0; transition: all 0.5s ease"
+            >
+              <h4 id="bio-name" class="bio-title"></h4>
+              <p id="bio-text" class="bio-text"></p>
+            </div>
+            <div
+              id="map-container"
+              class="d-flex justify-content-center align-items-center flex-column"
+              style="min-height: 320px; max-height: 350px"
+            ></div>
+          </div>
+          <!-- Rating Progression Column (Right) -->
+          <div class="col-lg-6">
+            <div
+              class="legend mb-2 d-flex justify-content-center align-items-center"
+            >
+              <div class="legend-item me-2">
+                <div
+                  class="legend-color"
+                  style="background-color: #2b83ba"
+                ></div>
                 <span>Aaron Reeve Mendes</span>
               </div>
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #d7191c;"></div>
+              <button
+                id="resetZoom"
+                class="reset-button mt-1 mb-1 mx-2"
+                disabled
+              >
+                Reset Zoom
+              </button>
+              <div class="legend-item ms-2">
+                <div
+                  class="legend-color"
+                  style="background-color: #d7191c"
+                ></div>
                 <span>Nikolay Noritsyn</span>
               </div>
             </div>
-            
-            <div class="chart-container" style="position: relative;">
+
+            <div
+              class="chart-container"
+              style="position: relative; height: 320px"
+            >
               <div id="chart"></div>
             </div>
             <div id="rating-tooltip" class="rating-tooltip hidden"></div>
-            
-            <button id="resetZoom" class="reset-button" disabled>Reset Zoom</button>
-            
-            <div class="context-chart">
+
+            <div class="context-chart" style="height: 40px">
               <div id="context"></div>
             </div>
           </div>
@@ -173,128 +299,134 @@
       </div>
     </div>
 
-	<!-- Map Section -->
-	<div class="section" id="map_section">
-		<div class="container">
-			<div class="row">
-			<div class="col-12">
-				<h2 class="text-center mb-4">Journey to the West</h2>
-				<p class="text-center">Nikolay and Aaron are quintesential examples of the change in global chess.</p>
-				<p class="text-center">Socioeconomic forces took these players from their home countries to come to Canada at a young age.</p>
-				<p class="text-center">Russia and the former Soviet Union contained some of the most prolific chess players in the late 1900s.</p>
-				<p class="text-center">India is an emerging power in the chess world, with numerous top young talents competiting on the world's stage.</p>
-				<div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
-			</div>
-			</div>
-		</div>
-		</div>
+    <!-- Masters Section -->
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12">
+            <h2>Canadian National Masters</h2>
+            <p>
+              Visualization of when players achieved their National Master
+              titles over time.
+            </p>
+            <p>
+              The number of National Masters in Canada has grown steadily over
+              the years.
+            </p>
+            <p>
+              Is this still to be expected with the changing way the game is
+              being played?
+            </p>
+            <div
+              class="masters-container"
+              style="height: 100vh; overflow-y: auto; position: relative"
+            >
+              <div id="masters-visualization" class="mt-4"></div>
+              <!-- Add tooltip container -->
+              <div id="masters-tooltip" class="tooltip hidden">
+                <p><span id="masters-value"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	<!-- Masters Section -->
-	<div class="section chess-pattern-dark chess-pieces-bg chess-border">
-		<div class="container">
-		  <div class="row text-center">
-			<div class="col-12">
-			  <h2>Canadian National Masters</h2>
-			  <p>Visualization of when players achieved their National Master titles over time.</p>
-			  <p>The number of National Masters in Canada has grown steadily over the years.</p>
-			  <p>Is this still to be expected with the changing way the game is being played?</p>
-			  <div class="masters-container" style="height: 100vh; overflow-y: auto; position: relative;">
-				<div id="masters-visualization" class="mt-4"></div>
-				<!-- Add tooltip container -->
-				<div id="masters-tooltip" class="tooltip hidden">
-				  <p><span id="masters-value"></span></p>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-    
-  </div>
-  
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- jQuery (for Slick Carousel) -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  
-  <!-- D3.js -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  
-  <!-- TopoJSON -->
-  <script src="https://d3js.org/topojson.v2.min.js"></script>
-  
-  <!-- Load d3-cloud -->
-  <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
-  
-  <!-- Fullpage Stepper -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.js"></script>
-  
-  <!-- Slick Carousel -->
-  <script type="text/javascript" src="js/slick/slick.min.js"></script>
-  
-  <!-- Custom JS -->
-  <script src="js/Balls.js"></script>
-  <script src="js/title_page.js"></script>
-  <script src="js/masters-timeline.js"></script>
-  <script src="js/ratings-progress.js"></script>
-  <script src="js/world_map.js"></script>
-  
-  <!-- Initialize Fullpage stepper -->
-  <script>
-    // Setup for initial sections
-    document.addEventListener('DOMContentLoaded', function() {
-      // Custom navigation for first three sections
-      document.querySelector('#title-section .nav-indicator').addEventListener('click', function() {
-        window.scrollTo({
-          top: document.getElementById('grid-section').offsetTop,
-          behavior: 'smooth'
-        });
-      });
-      
-      document.querySelector('#grid-section .nav-indicator').addEventListener('click', function() {
-        window.scrollTo({
-          top: document.getElementById('hourglass-section').offsetTop,
-          behavior: 'smooth'
-        });
-      });
-      
-      document.querySelector('#hourglass-section').addEventListener('wheel', function(e) {
-        if (e.deltaY > 0) { // Scrolling down
-          // Scroll to the start of fullpage content
-          window.scrollTo({
-            top: document.getElementById('fullpage').offsetTop,
-            behavior: 'smooth'
+    <!-- jQuery (for Slick Carousel) -->
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.11.0.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"
+    ></script>
+
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- TopoJSON -->
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+
+    <!-- Load d3-cloud -->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+    <!-- Fullpage Stepper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.js"></script>
+
+    <!-- Slick Carousel -->
+    <script type="text/javascript" src="js/slick/slick.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/Balls.js"></script>
+    <script src="js/title_page.js"></script>
+    <script src="js/masters-timeline.js"></script>
+    <script src="js/ratings-progress.js"></script>
+    <script src="js/world_map.js"></script>
+
+    <!-- Initialize Fullpage stepper -->
+    <script>
+      // Setup for initial sections
+      document.addEventListener("DOMContentLoaded", function () {
+        // Custom navigation for first three sections
+        document
+          .querySelector("#title-section .nav-indicator")
+          .addEventListener("click", function () {
+            window.scrollTo({
+              top: document.getElementById("grid-section").offsetTop,
+              behavior: "smooth",
+            });
           });
-        }
+
+        document
+          .querySelector("#grid-section .nav-indicator")
+          .addEventListener("click", function () {
+            window.scrollTo({
+              top: document.getElementById("hourglass-section").offsetTop,
+              behavior: "smooth",
+            });
+          });
+
+        document
+          .querySelector("#hourglass-section")
+          .addEventListener("wheel", function (e) {
+            if (e.deltaY > 0) {
+              // Scrolling down
+              // Scroll to the start of fullpage content
+              window.scrollTo({
+                top: document.getElementById("fullpage").offsetTop,
+                behavior: "smooth",
+              });
+            }
+          });
+
+        // Initialize fullpage.js
+        new fullpage("#fullpage", {
+          // Options here
+          anchors: ["ChessViz", "Masters", "Ratings", "Demographics", "Map"],
+
+          // AutoScrolling false because story boxes need vertical scrolling
+          autoScrolling: false,
+          scrollingSpeed: 500,
+          scrollHorizontally: false,
+
+          onLeave: function (origin, destination) {
+            destination.item.classList.add("load-background");
+
+            // Add chess animation class on section change
+            destination.item.classList.add("chess-animate");
+            setTimeout(() => {
+              destination.item.classList.remove("chess-animate");
+            }, 800);
+          },
+          slidesNavigation: true,
+          navigation: true,
+          navigationPosition: "right",
+        });
       });
-      
-      // Initialize fullpage.js
-      new fullpage("#fullpage", {
-        // Options here
-        anchors: ['ChessViz', 'Masters', 'Ratings', 'Demographics', 'Map'],
-        
-        // AutoScrolling false because story boxes need vertical scrolling
-        autoScrolling: false,
-        scrollingSpeed: 500,
-        scrollHorizontally: false,
-        
-        onLeave: function(origin, destination) {
-          destination.item.classList.add('load-background');
-          
-          // Add chess animation class on section change
-          destination.item.classList.add('chess-animate');
-          setTimeout(() => {
-            destination.item.classList.remove('chess-animate');
-          }, 800);
-        },
-        slidesNavigation: true,
-        navigation: true,
-        navigationPosition: 'right',
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
