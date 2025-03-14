@@ -29,7 +29,7 @@ d3.dsv(",", "data/top_arbiters.csv")
             .attr("transform", "translate(0, 0)");
         
         // Define margins
-        const margin = {top: 50, right: 50, bottom: 150, left: 70};
+        const margin = {top: 50, right: 100, bottom: 200, left: 100};
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
         
