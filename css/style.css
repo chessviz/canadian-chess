@@ -10,6 +10,26 @@ body {
   color: #333;
 }
 
+
+.fp-overflow {
+  overflow-y: auto; /* Enables vertical scrolling inside section */
+  max-height: 100vh; /* Prevents content from overflowing the viewport */
+  padding: 20px; /* Adjusts inner spacing */
+}
+
+button {
+  padding: 12px 30px;
+  background-color: #1a3a5f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  margin: 10px 20px;
+} 
+
 /* Ratings comparison chart */
 .line {
   fill: none;
