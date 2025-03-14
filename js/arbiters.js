@@ -1,5 +1,5 @@
 // Load data from CSV file
-d3.dsv(",", "data/top_organizers.csv")
+d3.dsv(",", "data/top_arbiters.csv")
     .then(function(data) {
     // Process the CSV data to match our required structure
     data = data.map(d => {
@@ -18,13 +18,13 @@ d3.dsv(",", "data/top_organizers.csv")
     data = data.sort((a, b) => b.num_tournaments - a.num_tournaments)
               .slice(0, 50);
 
-    data = data.filter(b => b.birth_year > 1950)
+    data = data.filter(a => a.birth_year > 1950)
 
-    console.log("Data for visualization (top 50 organizers)", data);
+    console.log("Data for visualization (top 50 arbiters)", data);
     // Now that we have our data, initialize the visualization
 
         const width = 800, height = 600;
-        const svg = d3.select("#organizers-chart");
+        const svg = d3.select("#arbiters-chart");
         
         // Create group for the visualization
         const chartGroup = svg.append("g")
@@ -35,14 +35,13 @@ d3.dsv(",", "data/top_organizers.csv")
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
         
-        
         // Create scales
         const xScale = d3.scaleLinear()
             .domain([1950, 2000])  // Birth years range, slightly expanded for better visibility
             .range([margin.left, width - margin.right]);
         
         const yScale = d3.scaleLinear()
-            .domain([0, 400]) // Add 10% padding at top
+            .domain([0, 800]) // Add 10% padding at top
             .range([height - margin.bottom, margin.top]);
         
         const rScale = d3.scaleSqrt()
@@ -63,7 +62,7 @@ d3.dsv(",", "data/top_organizers.csv")
             .attr("y", 25)
             .attr("font-size", "18px")
             .attr("font-weight", "bold")
-            .text("Top Chess Tournament Organizers in Canada");
+            .text("Top Chess Tournament arbiters in Canada");
         
         // Create axes
         const xAxis = d3.axisBottom(xScale)
@@ -165,13 +164,13 @@ d3.dsv(",", "data/top_organizers.csv")
                 .text(province);
         });
 
-        // Add text indicating number of organizers shown
+        // Add text indicating number of arbiters shown
         svg.append("text")
             .attr("class", "info-text")
             .attr("text-anchor", "middle")
             .attr("x", width / 2)
             .attr("y", 45)
             .attr("font-size", "14px")
-            .text(`Showing ${data.length} organizers sorted by number of tournaments organized`);
+            .text(`Showing ${data.length} arbiters sorted by number of tournaments organized`);
 
 });

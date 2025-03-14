@@ -375,29 +375,49 @@
         </div>
       </div>
     </div>
-
     <!-- Top Arbiters and Organizers -->
     <div class="section chess-pattern-dark chess-pieces-bg chess-border">
       <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Top Arbiters and Organizers</h2>
-            <p>These individuals have organized the most chess tournaments in Canada</p>
-            <div class="chart-container">
-              <svg width="800" height="600" id="organizers-chart"></svg>
-              <div class="tooltip" style="opacity: 0; position: absolute; background-color: white; border: 1px solid #ddd; padding: 10px; border-radius: 5px; pointer-events: none;"></div>
-            </div>
-            <div class="chart-legend mt-3">
-              <h4>Bubble Chart Legend</h4>
-              <p>
-                <strong>X-axis:</strong> Birth Year<br>
-                <strong>Y-axis:</strong> Number of Tournaments Organized<br>
-                <strong>Bubble Size:</strong> Total Players in Tournaments<br>
-                <strong>Colors:</strong> Canadian Provinces
-              </p>
-            </div>
-          </div>
+      <div class="row text-center">
+        <div class="col-12">
+        <h2>Tournament Contributors</h2>
         </div>
+      </div>
+      <div class="row">
+        <!-- Organizers Chart (Left Side) -->
+        <div class="col-md-6">
+        <h3>Tournament Organizers</h3>
+        <div class="chart-container">
+          <svg width="100%" height="500" id="organizers-chart"></svg>
+          <div class="tooltip" style="opacity: 0; position: absolute; background-color: white; border: 1px solid #ddd; padding: 10px; border-radius: 5px; pointer-events: none;"></div>
+        </div>
+        <div class="chart-legend mt-3">
+          <p>
+          <strong>X-axis:</strong> Birth Year<br>
+          <strong>Y-axis:</strong> Number of Tournaments Organized<br>
+          <strong>Bubble Size:</strong> Total Players in Tournaments<br>
+          <strong>Colors:</strong> Canadian Provinces
+          </p>
+        </div>
+        </div>
+        
+        <!-- Arbiters Chart (Right Side) -->
+        <div class="col-md-6">
+        <h3>Tournament Arbiters</h3>
+        <div class="chart-container">
+          <svg width="100%" height="500" id="arbiters-chart"></svg>
+          <div class="tooltip" style="opacity: 0; position: absolute; background-color: white; border: 1px solid #ddd; padding: 10px; border-radius: 5px; pointer-events: none;"></div>
+        </div>
+        <div class="chart-legend mt-3">
+          <p>
+          <strong>X-axis:</strong> Birth Year<br>
+          <strong>Y-axis:</strong> Number of Tournaments Arbitered<br>
+          <strong>Bubble Size:</strong> Total Players in Tournaments<br>
+          <strong>Colors:</strong> Canadian Provinces
+          </p>
+        </div>
+        </div>
+      </div>
       </div>
     </div>
 
@@ -419,6 +439,7 @@
     <script src="js/chess-openings.js"></script>
     <script src="js/chess-heat-maps.js"></script>
     <script src="js/organizers.js"></script>
+    <script src="js/arbiters.js"></script>
 
     <!-- Initialize Fullpage stepper -->
     <script>
