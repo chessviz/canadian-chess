@@ -231,66 +231,9 @@ function loadMastersData() {
 
           // Get the masters from this year
           const mastersThisYear = yearGroups.get(d.year) || [];
-
-          // Create or update the masters list container
-          let mastersListContainer = d3.select("#masters-list-container");
-
-          // If the container doesn't exist, create it
-          if (mastersListContainer.empty()) {
-            mastersListContainer = d3
-              .select("#masters-visualization")
-              .append("div")
-              .attr("id", "masters-list-container")
-              .style("margin-top", "20px")
-              .style("padding", "10px")
-              .style("border", "1px solid #ddd")
-              .style("border-radius", "5px")
-              .style("background-color", "#f9f9f9");
-          }
-
-          // Create the content for the masters list
-          let mastersListHTML = `
-                        <h4>National Masters Achieved in ${d.year} (${d.count} total)</h4>
-                        <table class="table table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Player Name</th>
-                                    <th>Player ID</th>
-                                    <th>Date Achieved</th>
-                                    <th>Province</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                    `;
-
-          // Add each master to the table
-          mastersThisYear.forEach((master) => {
-            mastersListHTML += `
-                            <tr>
-                                <td>${master.player_name}</td>
-                                <td>${master.cfc_id}</td>
-                                <td>${master.title_achieved}</td>
-                                <td>${master.province}</td>
-                            </tr>
-                        `;
-          });
-
-          mastersListHTML += `
-                            </tbody>
-                        </table>
-                        <button id="close-masters-list" class="btn btn-sm btn-secondary">Close</button>
-                    `;
-
-          // Set the HTML content
-          mastersListContainer.html(mastersListHTML);
-
-          // Add click event listener to the close button
-          d3.select("#close-masters-list").on("click", function () {
-            mastersListContainer.style("display", "none");
-          });
-
-          // Show the container
-          mastersListContainer.style("display", "block");
+          
+          // Hide the chart and show masters table
+          showMastersTable(d.year, mastersThisYear);
         });
 
       // Add title
@@ -427,6 +370,73 @@ function loadMastersData() {
         .style("margin-top", "20px")
         .html(`<strong>Error loading data:</strong><br>${error}`);
     });
+}
+
+// Function to show masters table and hide chart
+function showMastersTable(year, mastersData) {
+  // Hide the chart
+  d3.select("#masters-visualization svg").style("display", "none");
+  
+  // Create table container if it doesn't exist
+  let tableContainer = d3.select("#masters-table-container");
+  if (tableContainer.empty()) {
+    tableContainer = d3.select("#masters-visualization")
+      .append("div")
+      .attr("id", "masters-table-container");
+  }
+  
+  // Create the content for the masters table
+  let tableHTML = `
+    <div class="masters-table-header">
+      <h3>National Masters Achieved in ${year} (${mastersData.length} total)</h3>
+      <button id="back-to-chart" class="btn btn-primary">Back to Chart</button>
+    </div>
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Player Name</th>
+          <th>Player ID</th>
+          <th>Date Achieved</th>
+          <th>Province</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Add each master to the table
+  mastersData.forEach((master) => {
+    tableHTML += `
+      <tr>
+        <td>${master.player_name}</td>
+        <td>${master.cfc_id}</td>
+        <td>${master.title_achieved}</td>
+        <td>${master.province}</td>
+      </tr>
+    `;
+  });
+
+  tableHTML += `
+      </tbody>
+    </table>
+  `;
+
+  // Set the HTML content
+  tableContainer.html(tableHTML);
+  
+  // Add click event listener to the back button
+  d3.select("#back-to-chart").on("click", showMastersChart);
+  
+  // Show the table container
+  tableContainer.style("display", "block");
+}
+
+// Function to show chart and hide masters table
+function showMastersChart() {
+  // Show the chart
+  d3.select("#masters-visualization svg").style("display", "block");
+  
+  // Hide the table
+  d3.select("#masters-table-container").style("display", "none");
 }
 
 // Add or update the tooltip logic in your visualization code

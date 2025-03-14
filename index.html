@@ -320,7 +320,7 @@
             <div
               class="masters-container"
               id="masters-parent"
-              style="height: 100vh; overflow-y: auto; position: relative"
+              style="height: 100vh; position: relative"
             >
               <div id="masters-visualization" class="mt-4"></div>
               <!-- Add tooltip container -->
@@ -399,45 +399,46 @@
 
     <!-- Initialize Fullpage stepper -->
     <script>
-      // // Setup for initial sections
-      // document.addEventListener("DOMContentLoaded", function () {
-      //   // Custom navigation for first three sections
-      //   document
-      //     .querySelector("#title-section .nav-indicator")
-      //     .addEventListener("click", function () {
-      //       window.scrollTo({
-      //         top: document.getElementById("grid-section").offsetTop,
-      //         behavior: "smooth",
-      //       });
-      //     });
+      // Setup for initial sections
+      document.addEventListener("DOMContentLoaded", function () {
+        // Custom navigation for first three sections
+        document
+          .querySelector("#title-section .nav-indicator")
+          .addEventListener("click", function () {
+            window.scrollTo({
+              top: document.getElementById("grid-section").offsetTop,
+              behavior: "smooth",
+            });
+          });
 
-      //   document
-      //     .querySelector("#grid-section .nav-indicator")
-      //     .addEventListener("click", function () {
-      //       window.scrollTo({
-      //         top: document.getElementById("hourglass-section").offsetTop,
-      //         behavior: "smooth",
-      //       });
-      //     });
+        document
+          .querySelector("#grid-section .nav-indicator")
+          .addEventListener("click", function () {
+            window.scrollTo({
+              top: document.getElementById("hourglass-section").offsetTop,
+              behavior: "smooth",
+            });
+          });
 
-      //   document
-      //     .querySelector("#hourglass-section")
-      //     .addEventListener("wheel", function (e) {
-      //       if (e.deltaY > 0) {
-      //         // Scrolling down
-      //         // Scroll to the start of fullpage content
-      //         window.scrollTo({
-      //           top: document.getElementById("fullpage").offsetTop,
-      //           behavior: "smooth",
-      //         });
-      //       }
-      //     });
+        document
+          .querySelector("#hourglass-section")
+          .addEventListener("wheel", function (e) {
+            if (e.deltaY > 0) {
+              // Scrolling down
+              // Scroll to the start of fullpage content
+              window.scrollTo({
+                top: document.getElementById("fullpage").offsetTop,
+                behavior: "smooth",
+              });
+            }
+          });
 
-      new fullpage('#fullpage', {
-        anchors: ['page1', 'page2', 'page3', 'page4'],
-        sectionsColor: ['yellow', 'orangee', '#C0C0C0', '#ADD8E6'],
+          new fullpage('#fullpage', {
+            //options here
+            autoScrolling:true,
+            scrollHorizontally: true
+          });
       });
-      // });
     </script>
   </body>
 </html>
