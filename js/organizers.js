@@ -14,7 +14,11 @@ d3.dsv(",", "data/top_organizers.csv")
         };
     });
 
-    console.log("Data for visualization", data);
+    // Sort data by number of tournaments (descending) and take only top 50
+    data = data.sort((a, b) => b.num_tournaments - a.num_tournaments)
+              .slice(0, 50);
+
+    console.log("Data for visualization (top 50 organizers)", data);
     // Now that we have our data, initialize the visualization
 
         const width = 800, height = 600;
@@ -31,7 +35,7 @@ d3.dsv(",", "data/top_organizers.csv")
         
         // Create scales
         const xScale = d3.scaleLinear()
-            .domain([1900, 1990])  // Birth years range, slightly expanded for better visibility
+            .domain([1900, 2000])  // Birth years range, slightly expanded for better visibility
             .range([margin.left, width - margin.right]);
         
         const yScale = d3.scaleLinear()
@@ -47,6 +51,16 @@ d3.dsv(",", "data/top_organizers.csv")
             .range(d3.schemeCategory10);
         
         const tooltip = d3.select(".tooltip");
+        
+        // Update title to reflect "Top 50"
+        svg.append("text")
+            .attr("class", "chart-title")
+            .attr("text-anchor", "middle")
+            .attr("x", width / 2)
+            .attr("y", 25)
+            .attr("font-size", "18px")
+            .attr("font-weight", "bold")
+            .text("Top 50 Chess Tournament Organizers in Canada");
         
         // Create axes
         const xAxis = d3.axisBottom(xScale)
@@ -82,16 +96,6 @@ d3.dsv(",", "data/top_organizers.csv")
             .attr("x", -height / 2)
             .attr("y", 20)
             .text("Number of Tournaments Organized");
-        
-        // Add title
-        svg.append("text")
-            .attr("class", "chart-title")
-            .attr("text-anchor", "middle")
-            .attr("x", width / 2)
-            .attr("y", 20)
-            .attr("font-size", "18px")
-            .attr("font-weight", "bold")
-            .text("Chess Tournament Organizers in Canada");
         
         // Create bubbles
         svg.selectAll("circle")
@@ -157,5 +161,14 @@ d3.dsv(",", "data/top_organizers.csv")
                 .attr("y", 15)
                 .text(province);
         });
+
+        // Add text indicating number of organizers shown
+        svg.append("text")
+            .attr("class", "info-text")
+            .attr("text-anchor", "middle")
+            .attr("x", width / 2)
+            .attr("y", 45)
+            .attr("font-size", "14px")
+            .text(`Showing ${data.length} organizers sorted by number of tournaments organized`);
 
 });
