@@ -7,12 +7,15 @@ document.addEventListener("DOMContentLoaded", function () {
   titleContainer
     .classed("d-flex justify-content-center align-items-center", true)
     .style("height", "85vh") // Make container full height of viewport
-    .style("background-image", "url('https://chessviz.github.io/canadian-chess/img/chess-toronto.jpg')")
+    .style(
+      "background-image",
+      "url('https://chessviz.github.io/canadian-chess/img/chess-toronto.jpg')"
+    )
     .style("background-size", "cover")
     .style("background-position", "center")
     .style("background-repeat", "no-repeat")
     .style("position", "relative");
-    
+
   // Add a semi-transparent overlay to make text more readable
   titleContainer
     .append("div")
