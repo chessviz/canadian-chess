@@ -1,132 +1,104 @@
 <!DOCTYPE html>
-<html>
-
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ChessDataViz - Move Paths Example (Defaults)</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-  <script>
-	  window.d3v7 = window.d3; // Store D3 v7
-	  delete window.d3; // Remove it from global scope
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
-  <script>
-	  window.d3v3 = window.d3; // Store D3 v3
-	  window.d3 = window.d3v7; // Restore D3 v7 as the default
-
-	  console.log("D3 v7:", d3v7.version); // Should log 7.9.0
-	  console.log("D3 v3:", d3v3.version); // Should log 3.5.12
-  </script>
-  <style>
-    .cdv-move-paths {
-  text-align: center;
-}
-
-.cdv-move-paths .black rect {
-  fill: #2b2b2b;
-}
-.cdv-move-paths .white rect {
-  fill: #6c6c6c;
-}
-  </style>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-    
-    <!-- Fullpage Stepper -->
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- <link rel="stylesheet" href="css/ChessDataViz.css"> -->
-  
-
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script> -->
-
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"> -->
-  <!-- <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.css"> -->
-  <link rel="stylesheet" type="text/css" href="css/ChessDataViz.css">
-  
-  <!-- <script src="https://ebemunk.com/chess-dataviz/vendor/ChessDataViz.min.js"></script> -->
-  <script src="js/ChessDataViz.min.js"></script>
-  <!-- <link rel="stylesheet" type="text/css" href="https://ebemunk.com/chess-dataviz/style.css"> -->
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Organizers Bubble Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .bubble:hover { stroke: black; stroke-width: 2px; }
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 5px;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
 </head>
+<body>
+    <svg width="800" height="600"></svg>
+    <div class="tooltip"></div>
 
-<body class="chess-animated-bg">
-	<div id="fullpage">
-            <div class="title-content">
-		<h1 class="title-text">How many chess players are in Canada?</h1>
-		<p class="subtitle-text">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada. Take a guess below.</p>
-		<div class="guess-container">
-		<div class="guess-label">Your estimate:</div>
-		<div class="guess-input-container">
-			<input type="number" class="guess-input" id="player-guess" placeholder="Enter a number..." min="0">
-		</div>
-		<button class="guess-button" id="submit-guess">Submit Guess</button>
-		<div class="feedback" id="guess-feedback"></div>
-		</div>
-	</div>
+    <script>
+        const data = [
+            {id: 108387, num_tournaments: 2259, total_players: 10399, name: "Roman Pelts", province: "ON", birth_year: 1937, avg_players_per_tournament: 4.60},
+            {id: 102198, num_tournaments: 785, total_players: 11429, name: "John Rutherford", province: "ON", birth_year: 1952, avg_players_per_tournament: 14.56},
+            {id: 108715, num_tournaments: 676, total_players: 14467, name: "Stephen Wright", province: "BC", birth_year: 1961, avg_players_per_tournament: 21.40},
+            {id: 100145, num_tournaments: 524, total_players: 6467, name: "Fred McKim", province: "PE", birth_year: 1958, avg_players_per_tournament: 12.34},
+            {id: 127778, num_tournaments: 492, total_players: 6724, name: "Corinna Wan", province: "ON", birth_year: 1960, avg_players_per_tournament: 13.67},
+            {id: 106856, num_tournaments: 488, total_players: 9587, name: "Halldor Peter Palsson", province: "ON", birth_year: 1901, avg_players_per_tournament: 19.65},
+            {id: 100317, num_tournaments: 432, total_players: 9934, name: "Mark S. Dutton", province: "BC", birth_year: 1956, avg_players_per_tournament: 23.00},
+            {id: 110253, num_tournaments: 421, total_players: 2421, name: "Predrag Putic", province: "ON", birth_year: 1901, avg_players_per_tournament: 5.75},
+            {id: 106974, num_tournaments: 419, total_players: 9614, name: "Bryan Lamb", province: "ON", birth_year: 1974, avg_players_per_tournament: 22.95},
+            {id: 109477, num_tournaments: 404, total_players: 4984, name: "Steve Demmery", province: "ON", birth_year: 1973, avg_players_per_tournament: 12.34},
+            {id: 111830, num_tournaments: 384, total_players: 7423, name: "Hal Bond", province: "ON", birth_year: 1959, avg_players_per_tournament: 19.33},
+            {id: 108202, num_tournaments: 372, total_players: 8513, name: "Robert Gillanders", province: "ON", birth_year: 1956, avg_players_per_tournament: 22.88},
+            {id: 102743, num_tournaments: 371, total_players: 4027, name: "Roy Yearwood", province: "AB", birth_year: 1956, avg_players_per_tournament: 10.85},
+            {id: 135072, num_tournaments: 353, total_players: 5468, name: "Vladislav Rekhson", province: "AB", birth_year: 1982, avg_players_per_tournament: 15.49},
+            {id: 109502, num_tournaments: 345, total_players: 5346, name: "Micah Hughey", province: "AB", birth_year: 1976, avg_players_per_tournament: 15.50},
+            {id: 127489, num_tournaments: 304, total_players: 5183, name: "Patrick McDonald", province: "ON", birth_year: 1959, avg_players_per_tournament: 17.05},
+            {id: 152905, num_tournaments: 276, total_players: 3353, name: "Paul Gagne", province: "AB", birth_year: 1964, avg_players_per_tournament: 12.15}
+        ];
 
-	<!-- Map Section -->
-	<div class="section" id="map_section">
-		<div class="container">
-			<div class="row">
-			<div class="col-12">
-				<h2 class="text-center mb-4">Journey to the West</h2>
-				<p class="text-center">Nikolay and Aaron are quintesential examples of the change in global chess.</p>
-				<p class="text-center">Socioeconomic forces took these players from their home countries to come to Canada at a young age.</p>
-				<p class="text-center">Russia and the former Soviet Union contained some of the most prolific chess players in the late 1900s.</p>
-				<p class="text-center">India is an emerging power in the chess world, with numerous top young talents competiting on the world's stage.</p>
-				<div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
-			</div>
-			</div>
-		</div>
-		</div>
+        const width = 800, height = 600;
+        const svg = d3.select("svg");
 
+        const xScale = d3.scaleLinear()
+            .domain([1900, 1985])  // Birth years range
+            .range([50, width - 50]);
 
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border"> 
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-12">
-              <h2>Chess Piece Movement Visualization</h2>
-              <p>Watch the journey of chess pieces across the board during a game.</p>
-              <div class="cdv-move-paths" id="movepaths" ></div>
-              <div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-  <!-- <div class="cdv-move-paths" id="movepaths">
-</div>
-<div class="caption">Journey of the white queen's knight during World Rapid Chess Championship 2015.
-</div> -->
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.num_tournaments)])
+            .range([height - 50, 50]);
 
+        const rScale = d3.scaleSqrt()
+            .domain([0, d3.max(data, d => d.total_players)])
+            .range([5, 30]);  // Bubble size
 
-<script src="js/Balls.js"></script>
-<script src="js/title_page.js"></script>
-<script src="js/masters-timeline.js"></script>
-<script src="js/ratings-progress.js"></script>
-<script src="js/world_map.js"></script>
+        const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-  <script>
-    d3v3.json('https://ebemunk.com/chess-dataviz/data/wrc.json', function(err, data) {
-  var movePaths = new ChessDataViz.MovePaths('#movepaths', null, data.moves);
-});
+        const tooltip = d3.select(".tooltip");
 
+        svg.selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "bubble")
+            .attr("cx", d => xScale(d.birth_year))
+            .attr("cy", d => yScale(d.num_tournaments))
+            .attr("r", d => rScale(d.total_players))
+            .attr("fill", d => colorScale(d.province))
+            .attr("opacity", 0.8)
+            .on("mouseover", (event, d) => {
+                tooltip.style("visibility", "visible")
+                    .html(`<strong>${d.name}</strong><br>
+                           Province: ${d.province}<br>
+                           Birth Year: ${d.birth_year}<br>
+                           Tournaments: ${d.num_tournaments}<br>
+                           Total Players: ${d.total_players}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 20) + "px");
+            })
+            .on("mousemove", (event) => {
+                tooltip.style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 20) + "px");
+            })
+            .on("mouseout", () => tooltip.style("visibility", "hidden"));
 
-  </script>
+        // X Axis
+        svg.append("g")
+            .attr("transform", `translate(0, ${height - 50})`)
+            .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
+
+        // Y Axis
+        svg.append("g")
+            .attr("transform", "translate(50,0)")
+            .call(d3.axisLeft(yScale));
+
+    </script>
 </body>
 </html>

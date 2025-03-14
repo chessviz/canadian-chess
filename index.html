@@ -333,7 +333,7 @@
       </div>
     </div>
 
-    <!-- Chess Visualization Section -->
+    <!-- Chess Game Visualization Section -->
     <div class="section chess-pattern-dark chess-pieces-bg chess-border">
       <div class="container">
         <div class="row text-center">
@@ -376,6 +376,45 @@
       </div>
     </div>
 
+
+    <!-- Top Arbiters and Organizers -->
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h2>Top Arbiters and Organizers</h2>
+            <p>The individuals who have organized the most tournaments in Canadian chess</p>
+          </div>
+          <div class="col-12">
+            <div class="visualization-container" style="position: relative;">
+              <svg id="organizers-svg" width="900" height="600"></svg>
+              <div id="organizers-tooltip" class="tooltip" style="opacity: 0; position: absolute; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);"></div>
+            </div>
+            <div class="text-center mt-3">
+              <div class="legend d-flex justify-content-center flex-wrap">
+                <div class="legend-item mx-2">
+                  <div class="legend-color" style="background-color: #1f77b4;"></div>
+                  <span>Ontario (ON)</span>
+                </div>
+                <div class="legend-item mx-2">
+                  <div class="legend-color" style="background-color: #ff7f0e;"></div>
+                  <span>Alberta (AB)</span>
+                </div>
+                <div class="legend-item mx-2">
+                  <div class="legend-color" style="background-color: #2ca02c;"></div>
+                  <span>British Columbia (BC)</span>
+                </div>
+                <div class="legend-item mx-2">
+                  <div class="legend-color" style="background-color: #d62728;"></div>
+                  <span>Prince Edward Island (PE)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -393,6 +432,7 @@
     <script src="js/world_map.js"></script>
     <script src="js/chess-openings.js"></script>
     <script src="js/chess-heat-maps.js"></script>
+    <script src="js/organizers.js"></script>
 
     <!-- Initialize Fullpage stepper -->
     <script>
