@@ -20,6 +20,7 @@ let mastersSvg = d3
   .append("svg")
   .attr("width", mastersWidth + mastersMargin.left + mastersMargin.right)
   .attr("height", mastersHeight + mastersMargin.top + mastersMargin.bottom)
+  .style("max-height", "500px") // Add max-height to prevent excessive scrolling
   .append("g")
   .attr("transform", `translate(${mastersMargin.left},${mastersMargin.top})`);
 
@@ -382,7 +383,9 @@ function showMastersTable(year, mastersData) {
   if (tableContainer.empty()) {
     tableContainer = d3.select("#masters-visualization")
       .append("div")
-      .attr("id", "masters-table-container");
+      .attr("id", "masters-table-container")
+      .style("max-height", "500px") // Match the SVG's max-height
+      .style("overflow-y", "auto"); // Add scrolling to the table itself
   }
   
   // Create the content for the masters table
@@ -391,16 +394,17 @@ function showMastersTable(year, mastersData) {
       <h3>National Masters Achieved in ${year} (${mastersData.length} total)</h3>
       <button id="back-to-chart" class="btn btn-primary">Back to Chart</button>
     </div>
-    <table class="table table-striped table-sm">
-      <thead>
-        <tr>
-          <th>Player Name</th>
-          <th>Player ID</th>
-          <th>Date Achieved</th>
-          <th>Province</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div style="overflow-y: auto; max-height: 400px;">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>Player Name</th>
+            <th>Player ID</th>
+            <th>Date Achieved</th>
+            <th>Province</th>
+          </tr>
+        </thead>
+        <tbody>
   `;
 
   // Add each master to the table
@@ -418,6 +422,7 @@ function showMastersTable(year, mastersData) {
   tableHTML += `
       </tbody>
     </table>
+    </div>
   `;
 
   // Set the HTML content
