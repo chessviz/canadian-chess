@@ -17,47 +17,13 @@
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  
-  <!-- Fullpage CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet">
-  
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body class="chess-animated-bg">
-  <div id="fullpage">
-  
-    <!--Title Page Section-->
-    <div class="section" id="title-page" data-anchor="title">
-      <div class="container h-100">
-        <div class="row h-100">
-          <div class="col-12 h-100">
-            <div id="title-container"></div>
-          </div>
-        </div>
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Satisfy"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <!-- Google Fonts (combined from both sections) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" type="text/css" />
 
-    <!-- Fullpage Stepper -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css"
-      rel="stylesheet"
-    />
+    <!-- Fullpage CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.css" rel="stylesheet" />
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
@@ -65,9 +31,7 @@
   <body class="chess-animated-bg">
     <div id="fullpage">
       <!--Title Page Section-->
-      <div class="section" id="title-page">
-        <!-- <img src="img/pirouetti/bQ.svg" class="chess-piece-icon piece-king top-right" alt="King chess piece"> -->
-
+      <div class="section" id="title-page" data-anchor="title">
         <div class="container h-100">
           <div class="row h-100">
             <div class="col-12 h-100">
@@ -77,58 +41,58 @@
           <div class="col-sm-2"></div>
         </div>
       </div>
-    </div>
-    
-    <!-- Guess Section -->
-    <div class="section" id="guess-section" data-anchor="guess">
-      <div class="container h-100">
-        <div class="row h-100 align-items-center">
-          <div class="col-12 text-center">
-            <div class="guess-hero">
-              <h1 class="mega-title">How many chess players are in Canada?</h1>
-              <p class="large-subtitle">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada.</p>
-            
-              <div class="guess-interaction-area">
-                <div class="range-bounds">
-                  <span>0</span>
-                  <span>50,000</span>
-                </div>
-                
-                <div class="guess-slider-container">
-                  <input type="range" class="form-range guess-slider" id="player-guess-slider" min="0" max="50000" value="10000" step="500">
-                  
-                  <div class="range-ticks">
-                    <div class="tick" style="left: 0%"><div class="tick-label">0</div></div>
-                    <div class="tick" style="left: 20%"><div class="tick-label">10k</div></div>
-                    <div class="tick" style="left: 40%"><div class="tick-label">20k</div></div>
-                    <div class="tick" style="left: 60%"><div class="tick-label">30k</div></div>
-                    <div class="tick" style="left: 80%"><div class="tick-label">40k</div></div>
-                    <div class="tick" style="left: 100%"><div class="tick-label">50k</div></div>
-                  </div>
-                </div>
-
-                <div class="guess-value-display">
-                  <span class="guess-value-label">Your estimate:</span>
-                  <span id="guess-value-number" class="guess-value-number">10,000</span>
-                  <span class="guess-value-suffix">players</span>
-                </div>
-                
-                <button class="guess-button pulse-animation" id="submit-guess">Submit Guess</button>
-              </div>
+      
+      <!-- Guess Section -->
+      <div class="section" id="guess-section" data-anchor="guess">
+        <div class="container h-100">
+          <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+              <div class="guess-hero">
+                <h1 class="mega-title">How many chess players are in Canada?</h1>
+                <p class="large-subtitle">Chess has been gaining popularity worldwide, but few people know the exact scale of organized chess in Canada.</p>
               
-              <div id="guess-result" class="guess-result hidden">
-                <div class="result-message" id="result-message"></div>
-                <div class="actual-number">
-                  <div class="number-label">Actual number:</div>
-                  <div class="number-value">10,000</div>
-                  <div class="number-suffix">chess players in Canada</div>
+                <div class="guess-interaction-area">
+                  <div class="range-bounds">
+                    <span>0</span>
+                    <span>50,000</span>
+                  </div>
+                  
+                  <div class="guess-slider-container">
+                    <input type="range" class="form-range guess-slider" id="player-guess-slider" min="0" max="50000" value="10000" step="500">
+                    
+                    <div class="range-ticks">
+                      <div class="tick" style="left: 0%"><div class="tick-label">0</div></div>
+                      <div class="tick" style="left: 20%"><div class="tick-label">10k</div></div>
+                      <div class="tick" style="left: 40%"><div class="tick-label">20k</div></div>
+                      <div class="tick" style="left: 60%"><div class="tick-label">30k</div></div>
+                      <div class="tick" style="left: 80%"><div class="tick-label">40k</div></div>
+                      <div class="tick" style="left: 100%"><div class="tick-label">50k</div></div>
+                    </div>
+                  </div>
+
+                  <div class="guess-value-display">
+                    <span class="guess-value-label">Your estimate:</span>
+                    <span id="guess-value-number" class="guess-value-number">10,000</span>
+                    <span class="guess-value-suffix">players</span>
+                  </div>
+                  
+                  <button class="guess-button pulse-animation" id="submit-guess">Submit Guess</button>
                 </div>
-                <div class="continue-prompt">
-                  <p>Explore how these players are distributed across rating categories</p>
-                  <div class="bounce-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 5v14M5 12l7 7 7-7"/>
-                    </svg>
+                
+                <div id="guess-result" class="guess-result hidden">
+                  <div class="result-message" id="result-message"></div>
+                  <div class="actual-number">
+                    <div class="number-label">Actual number:</div>
+                    <div class="number-value">10,000</div>
+                    <div class="number-suffix">chess players in Canada</div>
+                  </div>
+                  <div class="continue-prompt">
+                    <p>Explore how these players are distributed across rating categories</p>
+                    <div class="bounce-arrow">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -136,284 +100,283 @@
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Grid Section -->
-    <div class="section" id="grid-section" data-anchor="grid">
-      <div class="container-fluid h-100">
-        <div class="row h-100">
-          <div class="col-lg-8 order-lg-1 order-2">
-            <div class="grid-container" id="grid-display-container">
-              <!-- Grid visualization will be rendered here -->
+      
+      <!-- Grid Section -->
+      <div class="section" id="grid-section" data-anchor="grid">
+        <div class="container-fluid h-100">
+          <div class="row h-100">
+            <div class="col-lg-8 order-lg-1 order-2">
+              <div class="grid-container" id="grid-display-container">
+                <!-- Grid visualization will be rendered here -->
+              </div>
+            </div>
+            <div class="col-lg-4 order-lg-2 order-1">
+              <div class="info-container" id="grid-info-container">
+                <h2 class="info-title">Chess Player Rating Distribution</h2>
+                <p class="info-stat">There are approximately 10,000 chess players in the Canadian Chess Federation database. Their rating distribution reveals the pyramid structure of competitive chess.</p>
+                <h3 class="legend-title">Rating Ranges</h3>
+                <div class="legend">
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: #0072B2;"></div>
+                    <div>1-1199 (50.9%)</div>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: #56B4E9;"></div>
+                    <div>1200-1699 (33.1%)</div>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: #F0E442;"></div>
+                    <div>1700-1899 (9.4%)</div>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: #E69F00;"></div>
+                    <div>1900-2299 (5.6%)</div>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background-color: #D55E00;"></div>
+                    <div>2300+ (1.0%)</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col-lg-4 order-lg-2 order-1">
-            <div class="info-container" id="grid-info-container">
-              <h2 class="info-title">Chess Player Rating Distribution</h2>
-              <p class="info-stat">There are approximately 10,000 chess players in the Canadian Chess Federation database. Their rating distribution reveals the pyramid structure of competitive chess.</p>
-              <h3 class="legend-title">Rating Ranges</h3>
+        </div>
+      </div>
+      
+      <!-- Hourglass Section -->
+      <div class="section" id="hourglass-section" data-anchor="hourglass">
+        <div class="container-fluid h-100 position-relative">
+          <!-- SVG container for the hourglass visualization -->
+          <svg id="hourglass-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 30;"></svg>
+          
+          <!-- Info panels with lower z-index -->
+          <div class="legend-container" id="hourglass-legend" style="z-index: 20;">
+            <h3 class="legend-title">Rating Ranges</h3>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #0072B2;"></div>
+              <div>1-1199 (50.9%)</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #56B4E9;"></div>
+              <div>1200-1699 (33.1%)</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #F0E442;"></div>
+              <div>1700-1899 (9.4%)</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #E69F00;"></div>
+              <div>1900-2299 (5.6%)</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #D55E00;"></div>
+              <div>2300+ (1.0%)</div>
+            </div>
+          </div>
+          
+          <div class="explanation-text" id="chess-explanation-hourglass" style="z-index: 20;">
+            <h3 class="explanation-title">The Chess Pyramid</h3>
+            <p>The journey from beginner to master in chess is one of the most challenging progressions in competitive games.</p>
+            <p>Only 1% of players ever reach the 2300+ rating threshold where FIDE titles like International Master and Grandmaster begin.</p>
+            <p>Each step up the rating ladder represents exponentially increasing difficulty, with small improvements requiring significant study and practice.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Player Rating Comparison -->
+      <div class="section chess-pattern-light chess-pieces-bg chess-border" id="players-section" data-anchor="players">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-12">
+              <h2>Let's Introduce Two Players</h2>
+              <p>This visualization compares the rating progression of two different generations of top chess players. Aaron and Nikolay are two Canadian International Chess Masters with two different paths to the top of Canadian Chess. The way that chess is being played is changing.</p>
+              
+              <!-- Player Portrait Frames - Added from other branch -->
+              <div class="portraits-wrapper">
+                <div class="player-portrait-container justify-content-center">
+                  <div id="aaron-portrait" class="player-portrait aaron-portrait" data-connection="india-canada">
+                    <img src="img/aaron.jpg" alt="Aaron Reeve Mendes" />
+                  </div>
+                  <div id="nikolay-portrait" class="player-portrait nikolay-portrait" data-connection="russia-canada">
+                    <img src="img/noritsyn.jpg" alt="Nikolay Noritsyn" />
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Player Bio Container - Added from other branch -->
+              <div id="player-bio-container" class="player-bio-section mb-3" style="display: none; opacity: 0; transition: all 0.5s ease">
+                <h4 id="bio-name" class="bio-title"></h4>
+                <p id="bio-text" class="bio-text"></p>
+              </div>
+              
               <div class="legend">
                 <div class="legend-item">
-                  <div class="legend-color" style="background-color: #0072B2;"></div>
-                  <div>1-1199 (50.9%)</div>
+                  <div class="legend-color" style="background-color: #2b83ba;"></div>
+                  <span>Aaron Reeve Mendes</span>
                 </div>
-                <div class="legend-item">
-                  <div class="legend-color" style="background-color: #56B4E9;"></div>
-                  <div>1200-1699 (33.1%)</div>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color" style="background-color: #F0E442;"></div>
-                  <div>1700-1899 (9.4%)</div>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color" style="background-color: #E69F00;"></div>
-                  <div>1900-2299 (5.6%)</div>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color" style="background-color: #D55E00;"></div>
-                  <div>2300+ (1.0%)</div>
+                <button
+                  id="resetZoom"
+                  class="reset-button mt-1 mb-1 mx-2"
+                  disabled
+                >
+                  Reset Zoom
+                </button>
+                <div class="legend-item ms-2">
+                  <div
+                    class="legend-color"
+                    style="background-color: #d7191c"
+                  ></div>
+                  <span>Nikolay Noritsyn</span>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Hourglass Section -->
-    <div class="section" id="hourglass-section" data-anchor="hourglass">
-      <div class="container-fluid h-100 position-relative">
-        <!-- SVG container for the hourglass visualization -->
-        <svg id="hourglass-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 30;"></svg>
-        
-        <!-- Info panels with lower z-index -->
-        <div class="legend-container" id="hourglass-legend" style="z-index: 20;">
-          <h3 class="legend-title">Rating Ranges</h3>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #0072B2;"></div>
-            <div>1-1199 (50.9%)</div>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #56B4E9;"></div>
-            <div>1200-1699 (33.1%)</div>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #F0E442;"></div>
-            <div>1700-1899 (9.4%)</div>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #E69F00;"></div>
-            <div>1900-2299 (5.6%)</div>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #D55E00;"></div>
-            <div>2300+ (1.0%)</div>
-          </div>
-        </div>
-        
-        <div class="explanation-text" id="chess-explanation-hourglass" style="z-index: 20;">
-          <h3 class="explanation-title">The Chess Pyramid</h3>
-          <p>The journey from beginner to master in chess is one of the most challenging progressions in competitive games.</p>
-          <p>Only 1% of players ever reach the 2300+ rating threshold where FIDE titles like International Master and Grandmaster begin.</p>
-          <p>Each step up the rating ladder represents exponentially increasing difficulty, with small improvements requiring significant study and practice.</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Player Rating Comparison -->
-    <div class="section chess-pattern-light chess-pieces-bg chess-border" id="players-section" data-anchor="players">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Let's Introduce Two Players</h2>
-            <p>This visualization compares the rating progression of two different generations of top chess players. Aaron and Nikolay are two Canadian International Chess Masters with two different paths to the top of Canadian Chess. The way that chess is being played is changing.</p>
-            
-            <!-- Player Portrait Frames - Added from other branch -->
-            <div class="portraits-wrapper">
-              <div class="player-portrait-container justify-content-center">
-                <div id="aaron-portrait" class="player-portrait aaron-portrait" data-connection="india-canada">
-                  <img src="img/aaron.jpg" alt="Aaron Reeve Mendes" />
-                </div>
-                <div id="nikolay-portrait" class="player-portrait nikolay-portrait" data-connection="russia-canada">
-                  <img src="img/noritsyn.jpg" alt="Nikolay Noritsyn" />
-                </div>
-              </div>
-            </div>
-            
-            <!-- Player Bio Container - Added from other branch -->
-            <div id="player-bio-container" class="player-bio-section mb-3" style="display: none; opacity: 0; transition: all 0.5s ease">
-              <h4 id="bio-name" class="bio-title"></h4>
-              <p id="bio-text" class="bio-text"></p>
-            </div>
-            
-            <div class="legend">
-              <div class="legend-item">
-                <div class="legend-color" style="background-color: #2b83ba;"></div>
-                <span>Aaron Reeve Mendes</span>
-              </div>
-              <button
-                id="resetZoom"
-                class="reset-button mt-1 mb-1 mx-2"
-                disabled
+
+              <div
+                class="chart-container"
+                style="position: relative; height: 320px"
               >
-                Reset Zoom
-              </button>
-              <div class="legend-item ms-2">
-                <div
-                  class="legend-color"
-                  style="background-color: #d7191c"
-                ></div>
-                <span>Nikolay Noritsyn</span>
+                <div id="chart"></div>
+              </div>
+              <div id="rating-tooltip" class="rating-tooltip hidden"></div>
+
+              <div class="context-chart" style="height: 40px">
+                <div id="context"></div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div
-              class="chart-container"
-              style="position: relative; height: 320px"
-            >
-              <div id="chart"></div>
-            </div>
-            <div id="rating-tooltip" class="rating-tooltip hidden"></div>
-
-            <div class="context-chart" style="height: 40px">
-              <div id="context"></div>
+      <!-- Map Section -->
+      <div class="section" id="map-section" data-anchor="map">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="text-center mb-4">Journey to the West</h2>
+              <p class="text-center">Nikolay and Aaron are quintesential examples of the change in global chess.</p>
+              <p class="text-center">Socioeconomic forces took these players from their home countries to come to Canada at a young age.</p>
+              <p class="text-center">Russia and the former Soviet Union contained some of the most prolific chess players in the late 1900s.</p>
+              <p class="text-center">India is an emerging power in the chess world, with numerous top young talents competiting on the world's stage.</p>
+              <div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Map Section -->
-    <div class="section" id="map-section" data-anchor="map">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h2 class="text-center mb-4">Journey to the West</h2>
-            <p class="text-center">Nikolay and Aaron are quintesential examples of the change in global chess.</p>
-            <p class="text-center">Socioeconomic forces took these players from their home countries to come to Canada at a young age.</p>
-            <p class="text-center">Russia and the former Soviet Union contained some of the most prolific chess players in the late 1900s.</p>
-            <p class="text-center">India is an emerging power in the chess world, with numerous top young talents competiting on the world's stage.</p>
-            <div id="map-container" class="d-flex justify-content-center align-items-center flex-column"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Masters Section -->
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border" id="masters-section" data-anchor="masters">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Canadian National Masters</h2>
-            <p>Visualization of when players achieved their National Master titles over time.</p>
-            <p>The number of National Masters in Canada has grown steadily over the years.</p>
-            <p>Is this still to be expected with the changing way the game is being played?</p>
-            <div class="masters-container" style="height: 50vh; position: relative;">
-              <div id="masters-visualization" class="mt-4"></div>
-              <!-- Add tooltip container -->
-              <div id="masters-tooltip" class="tooltip hidden">
-                <p><span id="masters-value"></span></p>
+      <!-- Masters Section -->
+      <div class="section chess-pattern-dark chess-pieces-bg chess-border" id="masters-section" data-anchor="masters">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-12">
+              <h2>Canadian National Masters</h2>
+              <p>Visualization of when players achieved their National Master titles over time.</p>
+              <p>The number of National Masters in Canada has grown steadily over the years.</p>
+              <p>Is this still to be expected with the changing way the game is being played?</p>
+              <div class="masters-container" style="height: 50vh; position: relative;">
+                <div id="masters-visualization" class="mt-4"></div>
+                <!-- Add tooltip container -->
+                <div id="masters-tooltip" class="tooltip hidden">
+                  <p><span id="masters-value"></span></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- jQuery -->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
-  <!-- D3.js -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  
-  <!-- TopoJSON -->
-  <script src="https://d3js.org/topojson.v2.min.js"></script>
-  
-  <!-- Fullpage.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.js"></script>
-  
-  <!-- Namespace Fix -->
-  <script>
-    // Ensure ChessVis namespace is properly defined
-    window.ChessVis = window.ChessVis || {};
     
-    // Fix namespace assignment for visualizations
-    window.addEventListener('load', function() {
-      // Double-check if all visualization classes are in the namespace
-      if (typeof MastersVisualization !== 'undefined' && !window.ChessVis.MastersVisualization) {
-        window.ChessVis.MastersVisualization = MastersVisualization;
-        console.log('Fixed MastersVisualization namespace');
-      }
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- TopoJSON -->
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    
+    <!-- Fullpage.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.9/fullpage.min.js"></script>
+    
+    <!-- Namespace Fix -->
+    <script>
+      // Ensure ChessVis namespace is properly defined
+      window.ChessVis = window.ChessVis || {};
       
-      if (typeof PlayerRatingsVisualization !== 'undefined' && !window.ChessVis.PlayerRatingsVisualization) {
-        window.ChessVis.PlayerRatingsVisualization = PlayerRatingsVisualization;
-        console.log('Fixed PlayerRatingsVisualization namespace');
-      }
-      
-      // Force visualization initialization
-      setTimeout(function() {
-        const visualizations = ['grid', 'hourglass', 'players', 'map', 'masters'];
+      // Fix namespace assignment for visualizations
+      window.addEventListener('load', function() {
+        // Double-check if all visualization classes are in the namespace
+        if (typeof MastersVisualization !== 'undefined' && !window.ChessVis.MastersVisualization) {
+          window.ChessVis.MastersVisualization = MastersVisualization;
+          console.log('Fixed MastersVisualization namespace');
+        }
         
-        visualizations.forEach(function(viz) {
-          if (window.ChessApp && 
-              window.ChessApp.visualizations[viz] && 
-              window.ChessApp.visualizations[viz].instance && 
-              !window.ChessApp.visualizations[viz].initialized) {
-            
-            try {
-              console.log('Force initializing ' + viz + ' visualization');
-              window.ChessApp.ensureContainerVisible(viz);
-              window.ChessApp.visualizations[viz].instance.initialize();
-              window.ChessApp.visualizations[viz].initialized = true;
+        if (typeof PlayerRatingsVisualization !== 'undefined' && !window.ChessVis.PlayerRatingsVisualization) {
+          window.ChessVis.PlayerRatingsVisualization = PlayerRatingsVisualization;
+          console.log('Fixed PlayerRatingsVisualization namespace');
+        }
+        
+        // Force visualization initialization
+        setTimeout(function() {
+          const visualizations = ['grid', 'hourglass', 'players', 'map', 'masters'];
+          
+          visualizations.forEach(function(viz) {
+            if (window.ChessApp && 
+                window.ChessApp.visualizations[viz] && 
+                window.ChessApp.visualizations[viz].instance && 
+                !window.ChessApp.visualizations[viz].initialized) {
               
-              if (window.ChessApp.visualizations[viz].instance.update) {
-                window.ChessApp.visualizations[viz].instance.update();
+              try {
+                console.log('Force initializing ' + viz + ' visualization');
+                window.ChessApp.ensureContainerVisible(viz);
+                window.ChessApp.visualizations[viz].instance.initialize();
+                window.ChessApp.visualizations[viz].initialized = true;
+                
+                if (window.ChessApp.visualizations[viz].instance.update) {
+                  window.ChessApp.visualizations[viz].instance.update();
+                }
+              } catch (e) {
+                console.error('Error initializing ' + viz + ':', e);
               }
-            } catch (e) {
-              console.error('Error initializing ' + viz + ':', e);
             }
-          }
-        });
-      }, 1000);
-    });
-  </script>
-  
-  <!-- Chess Visualization Framework -->
-  <script src="js/ChessVisualizationCore.js"></script>
-  
-  <!-- Visualization Components -->
-  <script src="js/GridVisualization.js"></script>
-  <script src="js/HourglassVisualization.js"></script>
-  <script src="js/SimpleFunnelVisualization.js"></script>
-  <script src="js/PlayerRatingsVisualization.js"></script>
-  <script src="js/WorldMapVisualization.js"></script>
-  <script src="js/MastersVisualization.js"></script>
-  <script src="js/GuessVisualization.js"></script>
-  <script src="js/TransitionManager.js"></script>
-  
-  <!-- Player Bio Data -->
-  <script>
-    // Added from other branch - Player biography data
-    window.playerBios = {
-      aaron: {
-        name: "Aaron Reeve Mendes",
-        bio: "Aaron Reeve Mendes (born September 2012) is a rising chess prodigy who began playing at the age of five in India before immigrating to Mississauga, Canada, in 2021. Known for his tactical creativity and strategic skill, he became the youngest Canadian to defeat a grandmaster at 9 years old in 2022 and earned the International Master title in 2024 after winning gold in the Under-18 category at the North American Youth Chess Championship."
-      },
-      nikolay: {
-        name: "Nikolay Noritsyn",
-        bio: "Nikolay Noritsyn (born May 1991) is a Russian-born Canadian International Master and chess coach who moved to Canada in 2001. He won the Canadian Closed Championship in 2007, earning his IM title, and has represented Canada in multiple Chess Olympiads. Known for his aggressive play and deep opening preparation, his CFC rating progression reflects his games played in Canada, following an international chess career that began before his immigration."
-      }
-    };
-  </script>
-  
-  <!-- Adapter Scripts -->
-  <script src="js/WorldMapAdapter.js"></script>
-  
-  <!-- Main App -->
-  <script src="js/App.js"></script>
-</body>
+          });
+        }, 1000);
+      });
+    </script>
+    
+    <!-- Player Bio Data -->
+    <script>
+      // Added from other branch - Player biography data
+      window.playerBios = {
+        aaron: {
+          name: "Aaron Reeve Mendes",
+          bio: "Aaron Reeve Mendes (born September 2012) is a rising chess prodigy who began playing at the age of five in India before immigrating to Mississauga, Canada, in 2021. Known for his tactical creativity and strategic skill, he became the youngest Canadian to defeat a grandmaster at 9 years old in 2022 and earned the International Master title in 2024 after winning gold in the Under-18 category at the North American Youth Chess Championship."
+        },
+        nikolay: {
+          name: "Nikolay Noritsyn",
+          bio: "Nikolay Noritsyn (born May 1991) is a Russian-born Canadian International Master and chess coach who moved to Canada in 2001. He won the Canadian Closed Championship in 2007, earning his IM title, and has represented Canada in multiple Chess Olympiads. Known for his aggressive play and deep opening preparation, his CFC rating progression reflects his games played in Canada, following an international chess career that began before his immigration."
+        }
+      };
+    </script>
+    
+    <!-- Chess Visualization Framework -->
+    <script src="js/ChessVisualizationCore.js"></script>
+    
+    <!-- Visualization Components -->
+    <script src="js/GridVisualization.js"></script>
+    <script src="js/HourglassVisualization.js"></script>
+    <script src="js/SimpleFunnelVisualization.js"></script>
+    <script src="js/PlayerRatingsVisualization.js"></script>
+    <script src="js/WorldMapVisualization.js"></script>
+    <script src="js/MastersVisualization.js"></script>
+    <script src="js/GuessVisualization.js"></script>
+    <script src="js/TransitionManager.js"></script>
+    
+    <!-- Adapter Scripts -->
+    <script src="js/WorldMapAdapter.js"></script>
+    
+    <!-- Main App -->
+    <script src="js/App.js"></script>
+  </body>
 </html>
