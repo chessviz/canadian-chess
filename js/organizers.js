@@ -20,9 +20,6 @@ d3.dsv(",", "data/top_organizers.csv")
 
     data = data.filter(b => b.birth_year > 1950)
 
-    console.log("Data for visualization (top 50 organizers)", data);
-    // Now that we have our data, initialize the visualization
-
         const width = 800, height = 600;
         const svg = d3.select("#organizers-chart");
         

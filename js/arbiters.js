@@ -20,8 +20,6 @@ d3.dsv(",", "data/top_arbiters.csv")
 
     data = data.filter(a => a.birth_year > 1950)
 
-    console.log("Data for visualization (top 50 arbiters)", data);
-    // Now that we have our data, initialize the visualization
 
         const width = 800, height = 600;
         const svg = d3.select("#arbiters-chart");

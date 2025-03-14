@@ -223,29 +223,70 @@
       </div>
     </div>
 
-    <!-- Player Rating Comparison -->
-    <div class="section chess-pattern-light chess-pieces-bg chess-border">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Let's Introduce Two Players</h2>
-            <p>
-              This visualization compares the rating progression of two
-              different generations of top chess players. Aaron and Nikolay are
-              two Canadian International Chess Masters with two different paths
-              to the top of Canadian Chess. The way that chess is being played
-              is changing.
-            </p>
 
-            <div class="legend">
-              <div class="legend-item">
+
+    <!-- Combined Player Rating Comparison and Map Section -->
+    <div class="section chess-pattern-light chess-pieces-bg chess-border">
+      <div class="container-fluid py-3">
+        <!-- New row for portraits -->
+        <div class="row mb-2">
+          <div class="col-12 text-center">
+            <h2 class="mb-4">
+              Let's Introduce Two Elite Canadian Chess Players
+            </h2>
+            <!-- Player Portrait Frames - Now centered above both columns -->
+            <div class="portraits-wrapper">
+              <div class="player-portrait-container justify-content-center">
+                <div
+                  id="aaron-portrait"
+                  class="player-portrait aaron-portrait"
+                  data-connection="india-canada"
+                >
+                  <img src="img/aaron.jpg" alt="Aaron Reeve Mendes" />
+                </div>
+                <div
+                  id="nikolay-portrait"
+                  class="player-portrait nikolay-portrait"
+                  data-connection="russia-canada"
+                >
+                  <img src="img/noritsyn.jpg" alt="Nikolay Noritsyn" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second row for map and rating progression -->
+        <div class="row mt-5">
+          <!-- Map Column (Left) -->
+          <div class="col-lg-6 mb-3 mb-lg-0">
+            <!-- Bio Container - Modified to be borderless -->
+            <div
+              id="player-bio-container"
+              class="mb-3 player-bio-section"
+              style="display: none; opacity: 0; transition: all 0.5s ease"
+            >
+              <h4 id="bio-name" class="bio-title"></h4>
+              <p id="bio-text" class="bio-text"></p>
+            </div>
+            <div
+              id="map-container"
+              class="d-flex justify-content-center align-items-center flex-column"
+              style="min-height: 320px; max-height: 350px"
+            ></div>
+          </div>
+          <!-- Rating Progression Column (Right) -->
+          <div class="col-lg-6">
+            <div
+              class="legend mb-2 d-flex justify-content-center align-items-center"
+            >
+              <div class="legend-item me-2">
                 <div
                   class="legend-color"
                   style="background-color: #2b83ba"
                 ></div>
                 <span>Aaron Reeve Mendes</span>
               </div>
-              <div class="legend-item">
               <button
                 id="resetZoom"
                 class="reset-button mt-1 mb-1 mx-2"
@@ -262,7 +303,6 @@
               </div>
             </div>
 
-            <div class="chart-container" style="position: relative">
             <div
               class="chart-container"
               style="position: relative; height: 320px"
@@ -271,11 +311,6 @@
             </div>
             <div id="rating-tooltip" class="rating-tooltip hidden"></div>
 
-            <button id="resetZoom" class="reset-button" disabled>
-              Reset Zoom
-            </button>
-
-            <div class="context-chart">
             <div class="context-chart" style="height: 40px">
               <div id="context"></div>
             </div>
@@ -284,36 +319,10 @@
       </div>
     </div>
 
-    <!-- Map Section -->
-    <div class="section" id="map_section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h2 class="text-center mb-4">Journey to the West</h2>
-            <p class="text-center">
-              Nikolay and Aaron are quintesential examples of the change in
-              global chess.
-            </p>
-            <p class="text-center">
-              Socioeconomic forces took these players from their home countries
-              to come to Canada at a young age.
-            </p>
-            <p class="text-center">
-              Russia and the former Soviet Union contained some of the most
-              prolific chess players in the late 1900s.
-            </p>
-            <p class="text-center">
-              India is an emerging power in the chess world, with numerous top
-              young talents competiting on the world's stage.
-            </p>
-            <div
-              id="map-container"
-              class="d-flex justify-content-center align-items-center flex-column"
-            ></div>
     <!-- Masters Section -->
     <div class="section chess-pattern-dark chess-pieces-bg chess-border">
       <div class="container">
-        <div class="row text-center">
+        <div class="row text-center" id="masters-parent">
           <div class="col-12">
             <h2>Canadian National Masters</h2>
             <p>
@@ -330,40 +339,6 @@
             </p>
             <div
               class="masters-container"
-              style="height: 100vh; overflow-y: auto; position: relative"
-            >
-              <div id="masters-visualization" class="mt-4"></div>
-              <!-- Add tooltip container -->
-              <div id="masters-tooltip" class="tooltip hidden">
-                <p><span id="masters-value"></span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Masters Section -->
-    <div class="section chess-pattern-dark chess-pieces-bg chess-border">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12">
-            <h2>Canadian National Masters</h2>
-            <p>
-              Visualization of when players achieved their National Master
-              titles over time.
-            </p>
-            <p>
-              The number of National Masters in Canada has grown steadily over
-              the years.
-            </p>
-            <p>
-              Is this still to be expected with the changing way the game is
-              being played?
-            </p>
-            <div
-              class="masters-container"
-              id="masters-parent"
               style="height: 100vh; position: relative"
             >
               <div id="masters-visualization" class="mt-4"></div>
@@ -484,6 +459,31 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- About Us Section -->
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border d-flex align-items-center">
+      <div class="container">
+      <div class="row text-center">
+        <div class="col-12">
+        <h1>Canadian Chess has a lot to look up towards as we see exciting progresses in player development, arbiters, and organizers!</h1>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- About Us Section -->
+    <div class="section chess-pattern-dark chess-pieces-bg chess-border d-flex align-items-center">
+      <div class="container">
+      <div class="row text-center">
+        <div class="col-12">
+        <h1>About Us</h1>
+        <p>
+          Created by Victor Zheng, Andy Feng, and Harsh Bajwa at the University of Toronto's CSC316 Data Visualization course.
+        </p>
+        </div>
+      </div>
       </div>
     </div>
 
