@@ -97,7 +97,18 @@
 
   button 
   {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    display: block;
     margin: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(211, 84, 0, 0.3);
   }
   
   /* ===============================
