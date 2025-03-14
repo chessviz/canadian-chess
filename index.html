@@ -479,7 +479,7 @@
             <div class="col-12">
               <h1>
                 Canadian Chess has a lot to look up towards as we see exciting
-                progresses in player development, arbiters, and organizers!
+                progress in player development, arbiters, and organizers!
               </h1>
             </div>
           </div>
@@ -526,6 +526,31 @@
 
     <!-- Initialize Fullpage stepper -->
     <script>
+
+      // Initialize fullpage.js
+      new fullpage("#fullpage", {
+          // Options here
+          anchors: ["ChessViz", "Masters", "Ratings", "Demographics", "Map"],
+
+          // AutoScrolling false because story boxes need vertical scrolling
+          autoScrolling: false,
+          scrollingSpeed: 500,
+          scrollHorizontally: false,
+
+          onLeave: function (origin, destination) {
+            destination.item.classList.add("load-background");
+
+            // Add chess animation class on section change
+            destination.item.classList.add("chess-animate");
+            setTimeout(() => {
+              destination.item.classList.remove("chess-animate");
+            }, 800);
+          },
+          slidesNavigation: true,
+          navigation: true,
+          navigationPosition: "right",
+        });
+
       // Setup for initial sections
       document.addEventListener("DOMContentLoaded", function () {
         // Custom navigation for first three sections
@@ -559,31 +584,8 @@
               });
             }
           });
-
-      // Initialize fullpage.js
-      new fullpage("#fullpage", {
-          // Options here
-          anchors: ["ChessViz", "Masters", "Ratings", "Demographics", "Map"],
-
-          // AutoScrolling false because story boxes need vertical scrolling
-          autoScrolling: false,
-          scrollingSpeed: 500,
-          scrollHorizontally: false,
-
-          onLeave: function (origin, destination) {
-            destination.item.classList.add("load-background");
-
-            // Add chess animation class on section change
-            destination.item.classList.add("chess-animate");
-            setTimeout(() => {
-              destination.item.classList.remove("chess-animate");
-            }, 800);
-          },
-          slidesNavigation: true,
-          navigation: true,
-          navigationPosition: "right",
-        });
       });
+
     </script>
   </body>
 </html>
