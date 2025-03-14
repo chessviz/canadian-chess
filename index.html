@@ -376,39 +376,25 @@
       </div>
     </div>
 
-
     <!-- Top Arbiters and Organizers -->
     <div class="section chess-pattern-dark chess-pieces-bg chess-border">
       <div class="container">
-        <div class="row">
-          <div class="col-12 text-center">
-            <h2>Top Arbiters and Organizers</h2>
-            <p>The individuals who have organized the most tournaments in Canadian chess</p>
-          </div>
+        <div class="row text-center">
           <div class="col-12">
-            <div class="visualization-container" style="position: relative;">
-              <svg id="organizers-svg" width="900" height="600"></svg>
-              <div id="organizers-tooltip" class="tooltip" style="opacity: 0; position: absolute; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);"></div>
+            <h2>Top Arbiters and Organizers</h2>
+            <p>These individuals have organized the most chess tournaments in Canada</p>
+            <div class="chart-container">
+              <svg width="800" height="600" id="organizers-chart"></svg>
+              <div class="tooltip" style="opacity: 0; position: absolute; background-color: white; border: 1px solid #ddd; padding: 10px; border-radius: 5px; pointer-events: none;"></div>
             </div>
-            <div class="text-center mt-3">
-              <div class="legend d-flex justify-content-center flex-wrap">
-                <div class="legend-item mx-2">
-                  <div class="legend-color" style="background-color: #1f77b4;"></div>
-                  <span>Ontario (ON)</span>
-                </div>
-                <div class="legend-item mx-2">
-                  <div class="legend-color" style="background-color: #ff7f0e;"></div>
-                  <span>Alberta (AB)</span>
-                </div>
-                <div class="legend-item mx-2">
-                  <div class="legend-color" style="background-color: #2ca02c;"></div>
-                  <span>British Columbia (BC)</span>
-                </div>
-                <div class="legend-item mx-2">
-                  <div class="legend-color" style="background-color: #d62728;"></div>
-                  <span>Prince Edward Island (PE)</span>
-                </div>
-              </div>
+            <div class="chart-legend mt-3">
+              <h4>Bubble Chart Legend</h4>
+              <p>
+                <strong>X-axis:</strong> Birth Year<br>
+                <strong>Y-axis:</strong> Number of Tournaments Organized<br>
+                <strong>Bubble Size:</strong> Total Players in Tournaments<br>
+                <strong>Colors:</strong> Canadian Provinces
+              </p>
             </div>
           </div>
         </div>
