@@ -13,7 +13,7 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     this.step = options.step || 250;
     this.defaultValue = options.defaultValue || 15000;
     this.correctValue = options.correctValue || ChessVis.TOTAL_PLAYERS;
-    this.acceptableErrorPercent = options.acceptableErrorPercent || 20;
+    this.acceptableErrorPercent = options.acceptableErrorPercent || 10;
     
     // State
     this.currentValue = this.defaultValue;
@@ -196,7 +196,7 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     const resultMessage = document.getElementById('result-message');
     if (resultMessage) {
       if (this.guessAccuracy === 'excellent') {
-        resultMessage.textContent = 'Perfect guess! That\'s exactly right!';
+        resultMessage.textContent = 'Great guess! That\'s right!';
       } else if (this.guessAccuracy === 'low') {
         resultMessage.textContent = `That's ${percentDiff}% lower than the actual number.`;
       } else {
