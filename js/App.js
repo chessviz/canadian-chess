@@ -116,8 +116,8 @@ class ChessFederationApp {
       slidesNavigation: true,
       
       // Scrolling behavior
-      autoScrolling: true,
-      scrollingSpeed: 700,
+      autoScrolling: false,
+      scrollingSpeed: 1500,
       fitToSection: true,
       scrollOverflow: true,
       scrollOverflowMacStyle: true,
