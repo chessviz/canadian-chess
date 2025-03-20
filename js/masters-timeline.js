@@ -205,7 +205,7 @@ function loadMastersData() {
             .slice(0, 5)
             .map(
               (m) =>
-                `Player ${m.cfc_id} (${m.tournamentsList.length} qualifying tournaments)`
+                `${m.player_name} - ${m.title_achieved} - ${m.province}`
             )
             .join("<br>");
 
