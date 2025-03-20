@@ -179,6 +179,7 @@
      width: 10px;
      height: 10px;
      margin: -5px 0px 0px -5px;
+     opacity: 1;
  }
  #fp-nav ul li .fp-tooltip {
      position: absolute;
@@ -194,15 +195,24 @@
      width: 0;
      cursor: pointer;
  }
- #fp-nav ul li:hover .fp-tooltip,
- #fp-nav.fp-show-active a.active + .fp-tooltip {
+ #fp-nav ul li:hover .fp-tooltip {
      -webkit-transition: opacity 0.2s ease-in;
      transition: opacity 0.2s ease-in;
      width: auto;
      opacity: 1;
  }
+
+
+ #fp-nav.fp-show-active a.active + .fp-tooltip {
+     -webkit-transition: opacity 0.2s ease-in;
+     transition: opacity 0.2s ease-in;
+     width: auto;
+     opacity: 0;
+ }
+
  #fp-nav ul li .fp-tooltip.fp-right {
      right: 20px;
+     color: black;
  }
  #fp-nav ul li .fp-tooltip.fp-left {
      left: 20px;
