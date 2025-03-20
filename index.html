@@ -418,35 +418,76 @@
                 Game statistics breakdown showing wins, losses, and draws for
                 our featured players
               </p>
+              <!-- Filter buttons for performance comparison -->
+              <div class="filter-buttons mt-3 mb-4">
+                <button
+                  id="show-all-players"
+                  class="btn btn-primary active me-2"
+                >
+                  Show Both Players
+                </button>
+                <button
+                  id="show-aaron-only"
+                  class="btn btn-outline-primary me-2"
+                >
+                  Aaron Only
+                </button>
+                <button id="show-nikolay-only" class="btn btn-outline-primary">
+                  Nikolay Only
+                </button>
+              </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6 mb-4 mb-md-0">
-              <div class="card h-100 shadow-sm">
-                <div class="card-header bg-transparent text-center">
-                  <h3>Aaron Reeve Mendes</h3>
-                  <p class="text-muted mb-0">Performance Analysis</p>
+            <div class="parent-pie-chart">
+              <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-header bg-transparent text-center">
+                    <h3>Aaron Reeve Mendes</h3>
+                    <p class="text-muted mb-0">Performance Analysis</p>
+                  </div>
+                  <div
+                    class="card-body d-flex align-items-center justify-content-center"
+                  >
+                    <div id="piechart1" class="pie-chart-container"></div>
+                  </div>
                 </div>
-                <div
-                  class="card-body d-flex align-items-center justify-content-center"
-                >
-                  <div id="piechart1" class="pie-chart-container"></div>
+              </div>
+              <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-header bg-transparent text-center">
+                    <h3>Nikolay Noritsyn</h3>
+                    <p class="text-muted mb-0">Performance Analysis</p>
+                  </div>
+                  <div
+                    class="card-body d-flex align-items-center justify-content-center"
+                  >
+                    <div id="piechart2" class="pie-chart-container"></div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="card h-100 shadow-sm">
-                <div class="card-header bg-transparent text-center">
-                  <h3>Nikolay Noritsyn</h3>
-                  <p class="text-muted mb-0">Performance Analysis</p>
-                </div>
-                <div
-                  class="card-body d-flex align-items-center justify-content-center"
-                >
-                  <div id="piechart2" class="pie-chart-container"></div>
-                </div>
-              </div>
-            </div>
+          </div>
+
+          <div
+            class="explanation-text"
+            id="explanation-player-comparison"
+            style="z-index: 20"
+          >
+            <h3 class="explanation-title">The Chess Win Rates</h3>
+            <p>
+              The journey from beginner to master in chess is one of the most
+              challenging progressions in competitive games.
+            </p>
+            <p>
+              Only 1% of players ever reach the 2300+ rating threshold where
+              FIDE titles like International Master and Grandmaster begin.
+            </p>
+            <p>
+              Each step up the rating ladder represents exponentially increasing
+              difficulty, with small improvements requiring significant study
+              and practice.
+            </p>
           </div>
         </div>
       </div>
