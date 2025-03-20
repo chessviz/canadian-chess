@@ -109,14 +109,16 @@ class ChessFederationApp {
     this.fullpageApi = new fullpage('#fullpage', {
       // Navigation options
       anchors: ['title', 'guess', 'grid', 'hourglass', 'players', 'pie', 'masters', 'games', 'organizers', 'conclusion', 'about'],
+      // anchors: ['title', 'guess', 'grid', 'hourglass', 'players', 'map', 'masters'],
       navigation: true,
       navigationPosition: 'right',
+      // navigationTooltips: ['Home', 'Guess', 'Distribution', 'Progression', 'Players', 'Global', 'Masters'],
       navigationTooltips: ['Home', 'Guess', 'Distribution', 'Pyramid', 'Players', 'Pie Chart', 'National Masters', 'Games', 'Organizers', 'Conclusion', 'About'],
       showActiveTooltip: true,
       slidesNavigation: true,
       
       // Scrolling behavior
-      autoScrolling: false,
+      autoScrolling: true,
       scrollingSpeed: 1500,
       fitToSection: true,
       scrollOverflow: true,
