@@ -61,47 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let dragging = false;
   let lastPosition = { x: 0, y: 0 };
 
-  // Add drag behavior with smoother transitions
-  svg.call(
-    d3
-      .drag()
-      .on("start", function (event) {
-        dragging = true;
-        lastPosition.x = event.x;
-        lastPosition.y = event.y;
-      })
-      .on("drag", function (event) {
-        if (dragging) {
-          // Adjust rotation speed
-          const rotationSensitivity = 0.3;
-
-          // Calculate rotation based on mouse movement
-          const dx = event.x - lastPosition.x;
-          const dy = event.y - lastPosition.y;
-
-          // Update projection rotation
-          const rotation = projection.rotate();
-          projection.rotate([
-            rotation[0] + dx * rotationSensitivity,
-            rotation[1] - dy * rotationSensitivity,
-          ]);
-
-          // Update last position
-          lastPosition.x = event.x;
-          lastPosition.y = event.y;
-
-          // Redraw all elements with updated projection
-          globeLayer.selectAll("path").attr("d", path);
-          countryLayer.selectAll("path").attr("d", path);
-
-          // Redraw connections when rotating
-          updateConnections();
-        }
-      })
-      .on("end", function () {
-        dragging = false;
-      })
-  );
+  // Animation variables - define these variables early
+  let animationInProgress = false;
+  let animationComplete = false;
 
   // Add sphere to mimic the ocean and the globe
   globeLayer
@@ -119,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
       value: 100,
       id: "india-canada",
       playerId: "aaron",
+      color: "#2196F3", // Blue color for Aaron
     },
     {
       source: "Russia",
@@ -126,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
       value: 85,
       id: "russia-canada",
       playerId: "nikolay",
+      color: "#FF5722", // Red color for Nikolay
     },
     // Add more connections as needed
   ];
@@ -271,9 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .transition()
         .duration(500)
         .attr("fill", color);
-
-      // Debug to console
-      console.log(`Highlighting ${countryName} with color ${color}`);
     } else {
       console.warn(
         `Country element not found for highlighting: ${countryName}`
@@ -299,10 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return d3.geoDistance(point, c) < Math.PI / 2;
   }
 
-  // Animation variables
-  let animationInProgress = false;
-  let animationComplete = false;
-
   // Function to draw connection lines between countries with animation
   function updateConnections(animate = false) {
     connectionsGroup.selectAll("*").remove();
@@ -322,13 +279,13 @@ document.addEventListener("DOMContentLoaded", function () {
         coordinates: [sourcePoint, targetPoint],
       };
 
-      // Draw the arc
+      // Draw the arc with player-specific color
       const arcPath = connectionsGroup
         .append("path")
         .datum(arcData)
         .attr("d", path)
         .attr("fill", "none")
-        .attr("stroke", "#FF5722")
+        .attr("stroke", conn.color) // Use connection-specific color
         .attr("stroke-width", 2)
         .attr("stroke-opacity", animate ? 0 : 0.7)
         .attr("class", "connection-line");
@@ -392,25 +349,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!sourcePoint || !targetPoint) {
       console.error("Could not find countries for animation");
+      animationInProgress = false; // Make sure we don't leave the globe locked
       return;
     }
-
-    // Create arc data once to reuse
-    const arcData = {
-      type: "LineString",
-      coordinates: [sourcePoint, targetPoint],
-    };
-
-    // Create arc path that will persist throughout the animation
-    const arcPath = connectionsGroup
-      .append("path")
-      .datum(arcData)
-      .attr("fill", "none")
-      .attr("stroke", "#FF5722")
-      .attr("stroke-width", 2)
-      .attr("stroke-opacity", 0)
-      .attr("class", "connection-line")
-      .attr("d", path);
 
     // Calculate the rotation that centers the source country
     const sourceRotation = [-sourcePoint[0], -sourcePoint[1]];
@@ -419,27 +360,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentRotation = projection.rotate();
     const interpolateRotation = d3.interpolate(currentRotation, sourceRotation);
 
-    // Animate rotation to source
+    // Important: No arc is created during this first rotation to source
     d3.transition()
-      .duration(800) // Reduced from 1000
+      .duration(800)
       .tween("rotate", function () {
         return function (t) {
           projection.rotate(interpolateRotation(t));
           // Redraw globe and countries
           globeLayer.selectAll("path").attr("d", path);
           countryLayer.selectAll("path").attr("d", path);
-          // Update arc path
-          arcPath.attr("d", path);
         };
       })
       .on("end", function () {
         // Highlight source country
-        highlightCountry(conn.source, "#FFC107", true); // true indicates it's a source country
+        highlightCountry(conn.source, "#FFC107", true);
+
+        // Save source marker globally so we can restore it later
+        let sourceMarker = null;
 
         // Add source marker with animation
         const projectedSource = projection(sourcePoint);
-        let sourceMarker;
-
         if (projectedSource) {
           sourceMarker = connectionsGroup
             .append("circle")
@@ -448,18 +388,31 @@ document.addEventListener("DOMContentLoaded", function () {
             .attr("r", 0)
             .attr("fill", "#FFC107")
             .attr("stroke", "#fff")
-            .attr("stroke-width", 1);
+            .attr("stroke-width", 1)
+            .attr("class", "connection-point source-marker");
 
-          sourceMarker.transition().duration(500).attr("r", 5);
+          // Ensure marker completes its growth animation
+          sourceMarker
+            .transition()
+            .duration(500)
+            .attr("r", 5)
+            .on("end", function () {
+              // Only after the marker has grown to full size, wait a bit and then proceed
+              setTimeout(function () {
+                // Hide the source marker during animation
+                sourceMarker.style("opacity", 0);
+
+                // Now start the rotation to target
+                rotateToTarget();
+              }, 500); // Pause for 500ms to show the fully-grown marker before starting next animation
+            });
+        } else {
+          // If we couldn't create the source marker, still proceed with animation after delay
+          setTimeout(rotateToTarget, 1000);
         }
 
-        // Wait a moment before animating to target - reduced timeout
-        setTimeout(function () {
-          // Hide the source marker before starting the path animation
-          if (sourceMarker) {
-            sourceMarker.transition().duration(200).attr("r", 0).remove();
-          }
-
+        // Move the target rotation code to a separate function
+        function rotateToTarget() {
           // Calculate rotation for target
           const targetRotation = [-targetPoint[0], -targetPoint[1]];
           const pathInterpolator = d3.interpolate(
@@ -467,94 +420,141 @@ document.addEventListener("DOMContentLoaded", function () {
             targetRotation
           );
 
-          // Prepare for arc animation
-          arcPath
-            .attr("stroke-dasharray", function () {
-              return this.getTotalLength();
-            })
-            .attr("stroke-dashoffset", function () {
-              return this.getTotalLength();
-            });
+          // Don't create the arc path yet - we'll create it during animation
+          let arcPath = null;
+          let arcCreated = false;
+          let pathTotalLength = 0;
+
+          // Track the rotation progress to know when to start drawing the arc
+          const rotationThreshold = 0.3; // Start drawing arc after 30% of the rotation
 
           // Animate path from source to target
           d3.transition()
-            .duration(1500) // Reduced from 2000
+            .duration(1500)
             .tween("rotate", function () {
               return function (t) {
+                // Update globe rotation
                 projection.rotate(pathInterpolator(t));
+
                 // Redraw globe and countries
                 globeLayer.selectAll("path").attr("d", path);
                 countryLayer.selectAll("path").attr("d", path);
-                // Update arc path
-                arcPath.attr("d", path);
+
+                // Only create and start drawing the arc once we've rotated enough
+                if (t >= rotationThreshold && !arcCreated) {
+                  // Create the arc path only when we've rotated enough
+                  arcPath = connectionsGroup
+                    .append("path")
+                    .attr("fill", "none")
+                    .attr("stroke", conn.color) // Use connection-specific color
+                    .attr("stroke-width", 2.5)
+                    .attr("stroke-opacity", 0.8)
+                    .attr("class", "connection-line");
+
+                  // Create the initial arc data
+                  const arcData = {
+                    type: "LineString",
+                    coordinates: [sourcePoint, targetPoint],
+                  };
+
+                  // Set the initial path
+                  arcPath.datum(arcData).attr("d", path);
+                  pathTotalLength = arcPath.node().getTotalLength();
+
+                  // Initialize with zero length to hide it
+                  arcPath.attr("stroke-dasharray", `0,${pathTotalLength}`);
+
+                  arcCreated = true;
+                }
+
+                // If arc is created, update its appearance as we rotate
+                if (arcCreated && arcPath) {
+                  // Update arc data with new projection
+                  const arcData = {
+                    type: "LineString",
+                    coordinates: [sourcePoint, targetPoint],
+                  };
+                  arcPath.datum(arcData).attr("d", path);
+
+                  // Get current total length
+                  pathTotalLength = arcPath.node().getTotalLength();
+
+                  // Calculate how much of the path to draw based on remaining rotation
+                  const drawProgress =
+                    (t - rotationThreshold) / (1 - rotationThreshold);
+
+                  if (drawProgress > 0) {
+                    // Use stroke-dasharray to reveal only a portion of the path
+                    const portionToShow = pathTotalLength * drawProgress;
+                    arcPath.attr(
+                      "stroke-dasharray",
+                      `${portionToShow},${pathTotalLength}`
+                    );
+                  }
+                }
               };
-            })
-            // Animate the path appearing
-            .call(function (transition) {
-              arcPath
-                .attr("stroke-opacity", 0.7)
-                .transition(transition)
-                .attr("stroke-dashoffset", 0);
             })
             .on("end", function () {
               // Highlight target country
-              highlightCountry(conn.target, "#4CAF50", false); // false indicates it's a target country
+              highlightCountry(conn.target, "#4CAF50", false);
 
-              // Add both source and target markers again at the end of animation
-              const projectedSource = projection(sourcePoint);
-              const projectedTarget = projection(targetPoint);
-              let sourceMarker, targetMarker;
+              // Make sure the arc is fully visible at the end if it exists
+              if (arcPath) {
+                const arcData = {
+                  type: "LineString",
+                  coordinates: [sourcePoint, targetPoint],
+                };
 
-              // Add source marker again if visible
-              if (projectedSource && pointVisible(sourcePoint)) {
-                sourceMarker = connectionsGroup
-                  .append("circle")
-                  .attr("cx", projectedSource[0])
-                  .attr("cy", projectedSource[1])
-                  .attr("r", 0)
-                  .attr("fill", "#FFC107")
-                  .attr("stroke", "#fff")
-                  .attr("stroke-width", 1);
-
-                sourceMarker.transition().duration(500).attr("r", 5);
+                // Ensure the full path is visible at the end with the proper color
+                arcPath
+                  .datum(arcData)
+                  .attr("d", path)
+                  .attr("stroke-dasharray", null)
+                  .attr("stroke-opacity", 0.8)
+                  .attr("stroke", conn.color); // Ensure color is applied
               }
 
-              // Add target marker
-              if (projectedTarget && pointVisible(targetPoint)) {
-                targetMarker = connectionsGroup
+              // Add target marker immediately (no delay)
+              const projectedTarget = projection(targetPoint);
+              if (projectedTarget) {
+                connectionsGroup
                   .append("circle")
                   .attr("cx", projectedTarget[0])
                   .attr("cy", projectedTarget[1])
-                  .attr("r", 0)
-                  .attr("fill", "#4CAF50")
+                  .attr("r", 0) // Start small
+                  .attr("fill", "#4CAF50") // Match target country highlight color
                   .attr("stroke", "#fff")
-                  .attr("stroke-width", 1);
-
-                targetMarker
+                  .attr("stroke-width", 1)
+                  .attr("class", "connection-point target-marker")
                   .transition()
-                  .duration(500)
-                  .attr("r", 5)
-                  .on("end", function () {
-                    animationComplete = true;
-                    animationInProgress = false;
-                    // Add tooltips after animation
-                    if (targetMarker)
-                      targetMarker.append("title").text(conn.target);
-                    if (sourceMarker)
-                      sourceMarker.append("title").text(conn.source);
-                  });
-              } else {
-                animationComplete = true;
-                animationInProgress = false;
+                  .duration(300) // Shorter animation
+                  .attr("r", 5); // Grow to full size
               }
+
+              // Show source marker again with its new position
+              setTimeout(() => {
+                // Reposition the source marker to its new location after rotation
+                if (sourceMarker) {
+                  const newSourcePos = projection(sourcePoint);
+                  if (newSourcePos && pointVisible(sourcePoint)) {
+                    sourceMarker
+                      .attr("cx", newSourcePos[0])
+                      .attr("cy", newSourcePos[1])
+                      .style("opacity", 1); // Make it visible again
+                  }
+                }
+
+                // Mark animation as complete
+                animationInProgress = false;
+                animationComplete = true;
+              }, 100);
             });
-        }, 500); // Reduced from 750
+        }
       });
   }
 
   // Process the world map data when it's loaded
   function renderMap() {
-    console.log("Rendering map with data:", !!worldmap);
     if (!worldmap) return;
 
     let world = topojson.feature(worldmap, worldmap.objects.countries).features;
@@ -566,8 +566,6 @@ document.addEventListener("DOMContentLoaded", function () {
         countryNameById[country.id] = country.properties.name;
       }
     });
-
-    console.log("Available countries:", Object.values(countryNameById));
 
     // Draw countries
     let countries = countryLayer
@@ -591,8 +589,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-    console.log("Countries rendered:", world.length);
-
     // Remove the automatic animation trigger
     // The user will now need to click on a portrait to start the animation
   }
@@ -609,10 +605,48 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error loading the JSON data:", error);
     });
 
-  // Override the drag behavior when animation is in progress
-  const originalDragBehavior = svg.on("mousedown.drag");
-  svg.on("mousedown.drag", function (event) {
-    if (animationInProgress) return; // Disable drag during animation
-    return originalDragBehavior.call(this, event);
-  });
+  // Define a SINGLE drag behavior for the globe
+  // Remove the previous definition that was conflicting
+  svg.call(
+    d3
+      .drag()
+      .on("start", function (event) {
+        if (!animationInProgress) {
+          dragging = true;
+          lastPosition.x = event.x;
+          lastPosition.y = event.y;
+        }
+      })
+      .on("drag", function (event) {
+        if (dragging && !animationInProgress) {
+          // Adjust rotation speed
+          const rotationSensitivity = 0.3;
+
+          // Calculate rotation based on mouse movement
+          const dx = event.x - lastPosition.x;
+          const dy = event.y - lastPosition.y;
+
+          // Update projection rotation
+          const rotation = projection.rotate();
+          projection.rotate([
+            rotation[0] + dx * rotationSensitivity,
+            rotation[1] - dy * rotationSensitivity,
+          ]);
+
+          // Update last position
+          lastPosition.x = event.x;
+          lastPosition.y = event.y;
+
+          // Redraw all elements with updated projection
+          globeLayer.selectAll("path").attr("d", path);
+          countryLayer.selectAll("path").attr("d", path);
+
+          // Redraw connections when rotating
+          updateConnections();
+        }
+      })
+      .on("end", function () {
+        dragging = false;
+      })
+  );
 });
