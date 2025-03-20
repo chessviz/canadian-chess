@@ -25,6 +25,7 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     this.valueDisplay = null;
     this.submitButton = null;
     this.resultContainer = null;
+    this.containerElement = null;
     
     // Bind methods
     this.handleSliderChange = this.handleSliderChange.bind(this);
@@ -41,10 +42,41 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     this.valueDisplay = document.getElementById('guess-value-number');
     this.submitButton = document.getElementById('submit-guess');
     this.resultContainer = document.getElementById('guess-result');
+    this.containerElement = document.getElementById(this.containerId);
     
     if (!this.sliderElement || !this.valueDisplay || !this.submitButton || !this.resultContainer) {
       console.error('Required DOM elements for GuessVisualization not found');
       return false;
+    }
+    
+    // Ensure visualization is in front by setting z-index
+    if (this.containerElement) {
+      this.containerElement.style.position = 'relative';
+      this.containerElement.style.zIndex = '100';
+    }
+    
+    // Enhance slider for better clickability
+    this.sliderElement.style.height = '20px';  // Make slider track thicker
+    this.sliderElement.style.cursor = 'pointer';
+    this.sliderElement.style.opacity = '1';
+    
+    // Make submit button more clickable
+    if (this.submitButton) {
+      this.submitButton.style.cursor = 'pointer';
+      this.submitButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+      this.submitButton.style.position = 'relative';
+      this.submitButton.style.zIndex = '101';
+      
+      // Add hover effect
+      this.submitButton.addEventListener('mouseover', () => {
+        this.submitButton.style.transform = 'scale(1.05)';
+        this.submitButton.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+      });
+      
+      this.submitButton.addEventListener('mouseout', () => {
+        this.submitButton.style.transform = 'scale(1)';
+        this.submitButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+      });
     }
     
     // Set initial values
@@ -68,6 +100,17 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
       numberValueElement.textContent = "?";
     }
     
+    // Make interaction area more prominent
+    const interactionArea = document.querySelector('.guess-interaction-area');
+    if (interactionArea) {
+      interactionArea.style.padding = '20px';
+      interactionArea.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.1)';
+      interactionArea.style.borderRadius = '8px';
+      interactionArea.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+      interactionArea.style.position = 'relative';
+      interactionArea.style.zIndex = '99';
+    }
+    
     return true;
   }
   
@@ -80,6 +123,27 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     
     this.sliderElement.style.background = 
       `linear-gradient(to right, #d35400 0%, #d35400 ${percentage}%, #bbb ${percentage}%, #bbb 100%)`;
+    
+    // Enhance the slider thumb for better visibility
+    const thumbStyle = `
+      input[type=range]::-webkit-slider-thumb {
+        height: 24px;
+        width: 24px;
+        background: #e67e22;
+        cursor: pointer;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+    `;
+    
+    // Add or update the style element
+    let styleElement = document.getElementById('slider-thumb-style');
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = 'slider-thumb-style';
+      document.head.appendChild(styleElement);
+    }
+    styleElement.textContent = thumbStyle;
   }
   
   // Handler for slider changes
@@ -212,6 +276,17 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
       this.submitButton.disabled = false;
       this.submitButton.classList.add('pulse-animation');
       this.submitButton.textContent = "Submit Guess";
+      
+      // Re-enable hover effects when resetting
+      this.submitButton.addEventListener('mouseover', () => {
+        this.submitButton.style.transform = 'scale(1.05)';
+        this.submitButton.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+      });
+      
+      this.submitButton.addEventListener('mouseout', () => {
+        this.submitButton.style.transform = 'scale(1)';
+        this.submitButton.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+      });
     }
     
     // Hide result, show interaction area
