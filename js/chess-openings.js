@@ -26,6 +26,8 @@ d3v3.json("data/pgns/all-games-san_stats.json", function (err, data) {
 
   var allButton = d3v3.select("#all");
   var d4Button = d3v3.select("#d4");
+  var e4Button = d3v3.select("#e4");
+  var c4Button = d3v3.select("#c4");
 
   allButton.on("click", function () {
     allButton.classed("button-primary", true);
@@ -36,5 +38,15 @@ d3v3.json("data/pgns/all-games-san_stats.json", function (err, data) {
     allButton.classed("button-primary", false);
     d4Button.classed("button-primary", true);
     openings.data(data.openings.children[1]);
+  });
+  e4Button.on("click", function () {
+    allButton.classed("button-primary", false);
+    e4Button.classed("button-primary", true);
+    openings.data(data.openings.children[0]);
+  });
+  c4Button.on("click", function () {
+    allButton.classed("button-primary", false);
+    c4Button.classed("button-primary", true);
+    openings.data(data.openings.children[4]);
   });
 });
