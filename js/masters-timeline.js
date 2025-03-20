@@ -3,15 +3,17 @@
 // Set the dimensions and margins of the graph
 const mastersMargin = { top: 50, right: 80, bottom: 100, left: 60 };
 
-// let mastersWidth = document.getElementById('masters-visualization') ?
-//     document.getElementById('masters-visualization').clientWidth - mastersMargin.left - mastersMargin.right :
-//     960 - mastersMargin.left - mastersMargin.right;
-let mastersHeight = 500 - mastersMargin.top - mastersMargin.bottom;
+// Reduce height to make room for explanation text
+let mastersHeight = 400 - mastersMargin.top - mastersMargin.bottom;
 
 let mastersWidth =
-  document.getElementById("masters-parent").getBoundingClientRect().width -
+  800 -
   mastersMargin.left -
   mastersMargin.right;
+// let mastersWidth =
+//   document.getElementById("masters-parent").getBoundingClientRect().width -
+//   mastersMargin.left -
+//   mastersMargin.right;
 // let mastersHeight = document.getElementById("masters-parent").getBoundingClientRect().height - mastersMargin.top - mastersMargin.bottom;
 
 // Create SVG element
@@ -20,7 +22,7 @@ let mastersSvg = d3
   .append("svg")
   .attr("width", mastersWidth + mastersMargin.left + mastersMargin.right)
   .attr("height", mastersHeight + mastersMargin.top + mastersMargin.bottom)
-  .style("max-height", "500px") // Add max-height to prevent excessive scrolling
+  .style("max-height", "400px") // Reduce max-height from 500px to 400px
   .append("g")
   .attr("transform", `translate(${mastersMargin.left},${mastersMargin.top})`);
 
@@ -384,7 +386,7 @@ function showMastersTable(year, mastersData) {
     tableContainer = d3.select("#masters-visualization")
       .append("div")
       .attr("id", "masters-table-container")
-      .style("max-height", "500px") // Match the SVG's max-height
+      .style("max-height", "400px") // Reduce max-height from 500px to 400px to match SVG
       .style("overflow-y", "auto"); // Add scrolling to the table itself
   }
   

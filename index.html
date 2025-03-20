@@ -439,30 +439,32 @@
             </div>
           </div>
           <div class="row">
-            <div class="parent-pie-chart">
-              <div class="col-md-4 mb-4 mb-md-0">
-                <div class="card h-100 shadow-sm">
-                  <div class="card-header bg-transparent text-center">
-                    <h3>Aaron Reeve Mendes</h3>
-                    <p class="text-muted mb-0">Performance Analysis</p>
-                  </div>
-                  <div
-                    class="card-body d-flex align-items-center justify-content-center"
-                  >
-                    <div id="piechart1" class="pie-chart-container"></div>
+            <div class="col-12 d-flex justify-content-center">
+              <div class="row parent-pie-chart w-100">
+                <div class="col-md-6 mb-4 mb-md-0">
+                  <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-transparent text-center">
+                      <h3>Aaron Reeve Mendes</h3>
+                      <p class="text-muted mb-0">Performance Analysis</p>
+                    </div>
+                    <div
+                      class="card-body d-flex align-items-center justify-content-center"
+                    >
+                      <div id="piechart1" class="pie-chart-container"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                  <div class="card-header bg-transparent text-center">
-                    <h3>Nikolay Noritsyn</h3>
-                    <p class="text-muted mb-0">Performance Analysis</p>
-                  </div>
-                  <div
-                    class="card-body d-flex align-items-center justify-content-center"
-                  >
-                    <div id="piechart2" class="pie-chart-container"></div>
+                <div class="col-md-6">
+                  <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-transparent text-center">
+                      <h3>Nikolay Noritsyn</h3>
+                      <p class="text-muted mb-0">Performance Analysis</p>
+                    </div>
+                    <div
+                      class="card-body d-flex align-items-center justify-content-center"
+                    >
+                      <div id="piechart2" class="pie-chart-container"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -497,7 +499,7 @@
         class="section chess-pattern-dark chess-pieces-bg chess-border fp-auto-height"
       >
         <div class="container">
-          <div class="row text-center" id="masters-parent">
+          <div class="row text-center mb-3" id="masters-parent">
             <div class="col-12">
               <h2>Canadian National Masters</h2>
               <p>
@@ -505,10 +507,27 @@
                 titles over time. The number of National Masters in Canada has
                 grown steadily, despite changes in how the game is played.
               </p>
-              <div class="masters-container">
-                <div id="masters-visualization" class="mt-3"></div>
-                <div id="masters-tooltip" class="tooltip hidden">
-                  <p><span id="masters-value"></span></p>
+            </div>
+
+            <!-- Restructured to have visualization on left and explanation on right -->
+            <div class="row">
+              <!-- Left column for chart -->
+              <div class="col-lg-8 mb-3 mb-lg-0">
+                <div class="masters-container">
+                  <div id="masters-visualization" class="mt-3"></div>
+                  <div id="masters-tooltip" class="tooltip hidden">
+                    <p><span id="masters-value"></span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                        <!-- Right column for explanation text -->
+                <div class="explanation-text h-75" id="explanation-masters">
+                  <h3 class="explanation-title">About National Masters in Canada</h3>
+                  <p>A National Master title is awarded to chess players who achieve and maintain a rating of 2200+ in the Canadian Federation.</p>
+                  <p>This visualization tracks the growth of elite chess players in Canada over the past two decades. The blue bars show new masters each year, while the red line shows the cumulative total.</p>
+                  <p>The years 2012-2017 saw particularly strong growth, with an average of 12 new national masters per year.</p>
+                  <p><strong>Click on any year's bar</strong> to see detailed information about the players who achieved their master title that year.</p>
                 </div>
               </div>
             </div>
@@ -757,7 +776,7 @@
     <script src="js/SimpleFunnelVisualization.js"></script>
     <!-- <script src="js/PlayerRatingsVisualization.js"></script> -->
     <!-- <script src="js/WorldMapVisualization.js"></script> -->
-    <script src="js/MastersVisualization.js"></script>
+    <!-- <script src="js/MastersVisualization.js"></script> -->
     <script src="js/GuessVisualization.js"></script>
     <script src="js/TransitionManager.js"></script>
 
