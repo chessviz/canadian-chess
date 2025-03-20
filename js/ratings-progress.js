@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Process the data
       function processData(data, playerId) {
         return data
+          .filter((d) => d.rating_type === "R")
           .map((d) => {
             return {
               eventId: d.eventId,
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ratingPerf: +d.ratingPerf,
               ratingPost: +d.ratingPost,
               playerId: playerId,
+              ratingType: d.rating_type,
             };
           })
           .sort((a, b) => a.eventDate - b.eventDate);
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
           document.querySelector(".chart-container").clientWidth;
 
         // Set dimensions and margins for main chart - now more compact
-        const margin = { top: 20, right: 40, bottom: 35, left: 50 };
+        const margin = { top: 20, right: 40, bottom: 10, left: 50 };
         const width = containerWidth - margin.left - margin.right;
         // Set a smaller fixed height to ensure it fits in viewport
         const height =
