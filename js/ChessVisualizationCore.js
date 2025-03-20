@@ -17,7 +17,7 @@ ChessVis.RATING_RANGES = [
 ];
 
 // Total number of registered chess players in Canada
-ChessVis.TOTAL_PLAYERS = 10000;
+ChessVis.TOTAL_PLAYERS = 4,866;
 
 // Base ChessVisualization class (for inheritance)
 ChessVis.ChessVisualization = class {

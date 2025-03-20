@@ -9,9 +9,9 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     
     // Configuration
     this.minValue = options.minValue || 0;
-    this.maxValue = options.maxValue || 50000;
-    this.step = options.step || 500;
-    this.defaultValue = options.defaultValue || 10000;
+    this.maxValue = options.maxValue || 30000;
+    this.step = options.step || 250;
+    this.defaultValue = options.defaultValue || 15000;
     this.correctValue = options.correctValue || ChessVis.TOTAL_PLAYERS;
     this.acceptableErrorPercent = options.acceptableErrorPercent || 20;
     
