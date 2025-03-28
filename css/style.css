@@ -444,7 +444,7 @@
     width: 2px;
     height: 8px;
     background-color: #aaa;
-    transform: translateX(-50%);
+    /* transform: translateX(-50%); */
     top: 0;
   }
 
@@ -453,7 +453,7 @@
     font-size: 12px;
     top: 12px;
     left: 50%;
-    transform: translateX(-50%);
+    /* transform: translateX(-50%); */
     color: #666;
   }
 
