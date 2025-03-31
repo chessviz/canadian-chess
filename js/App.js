@@ -239,7 +239,7 @@ class ChessFederationApp {
                        box-shadow: 0 4px 15px rgba(0,0,0,0.3); color: var(--primary-color);">Chess Viz</h1>
             <p style="font-size: 28px; margin-top: 20px; background-color: rgba(255, 255, 255, 0.85); 
                       padding: 10px 20px; border-radius: 8px; display: inline-block; 
-                      box-shadow: 0 4px 15px rgba(0,0,0,0.2);">What does it take to get to the top of Canadian Chess?</p>
+                      box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Visualizing Chess in Canada</p>
           </div>
         </div>
       `;
