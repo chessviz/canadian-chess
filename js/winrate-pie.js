@@ -106,7 +106,7 @@ function renderPieChart(containerId, chartData, playerName) {
     .style("display", "flex")
     .style("justify-content", "center")
     .style("align-items", "center")
-    .style("height", "100%");
+    .style("height", "50%");
 
   // Set up dimensions - make smaller than before
   const width = 220; // Reduced from 300
@@ -400,8 +400,9 @@ function renderChessGame(containerId, pgn) {
   console.log("Container ID:", containerId);
 
   // Set container dimensions
-  container.style.width = '100%';
-  container.style.height = '400px';
+  container.style.width = '60%';
+  // container.style.height = '300px';
+  container.style.height = '600px';
   
   try {
     // Check if chess.js is properly loaded
@@ -525,7 +526,7 @@ function renderChessGame(containerId, pgn) {
       </div>
       <div class="mt-3">
         <h5>Game PGN:</h5>
-        <pre style="font-size: 12px; overflow: auto; max-height: 200px; background: #f8f9fa; padding: 10px; border-radius: 4px;">${pgn}</pre>
+        <pre style="font-size: 12px; overflow: auto; background: #f8f9fa; padding: 10px; border-radius: 4px;">${pgn}</pre>
       </div>
     `;
     
