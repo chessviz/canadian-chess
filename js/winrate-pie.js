@@ -336,7 +336,7 @@ function renderFilteredCharts(filter) {
       <div class="card h-100 shadow-sm">
         <div class="card-header bg-transparent text-center">
           <h3>Aaron Reeve Mendes</h3>
-          <p class="text-muted mb-0">${filter === 'both' ? 'Performance Analysis' : 'Featured Game'}</p>
+          <p class="text-muted mb-0">${filter === 'both' ? 'Performance Analysis' : 'Featured Games'}</p>
         </div>
         <div class="card-body d-flex align-items-center justify-content-center">
           <div id="${filter === 'both' ? 'piechart1' : 'chessgame1'}" class="${filter === 'both' ? 'pie-chart-container' : 'chess-game-container'}"></div>
@@ -355,7 +355,7 @@ function renderFilteredCharts(filter) {
       <div class="card h-100 shadow-sm">
         <div class="card-header bg-transparent text-center">
           <h3>Nikolay Noritsyn</h3>
-          <p class="text-muted mb-0">${filter === 'both' ? 'Performance Analysis' : 'Featured Game'}</p>
+          <p class="text-muted mb-0">${filter === 'both' ? 'Performance Analysis' : 'Featured Games'}</p>
         </div>
         <div class="card-body d-flex align-items-center justify-content-center">
           <div id="${filter === 'both' ? 'piechart2' : 'chessgame2'}" class="${filter === 'both' ? 'pie-chart-container' : 'chess-game-container'}"></div>
