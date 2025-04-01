@@ -9,11 +9,11 @@ window.ChessVis = window.ChessVis || {};
 
 // Configuration constants
 ChessVis.RATING_RANGES = [
-  { range: "1-1199", percent: 50.9, color: "#0072B2" },    // Blue
-  { range: "1200-1699", percent: 33.1, color: "#56B4E9" }, // Light blue
-  { range: "1700-1899", percent: 9.4, color: "#F0E442" },  // Yellow
-  { range: "1900-2299", percent: 5.6, color: "#E69F00" },  // Orange
-  { range: "2300+", percent: 1.0, color: "#D55E00" }       // Red-orange
+  { range: "0-799", percent: 53.82, color: "#0072B2" },    // Blue
+  { range: "800-1399", percent: 23.08, color: "#56B4E9" }, // Light blue
+  { range: "1400-1799", percent: 15.23, color: "#F0E442" },  // Yellow
+  { range: "2000-2199", percent: 6.09, color: "#E69F00" },  // Orange
+  { range: "2400+", percent: 1.78, color: "#D55E00" }       // Red-orange
 ];
 
 // Total number of registered chess players in Canada
