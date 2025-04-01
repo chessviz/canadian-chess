@@ -274,24 +274,19 @@ function setupFilterButtons() {
 // Update visual state of portraits based on selection
 function updateActivePortrait(activeElement, selectedPlayerId) {
   // Get references to portraits
-  const aaronPortrait = document.getElementById("aaron-portrait");
-  const nikolayPortrait = document.getElementById("nikolay-portrait");
+  const aaronPortrait = document.getElementById("aaron-portrait-pie");
+  const nikolayPortrait = document.getElementById("nikolay-portrait-pie");
   
-  // Reset both portraits to inactive state
-  if (aaronPortrait) {
-    aaronPortrait.classList.remove("active-portrait");
-    aaronPortrait.style.opacity = "0.7";
-  }
-  
-  if (nikolayPortrait) {
-    nikolayPortrait.classList.remove("active-portrait");
-    nikolayPortrait.style.opacity = "0.7";
-  }
+  // Reset both portraits to inactive state - remove active class and reduce opacity
+  document.querySelectorAll(".player-portrait").forEach((portrait) => {
+    portrait.classList.remove("active");
+    // portrait.style.opacity = "0.7";
+  });
   
   // Add active state to selected portrait if applicable
   if (activeElement) {
-    activeElement.classList.add("active-portrait");
-    activeElement.style.opacity = "1";
+    activeElement.classList.add("active");
+    // activeElement.style.opacity = "1";
   }
   
   // Update button states if you still have buttons
