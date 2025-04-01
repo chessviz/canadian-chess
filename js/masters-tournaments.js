@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <tr>
             <th scope="col" class="text-center" style="width: 70px;">Rank</th>
             <th scope="col">Organizer</th>
-            <th scope="col" class="text-center" style="width: 160px;">Registered Players</th>
+            <th scope="col" class="text-center" style="width: 160px;">Total Participants</th>
           </tr>
         </thead>
         <tbody>
