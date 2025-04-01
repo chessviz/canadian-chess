@@ -648,35 +648,29 @@ Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
 Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
 0-1`,
     // Game 2 - vs Urkedal (Olympiad)
-    `[Event "Olympiad"]
-[Site "Budapest HUN"]
-[Date "2024.09.12"]
-[Round "2.4"]
-[White "Urkedal, Frode Olav Olsen"]
-[Black "Noritsyn, Nikolay"]
+    `[Event "Maplewood inv."]
+[Site "Waterloo, QC CAN"]
+[Date "2024.07.21"]
+[Round "3.3"]
+[White "Noritsyn, Nikolay"]
+[Black "Kantans, T."]
 [Result "1-0"]
-[ECO "D20"]
-[WhiteElo "2546"]
-[BlackElo "2451"]
-[PlyCount "87"]
-[EventDate "2024.09.11"]
-[EventType "team"]
-[EventRounds "11"]
-[EventCountry "HUN"]
-[Source "ChessMix "]
-[SourceDate "2024.10.01"]
-[WhiteTeam "Norway"]
-[BlackTeam "Canada"]
-[WhiteTeamCountry "NOR"]
-[BlackTeamCountry "CAN"]
+[ECO "B48"]
+[WhiteElo "2450"]
+[BlackElo "2471"]
+[PlyCount "43"]
+[EventDate "2024.07.20"]
+[EventType "tourn"]
+[EventRounds "9"]
+[EventCountry "CAN"]
+[EventCategory "10"]
+[Source "Mark Crowther"]
+[SourceDate "2024.07.29"]
 
-1. d4 d5 2. c4 dxc4 3. e4 e5 4. Nf3 Bb4+ 5. Nc3 exd4 6. Qxd4 Qxd4 7. Nxd4 Nf6
-8. f3 Bc5 9. Ndb5 Na6 10. Bf4 Be6 11. Bxc7 Ke7 12. O-O-O Nxc7 13. Nxc7 Rac8 14.
-Nxe6 fxe6 15. Kc2 Be3 16. g3 Rhf8 17. Bh3 Nd7 18. f4 g5 19. Bxe6 Kxe6 20. f5+
-Ke7 21. Nd5+ Kf7 22. Nxe3 Ne5 23. Rd6 Rfe8 24. h4 g4 25. h5 b5 26. Rhd1 Nd3 27.
-Rd7+ Kf8 28. Rxh7 Kg8 29. Rxa7 Rxe4 30. Nd5 Re2+ 31. Rd2 Re1 32. Rh2 Rd8 33. h6
-Kh8 34. Nf6 Nb4+ 35. Kc3 Nd5+ 36. Nxd5 Rxd5 37. f6 Rd8 38. Kb4 Rf1 39. Rf7 Rc8
-40. Re2 Rh1 41. Rfe7 Rf8 42. Re8 Kg8 43. R2e7 Rxe8 44. f7+ 1-0`,
+1. e4 c5 2. Nc3 Nc6 3. Nge2 e6 4. d4 cxd4 5. Nxd4 Qc7 6. Be3 a6 7. Bd3 Nf6 8.
+Qe2 Bd6 9. O-O-O Be5 10. Nxc6 bxc6 11. g4 Rb8 12. Bd2 d5 13. g5 Nd7 14. Rhf1
+Qa5 15. a3 Nc5 16. exd5 Rxb2 17. Kxb2 Na4+ 18. Ka2 Bxc3 19. dxc6 O-O 20. Bc4
+Bxd2 21. Qxd2 Nc3+ 22. Kb3 1-0`,
     // Game 3 - vs Kelires (Olympiad)
     `[Event "Olympiad"]
 [Site "Budapest HUN"]
