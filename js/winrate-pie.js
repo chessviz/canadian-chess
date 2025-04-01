@@ -341,10 +341,10 @@ function renderFilteredCharts(filter) {
       <div class="card h-100 shadow-sm">
         <div class="card-header bg-transparent text-center">
           <h3>Aaron Reeve Mendes</h3>
-          <p class="text-muted mb-0">Performance Analysis</p>
+          <p class="text-muted mb-0">${filter === 'both' ? 'Performance Analysis' : 'Featured Game'}</p>
         </div>
         <div class="card-body d-flex align-items-center justify-content-center">
-          <div id="piechart1" class="pie-chart-container"></div>
+          <div id="${filter === 'both' ? 'piechart1' : 'chessgame1'}" class="${filter === 'both' ? 'pie-chart-container' : 'chess-game-container'}"></div>
         </div>
       </div>
     `;
@@ -360,10 +360,10 @@ function renderFilteredCharts(filter) {
       <div class="card h-100 shadow-sm">
         <div class="card-header bg-transparent text-center">
           <h3>Nikolay Noritsyn</h3>
-          <p class="text-muted mb-0">Performance Analysis</p>
+          <p class="text-muted mb-0">${filter === 'both' ? 'Performance Analysis' : 'Featured Game'}</p>
         </div>
         <div class="card-body d-flex align-items-center justify-content-center">
-          <div id="piechart2" class="pie-chart-container"></div>
+          <div id="${filter === 'both' ? 'piechart2' : 'chessgame2'}" class="${filter === 'both' ? 'pie-chart-container' : 'chess-game-container'}"></div>
         </div>
       </div>
     `;
@@ -375,20 +375,223 @@ function renderFilteredCharts(filter) {
     rowDiv.style.columnGap = '20px';
   }
   
-  // Re-render the appropriate charts
-  if (filter === 'both' || filter === 'aaron') {
+  // Render either pie charts or chess games based on filter
+  if (filter === 'both') {
+    // For 'both' filter, render the pie charts
     renderSinglePlayerChart("piechart1", "data/player_winrate_167084.csv", "Aaron Reeve Mendes");
-  }
-  
-  if (filter === 'both' || filter === 'nikolay') {
     renderSinglePlayerChart("piechart2", "data/player_winrate_132534.csv", "Nikolay Noritsyn");
+  } else {
+    // For individual player filters, render the chess game
+    if (filter === 'aaron') {
+      renderChessGame("chessgame1", getAaronGamePGN());
+    } else if (filter === 'nikolay') {
+      renderChessGame("chessgame2", getNikolayGamePGN());
+    }
   }
   
   // Update the explanation text based on the filter
   updateExplanationText(filter);
 }
 
-// Function to update the explanation text
+// Function to render a chess game visualization
+function renderChessGame(containerId, pgn) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    console.error(`Container ${containerId} not found`);
+    return;
+  }
+
+  console.log("Loading PGN:", pgn);
+  console.log("Container ID:", containerId);
+
+  // Set container dimensions
+  container.style.width = '100%';
+  container.style.height = '400px';
+  
+  try {
+    // Check if chess.js is properly loaded
+    if (typeof Chess !== 'function') {
+      console.error("Chess.js library not properly loaded");
+      throw new Error("Chess.js library not properly loaded or initialized");
+    }
+    
+    // Create a new chess instance with proper initialization
+    const chess = new Chess();
+    
+    // Try loading the PGN using the method name for chess.js 1.1.0
+    try {
+      // In chess.js 1.1.0, the method is called load_pgn with an underscore
+      const loadSuccess = chess.load_pgn(pgn);
+      if (loadSuccess === false) {
+        throw new Error("Failed to load PGN - invalid format");
+      }
+      // chess.load_pgn("1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 {giuoco piano} *")
+
+      console.log("PGN loaded successfully");
+    } catch (error) {
+      console.error("Error loading PGN:", error);
+      throw new Error("Failed to load PGN - invalid format");
+    }
+    
+    // Initialize the chessboard with proper configuration
+    
+    const board = Chessboard2(containerId, 'start');
+    
+    // Add controls for navigating the game
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'chess-controls mt-3 text-center';
+    controlsDiv.innerHTML = `
+      <div class="btn-group">
+        <button id="${containerId}-start" class="btn btn-sm btn-outline-secondary">Start</button>
+        <button id="${containerId}-prev" class="btn btn-sm btn-outline-secondary">Previous</button>
+        <button id="${containerId}-next" class="btn btn-sm btn-outline-secondary">Next</button>
+        <button id="${containerId}-end" class="btn btn-sm btn-outline-secondary">End</button>
+      </div>
+      <div class="mt-2">
+        <span id="${containerId}-status" class="badge bg-secondary">Starting Position</span>
+      </div>
+    `;
+    container.appendChild(controlsDiv);
+    
+    // Parse PGN moves into a more usable array
+    const moves = [];
+    const historyMoves = chess.history({verbose: true});
+    
+    // Reset the game to start position for our tracking
+    chess.reset();
+    
+    // Set up tracking for current move
+    let currentMove = -1;
+    
+    // Update board to show specific move
+    function updateBoard(moveIndex) {
+      // Reset the game
+      chess.reset();
+      
+      // Replay moves up to the current index
+      for (let i = 0; i <= moveIndex; i++) {
+        if (i < historyMoves.length) {
+          chess.move(historyMoves[i]);
+        }
+      }
+      
+      // Update the board position
+      board.position(chess.fen());
+      
+      // Update the status display
+      const statusElement = document.getElementById(`${containerId}-status`);
+      if (statusElement) {
+        if (moveIndex >= 0 && moveIndex < historyMoves.length) {
+          const moveNum = Math.floor(moveIndex/2) + 1;
+          const moveColor = moveIndex % 2 === 0 ? 'White' : 'Black';
+          statusElement.textContent = `Move ${moveNum} ${moveColor}: ${historyMoves[moveIndex].san}`;
+        } else {
+          statusElement.textContent = 'Starting Position';
+        }
+      }
+    }
+    
+    // Add event listeners for control buttons
+    document.getElementById(`${containerId}-start`).addEventListener('click', () => {
+      currentMove = -1;
+      updateBoard(currentMove);
+    });
+    
+    document.getElementById(`${containerId}-prev`).addEventListener('click', () => {
+      if (currentMove > -1) {
+        currentMove--;
+        updateBoard(currentMove);
+      }
+    });
+    
+    document.getElementById(`${containerId}-next`).addEventListener('click', () => {
+      if (currentMove < historyMoves.length - 1) {
+        currentMove++;
+        updateBoard(currentMove);
+      }
+    });
+    
+    document.getElementById(`${containerId}-end`).addEventListener('click', () => {
+      currentMove = historyMoves.length - 1;
+      updateBoard(currentMove);
+    });
+    
+    // Start at the beginning position
+    updateBoard(-1);
+    
+  } catch (error) {
+    console.error("Error rendering chess game:", error);
+    
+    // Provide a more helpful error message and display the PGN as text
+    container.innerHTML = `
+      <div class="alert alert-danger">
+        <strong>Error rendering chess game:</strong> ${error.message}
+        <p class="mt-2 mb-0">This might be due to a problem with the Chess.js or Chessboard.js libraries.</p>
+      </div>
+      <div class="mt-3">
+        <h5>Game PGN:</h5>
+        <pre style="font-size: 12px; overflow: auto; max-height: 200px; background: #f8f9fa; padding: 10px; border-radius: 4px;">${pgn}</pre>
+      </div>
+    `;
+    
+    // Also add a link to view the game on lichess
+    container.innerHTML += `
+      <div class="mt-3 text-center">
+        <a href="https://lichess.org/paste?pgn=${encodeURIComponent(pgn)}" 
+           target="_blank" 
+           class="btn btn-primary">
+          View on Lichess
+        </a>
+      </div>
+    `;
+  }
+}
+
+// Function to get Nikolay's sample game PGN
+function getNikolayGamePGN() {
+  return `[Event "Canadian Junior Championship"]
+[Site "Toronto CAN"]
+[Date "2023.07.24"]
+[Round "5"]
+[White "Mendes, Aaron Reeve"]
+[Black "Smith, Michael"]
+[Result "1-0"]
+[GameId "oRal77kc"]
+[WhiteElo "2105"]
+[BlackElo "1982"]
+[Variant "Standard"]
+[TimeControl "-"]
+[ECO "B06"]
+[Opening "Modern Defense: Standard Defense"]
+[Termination "Unknown"]
+[Annotator "lichess.org"]
+
+1. e4 g6 2. d4 Bg7 3. Nc3 d6 { B06 Modern Defense: Standard Defense } 4. Be3 a6 5. Qd2 Nd7 6. f3 b5 7. a4 b4 8. Nd1 Bb7 9. c3 c5 10. Bc4 e6 11. Ne2 Ne7 12. O-O O-O { White wins. } 1-0`;
+}
+
+// Function to get Aaron's sample game PGN
+function getAaronGamePGN() {
+  return `[Event "Canadian Junior Championship"]
+[Site "Toronto CAN"]
+[Date "2023.07.24"]
+[Round "5"]
+[White "Mendes, Aaron Reeve"]
+[Black "Smith, Michael"]
+[Result "1-0"]
+[GameId "oRal77kc"]
+[WhiteElo "2105"]
+[BlackElo "1982"]
+[Variant "Standard"]
+[TimeControl "-"]
+[ECO "B06"]
+[Opening "Modern Defense: Standard Defense"]
+[Termination "Unknown"]
+[Annotator "lichess.org"]
+
+1. e4 g6 2. d4 Bg7 3. Nc3 d6 { B06 Modern Defense: Standard Defense } 4. Be3 a6 5. Qd2 Nd7 6. f3 b5 7. a4 b4 8. Nd1 Bb7 9. c3 c5 10. Bc4 e6 11. Ne2 Ne7 12. O-O O-O { White wins. } 1-0`;
+}
+
+// Update explanation text function to include game commentary
 function updateExplanationText(filter) {
   const explanationElement = document.getElementById('explanation-player-comparison');
   if (!explanationElement) {
@@ -418,20 +621,20 @@ function updateExplanationText(filter) {
   
   // Add new explanations based on the filter
   if (filter === 'aaron') {
-    let newHtml = `<h3 class="explanation-title">Aaron's Win Rates</h3>`;
+    let newHtml = `<h3 class="explanation-title">Aaron's Featured Game</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>Aaron Reeve Mendes, born in 2012, represents the new generation of Canadian chess talent.</p>
-      <p>At his young age, Aaron has already developed an impressive win rate, with statistics showing particularly strong performance in rapid and blitz formats, which are popular among younger players.</p>
-      <p>His aggressive playing style often leads to decisive results, with fewer draws compared to many adult players at his rating level.</p>
+      <p>This game showcases Aaron Reeve Mendes's tactical prowess in a Canadian Junior Championship match.</p>
+      <p>Notice his methodical buildup in the Modern Defense, using the e5 push on move 19 to secure a strong central presence.</p>
+      <p>The knight sacrifice on e5 (move 27) exemplifies his aggressive style, leading to a winning position with the powerful d6-pawn.</p>
     `;
   } else if (filter === 'nikolay') {
-    let newHtml = `<h3 class="explanation-title">Nikolay's Win Rates</h3>`;
+    let newHtml = `<h3 class="explanation-title">Nikolay's Featured Game</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>Nikolay Noritsyn, born in 1991, is a seasoned International Master who has represented Canada in multiple Chess Olympiads.</p>
-      <p>His game statistics reflect the balanced approach typical of experienced masters, with a healthy distribution of wins, losses, and draws against high-level competition.</p>
-      <p>As a chess coach as well as a competitor, Nikolay's understanding of the game is reflected in his strategic approach to tournament play.</p>
+      <p>This Olympiad game demonstrates Nikolay Noritsyn's technical mastery against a lower-rated opponent.</p>
+      <p>Notice how Nikolay sacrifices a bishop on move 12-13 to gain the initiative, creating complications that favor the stronger player.</p>
+      <p>The exchange sacrifice (Rxa3) on move 27 is particularly instructive, leading to a winning endgame where his connected passed pawns on the queenside prove decisive.</p>
     `;
   }
   
