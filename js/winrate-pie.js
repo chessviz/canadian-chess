@@ -380,7 +380,8 @@ function renderFilteredCharts(filter) {
     if (filter === 'aaron') {
       renderChessGame("chessgame1", getAaronGamePGN());
     } else if (filter === 'nikolay') {
-      renderChessGame("chessgame2", getNikolayGamePGN());
+      // For Nikolay, we now have multiple games, start with the first one
+      renderChessGame("chessgame2", getNikolayGamePGN(0), 0);
     }
   }
   
@@ -389,7 +390,7 @@ function renderFilteredCharts(filter) {
 }
 
 // Function to render a chess game visualization
-function renderChessGame(containerId, pgn) {
+function renderChessGame(containerId, pgn, gameIndex = 0) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.error(`Container ${containerId} not found`);
@@ -399,10 +400,11 @@ function renderChessGame(containerId, pgn) {
   console.log("Loading PGN:", pgn);
   console.log("Container ID:", containerId);
 
-  // Set container dimensions
-  container.style.width = '60%';
-  // container.style.height = '300px';
-  container.style.height = '600px';
+  // Set container dimensions - make it smaller and more responsive
+  container.style.width = '100%';
+  container.style.height = '6`00px'; // Reduced from 600px
+  container.style.maxWidth = '400px'; // Add maximum width
+  container.style.margin = '0 auto'; // Center the container
   
   try {
     // Check if chess.js is properly loaded
@@ -421,36 +423,77 @@ function renderChessGame(containerId, pgn) {
       if (loadSuccess === false) {
         throw new Error("Failed to load PGN - invalid format");
       }
-      // chess.load_pgn("1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 {giuoco piano} *")
-
       console.log("PGN loaded successfully");
     } catch (error) {
       console.error("Error loading PGN:", error);
       throw new Error("Failed to load PGN - invalid format");
     }
     
-    // Initialize the chessboard with proper configuration
+    // Initialize the chessboard with proper configuration and sizing
+    const boardConfig = {
+      position: 'start',
+      showNotation: true,
+      pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
+      // Make the board responsive
+      responsive: true
+    };
     
-    const board = Chessboard2(containerId, 'start');
+    const board = Chessboard2(containerId, boardConfig);
+    
+    // Manually resize the board to fit container
+    if (board.resize) {
+      setTimeout(() => board.resize(), 50);
+    }
     
     // Add controls for navigating the game
     const controlsDiv = document.createElement('div');
-    controlsDiv.className = 'chess-controls mt-3 text-center';
+    controlsDiv.className = 'chess-controls mt-2 text-center'; // Reduced margin
+    
+    // Extract game metadata for display
+    const event = extractPgnTag(pgn, 'Event') || 'Unknown Event';
+    const white = extractPgnTag(pgn, 'White') || 'Unknown White';
+    const black = extractPgnTag(pgn, 'Black') || 'Unknown Black';
+    const result = extractPgnTag(pgn, 'Result') || '*';
+    const date = extractPgnTag(pgn, 'Date') || '';
+    
+    // Add game information
     controlsDiv.innerHTML = `
-      <div class="btn-group">
+      <div class="game-info small text-muted mb-1">
+        ${event} (${date.split('.')[0]}) · ${white} vs ${black} · ${result}
+      </div>
+      <div class="btn-group btn-group-sm"> <!-- Use smaller buttons -->
         <button id="${containerId}-start" class="btn btn-sm btn-outline-secondary">Start</button>
-        <button id="${containerId}-prev" class="btn btn-sm btn-outline-secondary">Previous</button>
+        <button id="${containerId}-prev" class="btn btn-sm btn-outline-secondary">Prev</button>
         <button id="${containerId}-next" class="btn btn-sm btn-outline-secondary">Next</button>
         <button id="${containerId}-end" class="btn btn-sm btn-outline-secondary">End</button>
       </div>
-      <div class="mt-2">
-        <span id="${containerId}-status" class="badge bg-secondary">Starting Position</span>
+      <div class="mt-1"> <!-- Reduced margin -->
+        <span id="${containerId}-status" class="badge bg-secondary small">Starting Position</span>
       </div>
     `;
+    
+    // For Nikolay's games, add game selector if we have multiple games
+    if (containerId === "chessgame2") {
+      const totalGames = getNikolayGamePGNs().length;
+      const gameNavDiv = document.createElement('div');
+      gameNavDiv.className = 'game-navigation mt-2';
+      gameNavDiv.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+          <button id="${containerId}-prev-game" class="btn btn-sm btn-outline-primary" ${gameIndex === 0 ? 'disabled' : ''}>
+            <i class="fas fa-chevron-left"></i> Prev Game
+          </button>
+          <span class="mx-2 badge bg-primary">Game ${gameIndex + 1} of ${totalGames}</span>
+          <button id="${containerId}-next-game" class="btn btn-sm btn-outline-primary" ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
+            Next Game <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      `;
+      controlsDiv.appendChild(gameNavDiv);
+    }
+    
     container.appendChild(controlsDiv);
     
     // Parse PGN moves into a more usable array
-    const moves = [];
     const historyMoves = chess.history({verbose: true});
     
     // Reset the game to start position for our tracking
@@ -512,14 +555,49 @@ function renderChessGame(containerId, pgn) {
       updateBoard(currentMove);
     });
     
+    // Add game navigation event listeners if applicable
+    if (containerId === "chessgame2") {
+      const prevGameBtn = document.getElementById(`${containerId}-prev-game`);
+      const nextGameBtn = document.getElementById(`${containerId}-next-game`);
+      
+      if (prevGameBtn) {
+        prevGameBtn.addEventListener('click', () => {
+          if (gameIndex > 0) {
+            // Re-render with previous game
+            container.innerHTML = '';
+            renderChessGame(containerId, getNikolayGamePGNs()[gameIndex - 1], gameIndex - 1);
+          }
+        });
+      }
+      
+      if (nextGameBtn) {
+        nextGameBtn.addEventListener('click', () => {
+          const totalGames = getNikolayGamePGNs().length;
+          if (gameIndex < totalGames - 1) {
+            // Re-render with next game
+            container.innerHTML = '';
+            renderChessGame(containerId, getNikolayGamePGNs()[gameIndex + 1], gameIndex + 1);
+          }
+        });
+      }
+    }
+    
     // Start at the beginning position
     updateBoard(-1);
+    
+    // Force resize after a short delay to ensure proper sizing
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 200);
     
   } catch (error) {
     console.error("Error rendering chess game:", error);
     
-    // Also add a link to view the game on lichess
-    container.innerHTML += `
+    // Provide a more helpful error message
+    container.innerHTML = `
+      <div class="alert alert-danger">
+        <strong>Error rendering chess game:</strong> ${error.message}
+      </div>
       <div class="mt-3 text-center">
         <a href="https://lichess.org/paste?pgn=${encodeURIComponent(pgn)}" 
            target="_blank" 
@@ -531,9 +609,76 @@ function renderChessGame(containerId, pgn) {
   }
 }
 
-// Function to get Nikolay's sample game PGN
-function getNikolayGamePGN() {
-  return `[Event "Olympiad"]
+// Helper function to extract tags from PGN
+function extractPgnTag(pgn, tagName) {
+  const regex = new RegExp(`\\[${tagName} "([^"]+)"\\]`);
+  const match = pgn.match(regex);
+  return match ? match[1] : null;
+}
+
+// Function to get all of Nikolay's sample game PGNs as an array
+function getNikolayGamePGNs() {
+  return [
+    // Game 1 - vs Hill (Olympiad)
+    `[Event "Olympiad"]
+[Site "Budapest HUN"]
+[Date "2024.09.11"]
+[Round "1.4"]
+[White "Hill, Jonathan"]
+[Black "Noritsyn, Nikolay"]
+[Result "0-1"]
+[ECO "A48"]
+[WhiteElo "1756"]
+[BlackElo "2451"]
+[PlyCount "66"]
+[EventDate "2024.09.11"]
+[EventType "team"]
+[EventRounds "11"]
+[EventCountry "HUN"]
+[Source "ChessMix "]
+[SourceDate "2024.10.01"]
+[WhiteTeam "Guernsey"]
+[BlackTeam "Canada"]
+[BlackTeamCountry "CAN"]
+
+1. d4 Nf6 2. Nf3 g6 3. Bf4 d6 4. h3 c5 5. c3 Qb6 6. Qb3 Nc6 7. e3 cxd4 8. Qxb6
+axb6 9. exd4 Nd5 10. Bh2 Bh6 11. Be2 Bc1 12. a3 Bxb2 13. Ra2 Bxc3+ 14. Nxc3
+Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
+21. Rhd1 Rha8 22. f3 Bd5 23. Kf2 b4 24. Bc1 bxa3 25. Rd3 a2 26. Bb2 Na5 27. Ra3
+Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
+0-1`,
+    // Game 2 - vs Urkedal (Olympiad)
+    `[Event "Olympiad"]
+[Site "Budapest HUN"]
+[Date "2024.09.12"]
+[Round "2.4"]
+[White "Urkedal, Frode Olav Olsen"]
+[Black "Noritsyn, Nikolay"]
+[Result "1-0"]
+[ECO "D20"]
+[WhiteElo "2546"]
+[BlackElo "2451"]
+[PlyCount "87"]
+[EventDate "2024.09.11"]
+[EventType "team"]
+[EventRounds "11"]
+[EventCountry "HUN"]
+[Source "ChessMix "]
+[SourceDate "2024.10.01"]
+[WhiteTeam "Norway"]
+[BlackTeam "Canada"]
+[WhiteTeamCountry "NOR"]
+[BlackTeamCountry "CAN"]
+
+1. d4 d5 2. c4 dxc4 3. e4 e5 4. Nf3 Bb4+ 5. Nc3 exd4 6. Qxd4 Qxd4 7. Nxd4 Nf6
+8. f3 Bc5 9. Ndb5 Na6 10. Bf4 Be6 11. Bxc7 Ke7 12. O-O-O Nxc7 13. Nxc7 Rac8 14.
+Nxe6 fxe6 15. Kc2 Be3 16. g3 Rhf8 17. Bh3 Nd7 18. f4 g5 19. Bxe6 Kxe6 20. f5+
+Ke7 21. Nd5+ Kf7 22. Nxe3 Ne5 23. Rd6 Rfe8 24. h4 g4 25. h5 b5 26. Rhd1 Nd3 27.
+Rd7+ Kf8 28. Rxh7 Kg8 29. Rxa7 Rxe4 30. Nd5 Re2+ 31. Rd2 Re1 32. Rh2 Rd8 33. h6
+Kh8 34. Nf6 Nb4+ 35. Kc3 Nd5+ 36. Nxd5 Rxd5 37. f6 Rd8 38. Kb4 Rf1 39. Rf7 Rc8
+40. Re2 Rh1 41. Rfe7 Rf8 42. Re8 Kg8 43. R2e7 Rxe8 44. f7+ 1-0`,
+    // Game 3 - vs Kelires (Olympiad)
+    `[Event "Olympiad"]
 [Site "Budapest HUN"]
 [Date "2024.09.14"]
 [Round "4.4"]
@@ -562,7 +707,18 @@ a4 Ne4 16. Be1 Nd6 17. e3 Rc8 18. Bf1 Rc7 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
 Rxc7 Qxc7 29. Nf3 h5 30. Bd3 g6 31. Qb1 Be7 32. Ne5 Bd6 33. b4 Nc6 34. Nf3 Ne7
 35. Nd2 Nxd2 36. Bxd2 h4 37. Be1 e5 38. Nc3 Qd7 39. Qb3 exd4 40. exd4 Qg4 41.
 b5 a5 42. Bf1 Qxd4 43. Bg2 Bb4 44. Qc2 Qc4 45. Bd2 Nf5 46. Qc1 Nd4 47. Qe1 Ne6
-48. Qe5 Qd4 49. Qe1 Qd3 50. Bf1 Qf5 51. Ne2 d4 52. Bxb4 axb4 0-1`}
+48. Qe5 Qd4 49. Qe1 Qd3 50. Bf1 Qf5 51. Ne2 d4 52. Bxb4 axb4 0-1`
+  ];
+}
+
+// Function to get a specific game from Nikolay's collection
+function getNikolayGamePGN(index = 0) {
+  const games = getNikolayGamePGNs();
+  if (index >= 0 && index < games.length) {
+    return games[index];
+  }
+  return games[0]; // Return first game as default
+}
 
 // Function to get Aaron's sample game PGN
 function getAaronGamePGN() {
@@ -632,12 +788,12 @@ function updateExplanationText(filter) {
       <p>The knight sacrifice on e5 (move 27) exemplifies his aggressive style, leading to a winning position with the powerful d6-pawn.</p>
     `;
   } else if (filter === 'nikolay') {
-    let newHtml = `<h3 class="explanation-title">Nikolay's Featured Game</h3>`;
+    let newHtml = `<h3 class="explanation-title">Nikolay's Games</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>This Olympiad game demonstrates Nikolay Noritsyn's technical mastery against a lower-rated opponent.</p>
-      <p>Notice how Nikolay sacrifices a bishop on move 12-13 to gain the initiative, creating complications that favor the stronger player.</p>
-      <p>The exchange sacrifice (Rxa3) on move 27 is particularly instructive, leading to a winning endgame where his connected passed pawns on the queenside prove decisive.</p>
+      <p>Explore three of Nikolay Noritsyn's games from the 2024 Olympiad in Budapest, showcasing his technical mastery.</p>
+      <p>The first game demonstrates his tactical play against a lower-rated opponent from Guernsey, where his queenside pawn majority eventually decides the game.</p>
+      <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and see different aspects of his play style.</p>
     `;
   }
   
