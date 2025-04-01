@@ -200,20 +200,8 @@ function loadMastersData() {
 
           // Get the masters from this year to show in tooltip
           const mastersThisYear = yearGroups.get(d.year) || [];
-          let mastersText = `<strong>Year: ${d.year}</strong><br>New Masters: ${d.count}<br><br>`;
+          let mastersText = `<strong>Year: ${d.year}</strong><br>New Masters: ${d.count}<br>`;
 
-          // Add up to 5 master IDs to the tooltip
-          mastersText += mastersThisYear
-            .slice(0, 5)
-            .map(
-              (m) =>
-                `${m.player_name} - ${m.title_achieved} - ${m.province}`
-            )
-            .join("<br>");
-
-          if (mastersThisYear.length > 5) {
-            mastersText += `<br>... and ${mastersThisYear.length - 5} more`;
-          }
 
           tooltip
             .html(mastersText)
