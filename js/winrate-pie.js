@@ -518,18 +518,6 @@ function renderChessGame(containerId, pgn) {
   } catch (error) {
     console.error("Error rendering chess game:", error);
     
-    // Provide a more helpful error message and display the PGN as text
-    container.innerHTML = `
-      <div class="alert alert-danger">
-        <strong>Error rendering chess game:</strong> ${error.message}
-        <p class="mt-2 mb-0">This might be due to a problem with the Chess.js or Chessboard.js libraries.</p>
-      </div>
-      <div class="mt-3">
-        <h5>Game PGN:</h5>
-        <pre style="font-size: 12px; overflow: auto; background: #f8f9fa; padding: 10px; border-radius: 4px;">${pgn}</pre>
-      </div>
-    `;
-    
     // Also add a link to view the game on lichess
     container.innerHTML += `
       <div class="mt-3 text-center">
@@ -545,47 +533,66 @@ function renderChessGame(containerId, pgn) {
 
 // Function to get Nikolay's sample game PGN
 function getNikolayGamePGN() {
-  return `[Event "Canadian Junior Championship"]
-[Site "Toronto CAN"]
-[Date "2023.07.24"]
-[Round "5"]
-[White "Mendes, Aaron Reeve"]
-[Black "Smith, Michael"]
-[Result "1-0"]
-[GameId "oRal77kc"]
-[WhiteElo "2105"]
-[BlackElo "1982"]
-[Variant "Standard"]
-[TimeControl "-"]
-[ECO "B06"]
-[Opening "Modern Defense: Standard Defense"]
-[Termination "Unknown"]
-[Annotator "lichess.org"]
+  return `[Event "Olympiad"]
+[Site "Budapest HUN"]
+[Date "2024.09.14"]
+[Round "4.4"]
+[White "Kelires, Andreas"]
+[Black "Noritsyn, Nikolay"]
+[Result "0-1"]
+[ECO "A05"]
+[WhiteElo "2536"]
+[BlackElo "2451"]
+[PlyCount "104"]
+[EventDate "2024.09.11"]
+[EventType "team"]
+[EventRounds "11"]
+[EventCountry "HUN"]
+[Source "ChessMix "]
+[SourceDate "2024.10.01"]
+[WhiteTeam "Greece"]
+[BlackTeam "Canada"]
+[WhiteTeamCountry "GRE"]
+[BlackTeamCountry "CAN"]
 
-1. e4 g6 2. d4 Bg7 3. Nc3 d6 { B06 Modern Defense: Standard Defense } 4. Be3 a6 5. Qd2 Nd7 6. f3 b5 7. a4 b4 8. Nd1 Bb7 9. c3 c5 10. Bc4 e6 11. Ne2 Ne7 12. O-O O-O { White wins. } 1-0`;
-}
+1. Nf3 d5 2. g3 b6 3. Bg2 Bb7 4. O-O Nf6 5. d3 e6 6. Re1 Bc5 7. d4 Be7 8. c4 c6
+9. Nc3 Nbd7 10. Bf4 Nh5 11. Bd2 Nhf6 12. Qb3 O-O 13. cxd5 cxd5 14. Rec1 a6 15.
+a4 Ne4 16. Be1 Nd6 17. e3 Rc8 18. Bf1 Rc7 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
+22. Qd1 Rfc8 23. Nf3 Ne4 24. b3 Na5 25. Ne5 Qd8 26. Rxc7 Rxc7 27. Rc1 Bd6 28.
+Rxc7 Qxc7 29. Nf3 h5 30. Bd3 g6 31. Qb1 Be7 32. Ne5 Bd6 33. b4 Nc6 34. Nf3 Ne7
+35. Nd2 Nxd2 36. Bxd2 h4 37. Be1 e5 38. Nc3 Qd7 39. Qb3 exd4 40. exd4 Qg4 41.
+b5 a5 42. Bf1 Qxd4 43. Bg2 Bb4 44. Qc2 Qc4 45. Bd2 Nf5 46. Qc1 Nd4 47. Qe1 Ne6
+48. Qe5 Qd4 49. Qe1 Qd3 50. Bf1 Qf5 51. Ne2 d4 52. Bxb4 axb4 0-1`}
 
 // Function to get Aaron's sample game PGN
 function getAaronGamePGN() {
-  return `[Event "Canadian Junior Championship"]
-[Site "Toronto CAN"]
-[Date "2023.07.24"]
-[Round "5"]
-[White "Mendes, Aaron Reeve"]
-[Black "Smith, Michael"]
-[Result "1-0"]
-[GameId "oRal77kc"]
-[WhiteElo "2105"]
-[BlackElo "1982"]
-[Variant "Standard"]
-[TimeControl "-"]
-[ECO "B06"]
-[Opening "Modern Defense: Standard Defense"]
-[Termination "Unknown"]
-[Annotator "lichess.org"]
+  return `[Event "Olympiad"]
+[Site "Budapest HUN"]
+[Date "2024.09.11"]
+[Round "1.4"]
+[White "Hill, Jonathan"]
+[Black "Noritsyn, Nikolay"]
+[Result "0-1"]
+[ECO "A48"]
+[WhiteElo "1756"]
+[BlackElo "2451"]
+[PlyCount "66"]
+[EventDate "2024.09.11"]
+[EventType "team"]
+[EventRounds "11"]
+[EventCountry "HUN"]
+[Source "ChessMix "]
+[SourceDate "2024.10.01"]
+[WhiteTeam "Guernsey"]
+[BlackTeam "Canada"]
+[BlackTeamCountry "CAN"]
 
-1. e4 g6 2. d4 Bg7 3. Nc3 d6 { B06 Modern Defense: Standard Defense } 4. Be3 a6 5. Qd2 Nd7 6. f3 b5 7. a4 b4 8. Nd1 Bb7 9. c3 c5 10. Bc4 e6 11. Ne2 Ne7 12. O-O O-O { White wins. } 1-0`;
-}
+1. d4 Nf6 2. Nf3 g6 3. Bf4 d6 4. h3 c5 5. c3 Qb6 6. Qb3 Nc6 7. e3 cxd4 8. Qxb6
+axb6 9. exd4 Nd5 10. Bh2 Bh6 11. Be2 Bc1 12. a3 Bxb2 13. Ra2 Bxc3+ 14. Nxc3
+Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
+21. Rhd1 Rha8 22. f3 Bd5 23. Kf2 b4 24. Bc1 bxa3 25. Rd3 a2 26. Bb2 Na5 27. Ra3
+Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
+0-1`}
 
 // Update explanation text function to include game commentary
 function updateExplanationText(filter) {
