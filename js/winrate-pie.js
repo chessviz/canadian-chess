@@ -218,35 +218,101 @@ function renderPieChart(containerId, chartData, playerName) {
   // Note: The player name display code has been removed as requested
 }
 
-// Function to setup filter buttons
+// Function to setup portrait listeners for filtering charts
 function setupFilterButtons() {
-  const showAllButton = document.getElementById('show-all-players');
-  const showAaronButton = document.getElementById('show-aaron-only');
-  const showNikolayButton = document.getElementById('show-nikolay-only');
+  // Get references to the portrait elements
+  const aaronPortrait = document.getElementById("aaron-portrait-pie");
+  const nikolayPortrait = document.getElementById("nikolay-portrait-pie");
+  const showAllButton = document.getElementById("show-all-players"); // Keep this if you still have a "show all" button
   
-  if (!showAllButton || !showAaronButton || !showNikolayButton) {
-    console.error("Could not find filter buttons");
+  console.error("Added filter listener");
+
+  if (!aaronPortrait || !nikolayPortrait) {
+    console.error("Could not find player portrait elements");
     return;
   }
-  
-  // Show all players (default)
-  showAllButton.addEventListener('click', function() {
-    renderFilteredCharts('both');
-    updateActiveButton(this);
+  // Show only Aaron when his portrait is clicked
+  aaronPortrait.addEventListener("click", function() {
+    // console.log("event listener for aaron");
+
+    // If already showing only Aaron, toggle back to showing both
+    if (selectedPlayer === "167084") {
+      selectedPlayer = null;
+      renderFilteredCharts('both');
+    } else {
+      selectedPlayer = "167084"; // Aaron's player ID
+      renderFilteredCharts('aaron');
+    }
+    updateActivePortrait(this, selectedPlayer);
   });
   
-  // Show only Aaron
-  showAaronButton.addEventListener('click', function() {
-    renderFilteredCharts('aaron');
-    updateActiveButton(this);
+  // Show only Nikolay when his portrait is clicked
+  nikolayPortrait.addEventListener("click", function() {
+    // console.log("event listener for nikolay");
+
+    // If already showing only Nikolay, toggle back to showing both
+    if (selectedPlayer === "132534") {
+      selectedPlayer = null;
+      renderFilteredCharts('both');
+    } else {
+      selectedPlayer = "132534"; // Nikolay's player ID
+      renderFilteredCharts('nikolay');
+    }
+    updateActivePortrait(this, selectedPlayer);
   });
   
-  // Show only Nikolay
-  showNikolayButton.addEventListener('click', function() {
-    renderFilteredCharts('nikolay');
-    updateActiveButton(this);
-  });
+  // If you still have a show all button
+  if (showAllButton) {
+    showAllButton.addEventListener('click', function() {
+      selectedPlayer = null;
+      renderFilteredCharts('both');
+      updateActivePortrait(null, null);
+    });
+  }
 }
+
+// Update visual state of portraits based on selection
+function updateActivePortrait(activeElement, selectedPlayerId) {
+  // Get references to portraits
+  const aaronPortrait = document.getElementById("aaron-portrait");
+  const nikolayPortrait = document.getElementById("nikolay-portrait");
+  
+  // Reset both portraits to inactive state
+  if (aaronPortrait) {
+    aaronPortrait.classList.remove("active-portrait");
+    aaronPortrait.style.opacity = "0.7";
+  }
+  
+  if (nikolayPortrait) {
+    nikolayPortrait.classList.remove("active-portrait");
+    nikolayPortrait.style.opacity = "0.7";
+  }
+  
+  // Add active state to selected portrait if applicable
+  if (activeElement) {
+    activeElement.classList.add("active-portrait");
+    activeElement.style.opacity = "1";
+  }
+  
+  // Update button states if you still have buttons
+  const filterButtons = document.querySelectorAll('.filter-buttons .btn');
+  if (filterButtons.length) {
+    filterButtons.forEach(btn => {
+      btn.classList.remove('active', 'btn-primary');
+      btn.classList.add('btn-outline-primary');
+      
+      if ((selectedPlayerId === "167084" && btn.id === "show-aaron-only") ||
+          (selectedPlayerId === "132534" && btn.id === "show-nikolay-only") ||
+          (!selectedPlayerId && btn.id === "show-all-players")) {
+        btn.classList.remove('btn-outline-primary');
+        btn.classList.add('active', 'btn-primary');
+      }
+    });
+  }
+}
+
+// Initialize variable to track selected player
+let selectedPlayer = null;
 
 // Function to render filtered charts
 function renderFilteredCharts(filter) {
