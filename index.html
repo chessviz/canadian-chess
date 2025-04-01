@@ -699,52 +699,38 @@
       <!-- Leaflet Map Section -->
       <div class="section chess-pattern-light chess-pieces-bg chess-border">
         <div class="container-fluid h-100">
-          <div class="row">
-            <div class="col-12">
-              <h2 class="text-center mb-4">Interactive Chess Player Map</h2>
-              <p class="text-center text-muted">
-                Explore the geographical distribution of elite chess players
-                across Canada.
-              </p>
-              <div id="leaflet-map-container"></div>
-            </div>
-          </div>
-
-          <!-- Add Top Cities Table section -->
-          <div class="row mt-4">
-            <!-- Left column for Cities -->
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="mb-0">
-                    Top 10 Cities for Canadian National Masters
-                  </h3>
-                </div>
-                <div class="card-body">
-                  <div id="top-masters-cities">
-                    <!-- Table will be inserted here by JavaScript -->
-                    <div class="d-flex justify-content-center">
-                      <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <div class="map-tables-container">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="text-center mb-4">Interactive Chess Player Map</h2>
+                <p class="text-center text-muted">
+                  Explore the geographical distribution of elite chess players
+                  across Canada.
+                </p>
               </div>
             </div>
 
-            <!-- Right column for Organizers -->
-            <div class="col-md-6">
-              <div class="card" id="top-organizers">
+            <!-- Map container with responsive height -->
+            <div id="leaflet-map-container"></div>
+
+            <!-- Responsive tables row -->
+            <div class="tables-row">
+              <!-- Left column for Cities - Now uses table-card class -->
+              <div class="table-card" id="top-masters-cities">
                 <!-- Table will be inserted here by JavaScript -->
-                <div class="card-header bg-light">
-                  <h3 class="mb-0">Top 10 Organizers in Canada</h3>
+                <div class="d-flex justify-content-center p-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <div class="d-flex justify-content-center">
-                    <div class="spinner-border text-success" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
+              </div>
+
+              <!-- Right column for Organizers - Now uses table-card class -->
+              <div class="table-card" id="top-organizers">
+                <!-- Table will be inserted here by JavaScript -->
+                <div class="d-flex justify-content-center p-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                   </div>
                 </div>
               </div>

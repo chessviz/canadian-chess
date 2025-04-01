@@ -1,7 +1,16 @@
-// Canadian Chess Masters & Tournaments Map
+/**
+ * Canadian Chess Masters & Tournaments Map Visualization
+ *
+ * This script creates an interactive map of Canada showing:
+ * - Tournament distribution by province
+ * - National Masters locations
+ * - Interactive tables of top cities and organizers
+ */
 
 // Wait for DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
+  // ==================== INITIALIZATION ====================
+
   // Initialize the map centered on Canada
   const map = L.map("leaflet-map-container").setView([56.13, -106.35], 4);
 
@@ -16,41 +25,55 @@ document.addEventListener("DOMContentLoaded", function () {
   const provincesLayer = L.layerGroup().addTo(map);
   const mastersLayer = L.layerGroup();
 
+  // Global variables for data storage
+  let tournamentCounts = {};
+  let mastersCityProvinceData = [];
+  let organizersData = [];
+
+  // ==================== EVENT HANDLERS ====================
+
+  // Add click handler to map to reset tables when clicking outside provinces
+  map.on("click", function () {
+    // Reset the tables to show all of Canada
+    createTopCitiesTable();
+    createTopOrganizersTable();
+  });
+
+  // Keep masters on top when zooming/panning
+  map.on("moveend", function () {
+    mastersLayer.bringToFront();
+  });
+
+  // ==================== INITIALIZATION SEQUENCE ====================
+
   // Add legend to the map
   addLegend(map);
-
-  // Global variable to store tournament counts by province
-  let tournamentCounts = {};
-
-  // Global variable to store masters counts by city
-  let mastersCityCounts = {};
-
-  // Global variable to store organizer data
-  let organizersData = [];
 
   // Start data loading sequence
   loadTournamentData();
   loadNationalMastersData();
   loadOrganizersData();
 
-  // Function to add a legend to the map
+  // ==================== MAPPING FUNCTIONS ====================
+
+  /**
+   * Adds a color-coded legend to the map
+   */
   function addLegend(map) {
-    // Change position to bottomleft
     const legend = L.control({ position: "bottomleft" });
 
     legend.onAdd = function () {
       const div = L.DomUtil.create("div", "info legend");
       const grades = [0, 100, 500, 1000, 2000, 5000, 10000];
       const labels = [];
-      let from, to;
 
       // Add small heading
       div.innerHTML = "<h6>Tournaments</h6>";
 
       // Loop through intervals and generate labels
       for (let i = 0; i < grades.length; i++) {
-        from = grades[i];
-        to = grades[i + 1];
+        const from = grades[i];
+        const to = grades[i + 1];
 
         labels.push(
           '<i style="background:' +
@@ -88,13 +111,17 @@ document.addEventListener("DOMContentLoaded", function () {
     document.head.appendChild(style);
   }
 
-  // Add masters layer after provinces are loaded
+  /**
+   * Adds the masters layer after provinces are loaded
+   */
   function addMastersLayer() {
     mastersLayer.addTo(map);
     loadMastersData();
   }
 
-  // Function to load province data from GeoJSON
+  /**
+   * Loads province data from GeoJSON and adds it to the map
+   */
   function loadProvinceData() {
     d3.json("data/georef-canada-province@public.geojson")
       .then((data) => {
@@ -136,7 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Function to load chess masters location data
+  /**
+   * Load chess masters location data and add to map
+   */
   function loadMastersData() {
     d3.csv("data/masters_locations.csv")
       .then((data) => {
@@ -146,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const count = parseInt(location.count);
 
           if (!isNaN(lat) && !isNaN(lon) && !isNaN(count)) {
-            // Increased size calculation - was: Math.min(count * 3, 15)
+            // Size calculation based on number of masters
             const size = Math.min(count * 5, 20);
             const marker = L.marker([lat, lon], {
               icon: L.divIcon({
@@ -171,18 +200,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Ensure masters layer is on top
         mastersLayer.bringToFront();
-
-        // Keep masters on top when zooming/panning
-        map.on("moveend", function () {
-          mastersLayer.bringToFront();
-        });
       })
       .catch((error) => {
         console.error("Error loading masters data:", error);
       });
   }
 
-  // Function to load and process tournament data
+  // ==================== DATA LOADING FUNCTIONS ====================
+
+  /**
+   * Load and process tournament data from CSV
+   */
   function loadTournamentData() {
     d3.csv("data/event.csv")
       .then((data) => {
@@ -203,16 +231,34 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Function to load and process national masters data
+  /**
+   * Load and process national masters data from CSV
+   */
   function loadNationalMastersData() {
     d3.csv("data/national_masters.csv")
       .then((data) => {
-        // Count masters by city
-        mastersCityCounts = {};
+        // Store masters by city and province
+        mastersCityProvinceData = [];
+
         data.forEach((master) => {
           const city = master.city;
+          const province = master.province;
+
           if (city && city.trim() !== "") {
-            mastersCityCounts[city] = (mastersCityCounts[city] || 0) + 1;
+            // Check if we've already registered this city-province pair
+            const existingEntry = mastersCityProvinceData.find(
+              (entry) => entry.city === city && entry.province === province
+            );
+
+            if (existingEntry) {
+              existingEntry.count++;
+            } else {
+              mastersCityProvinceData.push({
+                city: city,
+                province: province,
+                count: 1,
+              });
+            }
           }
         });
 
@@ -224,7 +270,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Function to load and process organizers data
+  /**
+   * Load and process organizers data from CSV
+   */
   function loadOrganizersData() {
     d3.csv("data/top_organizers.csv")
       .then((data) => {
@@ -243,21 +291,47 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Function to create a table of the top 10 cities with the most masters
-  function createTopCitiesTable() {
-    // Convert city counts object to sorted array
-    let citiesArray = Object.entries(mastersCityCounts)
-      .map(([city, count]) => ({ city, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10); // Get top 10
+  // ==================== VISUALIZATION FUNCTIONS ====================
+
+  /**
+   * Create a table of the top 10 cities with the most masters
+   * @param {string|null} provinceFilter - Optional province code to filter by
+   */
+  function createTopCitiesTable(provinceFilter = null) {
+    // Filter cities by province if provided
+    let filteredCities;
+    if (provinceFilter) {
+      filteredCities = mastersCityProvinceData
+        .filter((entry) => entry.province === provinceFilter)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10);
+    } else {
+      // Convert city counts object to sorted array for all of Canada
+      const cityTotals = {};
+      mastersCityProvinceData.forEach((entry) => {
+        cityTotals[entry.city] = (cityTotals[entry.city] || 0) + entry.count;
+      });
+
+      filteredCities = Object.entries(cityTotals)
+        .map(([city, count]) => ({ city, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10);
+    }
 
     // Get the container for the table
     const tableContainer = document.getElementById("top-masters-cities");
     if (!tableContainer) return;
 
+    // Set the table title based on whether we're filtering by province
+    const tableTitle = provinceFilter
+      ? `Top Cities with Most National Masters in ${getProvinceFullName(
+          provinceFilter
+        )}`
+      : "Top Cities with Most Canadian National Masters";
+
     // Create the table HTML with enhanced styling
     let tableHTML = `
-      <table class="table table-hover table-bordered masters-table">
+      <table class="table table-hover table-bordered masters-table table-scrollable">
         <thead class="table-primary">
           <tr>
             <th scope="col" class="text-center" style="width: 70px;">Rank</th>
@@ -269,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
 
     // Add rows for each city with consistent styling
-    citiesArray.forEach((city, index) => {
+    filteredCities.forEach((city, index) => {
       const rank = index + 1;
 
       tableHTML += `
@@ -288,11 +362,26 @@ document.addEventListener("DOMContentLoaded", function () {
       </table>
     `;
 
-    // Insert the table into the container
-    tableContainer.innerHTML = tableHTML;
+    // Insert the table into the container with the title
+    tableContainer.innerHTML = `
+      <div class="card-header bg-light">
+        <h4 class="mb-0">${tableTitle}</h4>
+      </div>
+      <div class="card-body card-body-scrollable">
+        <div class="table-scrollable-container">
+          ${tableHTML}
+        </div>
+      </div>
+    `;
+
+    // Ensure the table is visible
+    tableContainer.style.display = "block";
   }
 
-  // Function to create a table of the top 10 organizers
+  /**
+   * Create a table of the top 10 organizers
+   * @param {string|null} provinceFilter - Optional province code to filter by
+   */
   function createTopOrganizersTable(provinceFilter = null) {
     // Filter organizers by province if provided
     let filteredOrganizers = provinceFilter
@@ -310,12 +399,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Set the table title based on whether we're filtering by province
     const tableTitle = provinceFilter
-      ? `Top 10 Organizers in ${getProvinceFullName(provinceFilter)}`
-      : "Top 10 Organizers in Canada";
+      ? `Top Tournament Organizers in ${getProvinceFullName(provinceFilter)}`
+      : "Top Tournament Organizers in Canada";
 
     // Create the table HTML with enhanced styling
     let tableHTML = `
-      <table class="table table-hover table-bordered organizers-table">
+      <table class="table table-hover table-bordered organizers-table table-scrollable">
         <thead class="table-success">
           <tr>
             <th scope="col" class="text-center" style="width: 70px;">Rank</th>
@@ -351,13 +440,22 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="card-header bg-light">
         <h4 class="mb-0">${tableTitle}</h4>
       </div>
-      <div class="card-body">
-        ${tableHTML}
+      <div class="card-body card-body-scrollable">
+        <div class="table-scrollable-container">
+          ${tableHTML}
+        </div>
       </div>
     `;
+
+    // Ensure the table is visible
+    tableContainer.style.display = "block";
   }
 
-  // Helper function to convert province code to full name
+  // ==================== HELPER FUNCTIONS ====================
+
+  /**
+   * Convert province code to full name
+   */
   function getProvinceFullName(provinceCode) {
     const provinceNames = {
       AB: "Alberta",
@@ -377,7 +475,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return provinceNames[provinceCode] || provinceCode;
   }
 
-  // Function to style provinces based on tournament count
+  /**
+   * Style provinces based on tournament count
+   */
   function styleProvince(count) {
     return {
       weight: 1,
@@ -389,7 +489,9 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  // Function to handle interactions with each province
+  /**
+   * Set up interactions for each province
+   */
   function onEachProvince(feature, layer) {
     const provinceName = feature.properties.prov_name_en;
     const provinceLookup = {
@@ -415,15 +517,21 @@ document.addEventListener("DOMContentLoaded", function () {
       `<strong>${provinceName}</strong><br>Tournaments: ${count}`
     );
 
-    // Add click event to update the organizers table
-    layer.on("click", function () {
+    // Add click event to update both tables
+    layer.on("click", function (e) {
       if (provinceCode) {
+        createTopCitiesTable(provinceCode);
         createTopOrganizersTable(provinceCode);
+
+        // Prevent the click from propagating to the map
+        L.DomEvent.stopPropagation(e);
       }
     });
   }
 
-  // Function to get color based on tournament count
+  /**
+   * Get color based on tournament count
+   */
   function getColor(count) {
     return count > 10000
       ? "#800026"
