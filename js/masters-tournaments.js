@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Create the table HTML with enhanced styling
     let tableHTML = `
-      <table class="table table-hover table-bordered masters-table">
+      <table class="table table-hover table-bordered masters-table table-scrollable">
         <thead class="table-primary">
           <tr>
             <th scope="col" class="text-center" style="width: 70px;">Rank</th>
@@ -367,10 +367,15 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="card-header bg-light">
         <h4 class="mb-0">${tableTitle}</h4>
       </div>
-      <div class="card-body">
-        ${tableHTML}
+      <div class="card-body card-body-scrollable">
+        <div class="table-scrollable-container">
+          ${tableHTML}
+        </div>
       </div>
     `;
+
+    // Ensure the table is visible
+    tableContainer.style.display = "block";
   }
 
   /**
@@ -399,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Create the table HTML with enhanced styling
     let tableHTML = `
-      <table class="table table-hover table-bordered organizers-table">
+      <table class="table table-hover table-bordered organizers-table table-scrollable">
         <thead class="table-success">
           <tr>
             <th scope="col" class="text-center" style="width: 70px;">Rank</th>
@@ -435,10 +440,15 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="card-header bg-light">
         <h4 class="mb-0">${tableTitle}</h4>
       </div>
-      <div class="card-body">
-        ${tableHTML}
+      <div class="card-body card-body-scrollable">
+        <div class="table-scrollable-container">
+          ${tableHTML}
+        </div>
       </div>
     `;
+
+    // Ensure the table is visible
+    tableContainer.style.display = "block";
   }
 
   // ==================== HELPER FUNCTIONS ====================
