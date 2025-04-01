@@ -5,7 +5,7 @@ Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase Januar
 <br/> Team Members: Victor Zheng, Andy Feng, Harsh Bawja
 
 ###### References and Acknowledgements
-- [chess-dataviz](https://blog.ebemunk.com/a-visual-look-at-2-million-chess-games/) library
+- [chess-dataviz](https://github.com/ebemunk/chess-dataviz) library
 - [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/) for extracting pgn games
 - [CanBase](https://canbase.fqechecs.qc.ca/players.htm) for Canadian master games
 - [Chess Federation of Canada](http://chess.ca/) for chess membership and player history
