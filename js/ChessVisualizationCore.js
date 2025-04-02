@@ -13,7 +13,7 @@ ChessVis.RATING_RANGES = [
   { range: "800-1399", percent: 23.08, color: "#56B4E9" }, // Light blue
   { range: "1400-1799", percent: 15.23, color: "#F0E442" },  // Yellow
   { range: "2000-2199", percent: 6.09, color: "#E69F00" },  // Orange
-  { range: "2400+", percent: 1.78, color: "#D55E00" }       // Red-orange
+  { range: "2200+", percent: 1.78, color: "#D55E00" }       // Red-orange
 ];
 
 // Total number of registered chess players in Canada
