@@ -723,8 +723,8 @@ function getNikolayGamePGN(index = 0) {
 
 // Function to get Aaron's sample game PGN
 function getAaronGamePGNs() {
-  return [`
-  [Event "CAN op"]
+  return [
+    `[Event "CAN op"]
 [Site "Hamilton CAN"]
 [Date "2022.07.15"]
 [Round "7.15"]
@@ -749,35 +749,29 @@ Ka2 Qf6 34. Qxb6 Qxb6 35. Nd5+ Ke6 36. Nxb6 f5 37. b3 f4 38. Nc4 Rc5 39. Rf2 g5
 40. Kb2 g4 41. Nd2 g3 42. Re2 Kf5 43. c4 e4 44. Rxe4 Rg2 45. Rd4 Re2 46. Kc1 g2
 47. Nf3 Kg4 48. Rd3 Re3 0-1`, 
   // Game 3 - vs Kelires (Olympiad)
-  `[Event "Excelsior June GM Norm"]
-[Site "Toronto CAN"]
-[Date "2023.06.20"]
+  `[Event "CAN op"]
+[Site "Calgary CAN"]
+[Date "2023.07.23"]
 [Round "3.2"]
-[White "Rodrigue-Lemieux, Shawn"]
+[White "Bareev, Evgeny"]
 [Black "Mendes, Aaron Reeve"]
 [Result "1/2-1/2"]
-[ECO "A23"]
-[WhiteElo "2451"]
-[BlackElo "2200"]
-[PlyCount "144"]
-[EventDate "2023.06.18"]
-[EventType "tourn"]
-[EventRounds "9"]
+[ECO "D30"]
+[WhiteElo "2721"]
+[BlackElo "2305"]
+[PlyCount "65"]
+[EventDate "2023.07.22"]
+[EventType "swiss"]
+[EventRounds "10"]
 [EventCountry "CAN"]
 
-1. c4 e5 2. g3 Bc5 3. Bg2 c6 4. Nc3 Nf6 5. Na4 Be7 6. Nf3 e4 7. Nd4 d5 8. d3 c5
-9. Nb3 dxc4 10. dxc4 Qxd1+ 11. Kxd1 Na6 12. Bf4 Bf5 13. h3 O-O-O+ 14. Kc1 b6
-15. Nc3 Nb4 16. Nd2 Bd6 17. Be3 Rhe8 18. g4 Bg6 19. g5 Nh5 20. Bxe4 Bf4 21.
-Bxf4 Nxf4 22. f3 Ne6 23. a3 Na6 24. h4 Bxe4 25. Ncxe4 Nd4 26. Rh2 Re6 27. a4 f5
-28. Nc3 Re3 29. a5 Kb7 30. Ra3 Nb4 31. h5 Rd7 32. Rf2 g6 33. hxg6 hxg6 34. Rh6 Rg7
-35. Kd1 bxa5 36. Nce4 Kb6 37. Nxc5 Nbc2 40. Nde4
-Ne3+ 41. Rxe3 Rxb2 48. Rd5 e2+ 49. Ke1 Ng3 50. Nd3 Rb3 51. Kf2 Kf8 52. Ne1 Nf1
-53. Kxe2 Ne3 54. Rxa5 Nxc4 55. Rxa7 Rb2+ 56. Kd3 Ne5+ 57. Ke3 Rb1 58. Ng2 Rb3+
-59. Kf4 Nxf3 60. g6 Nd4 61. Nh4 Rb4+ 62. Rf7+ Kg8 63. Kg4 Nc6 64. Rc7 Ne5+ 65.
-Kg5 Nf7+ 66. Kf4 Rb4+ 67. Kg3 Ne5 68. Rc5 Rb3+ 69. Kg2 Rb2+ 70. Kf1 Rf2+ 71.
-Kg1 Rf4 72. Ng2 Re4 1/2-1/2`,
-// Game 3 - vs Noritsyn (Olympiad)
-  `[Event "Excelsior June GM Norm"]
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. e3 e6 5. b3 Nbd7 6. Nbd2 Bd6 7. Bb2 O-O 8. Bd3
+b6 9. O-O Bb7 10. Qe2 c5 11. cxd5 exd5 12. Rfd1 Qe7 13. Rac1 Rac8 14. Nf1 Rc7
+15. Ng3 g6 16. Rc2 Rfc8 17. Rdc1 Ne4 18. dxc5 Nxg3 19. hxg3 bxc5 20. Qd2 Ne5
+21. Be2 f6 22. Ba3 Kg7 23. Nxe5 fxe5 24. Bf3 Qe6 25. Bxd5 Qxd5 26. Qxd5 Bxd5
+27. Rd2 Bxb3 28. Rxd6 Bxa2 29. Bb2 Bf7 30. Bxe5+ Kg8 31. Rcd1 Re7 32. Bc3 Be8
+33. Rd8 1/2-1/2`,
+`[Event "Excelsior June GM Norm"]
 [Site "Toronto CAN"]
 [Date "2023.06.23"]
 [Round "9.5"]
@@ -794,15 +788,16 @@ Kg1 Rf4 72. Ng2 Re4 1/2-1/2`,
 [EventCountry "CAN"]
 
 1. e4 c5 2. Nf3 e6 3. b3 b6 4. Bb2 Bb7 5. Nc3 Nc6 6. d4 cxd4 7. Nxd4 Nf6 8.
-Nxc6 Bxc6 9. Qe2 Bb4 10. f3 Rc8 11. O-O-O Qc7 12. Nd5 Bxd5 13. exd5 Nb6 14. Be5
+Nxc6 Bxc6 9. Qe2 Bb4 10. f3 Rc8 11. O-O-O Qc7 12. Nd5 Bxd5 13. exd5 O-O 14. Be5
 Qc5 15. Bd4 Qa5 16. Bxf6 gxf6 17. Qa6 Qc5 18. Bc4 Bc3 19. Rd3 Be5 20. g3 f5 21.
-f4 Bg7 22. Kb1 Qe7 23. d6 Qd8 24. a4 Rc6 25. Re1 Qb8 26. Rd2 Rfc8 27. R1d1 b5
+f4 Bg7 22. Kb1 Qe7 23. d6 Qd8 24. a4 Rc6 25. Re1 Qb8 26. Red1 Rfc8 27. R1d2 b5
 28. Qxb5 Rb6 29. Qxd7 Rb7 30. Qe7 Rxe7 31. dxe7 Bf6 32. Rd8+ Kg7 33. e8=Q Rxd8
 34. Rxd8 Bxd8 35. Qd7 Kf8 36. Be2 Qb6 37. Bh5 Be7 38. Qc8+ Bd8 39. Qc3 Kg8 40.
 h3 Qd6 41. b4 Be7 42. b5 Bf8 43. Kc1 h6 44. a5 Bg7 45. Qc8+ Bf8 46. Qe8 Qa3+
 47. Kd1 Qd6+ 48. Ke2 Qc7 49. Qc6 Qxc6 50. bxc6 Bd6 51. Kd3 Bc7 52. Kc4 Kf8 53.
 Kb5 Ke7 54. Ka6 f6 55. Kb7 Kd8 56. a6 e5 57. Bg6 Ba5 58. Bxf5 exf4 59. gxf4 Bb6
-60. h4 Ba5 61. h5 Bb6 62. c4 Ke8 1-0`]}
+60. h4 Ba5 61. h5 Bb6 62. c4 Ke8 1-0`]
+}
 
 // Function to get a specific game from Nikolay's collection
 function getAaronGamePGN(index = 0) {
