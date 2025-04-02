@@ -27,10 +27,12 @@
     <!-- <link rel="stylesheet"
     href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"> -->
 
-    <link rel="stylesheet"
-          href="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.css"
-          integrity="sha384-47VeTDpmy4yT21gKPXQcLQYQZwlmz27gEH5NTrOmTk3G/SGvMyltclOW/Q8uE+sL"
-          crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.css"
+      integrity="sha384-47VeTDpmy4yT21gKPXQcLQYQZwlmz27gEH5NTrOmTk3G/SGvMyltclOW/Q8uE+sL"
+      crossorigin="anonymous"
+    />
 
     <!-- Bootstrap CSS -->
     <link
@@ -106,7 +108,7 @@
                 <div class="guess-interaction-area">
                   <div class="range-bounds">
                     <span>0</span>
-                    <span>30,000</span>
+                    <span>8,000</span>
                   </div>
 
                   <div class="guess-slider-container">
@@ -115,32 +117,38 @@
                       class="form-range guess-slider"
                       id="player-guess-slider"
                       min="0"
-                      max="30000"
-                      value="15000"
-                      step="250"
+                      max="8000"
+                      value="4000"
+                      step="100"
                     />
 
                     <div class="range-ticks">
                       <div class="tick" style="left: 0%">
                         <div class="tick-label">0</div>
                       </div>
-                      <div class="tick" style="left: 17%">
-                        <div class="tick-label">5k</div>
+                      <div class="tick" style="left: 12.5%">
+                        <div class="tick-label">1k</div>
                       </div>
-                      <div class="tick" style="left: 34%">
-                        <div class="tick-label">10k</div>
+                      <div class="tick" style="left: 25%">
+                        <div class="tick-label">2k</div>
+                      </div>
+                      <div class="tick" style="left: 37.5%">
+                        <div class="tick-label">3k</div>
                       </div>
                       <div class="tick" style="left: 50%">
-                        <div class="tick-label">15k</div>
+                        <div class="tick-label">4k</div>
                       </div>
-                      <div class="tick" style="left: 66%">
-                        <div class="tick-label">20k</div>
+                      <div class="tick" style="left: 62.5%">
+                        <div class="tick-label">5k</div>
                       </div>
-                      <div class="tick" style="left: 84%">
-                        <div class="tick-label">25k</div>
+                      <div class="tick" style="left: 75%">
+                        <div class="tick-label">6k</div>
+                      </div>
+                      <div class="tick" style="left: 87.5%">
+                        <div class="tick-label">7k</div>
                       </div>
                       <div class="tick" style="left: 100%">
-                        <div class="tick-label">30k</div>
+                        <div class="tick-label">8k</div>
                       </div>
                     </div>
                   </div>
@@ -148,7 +156,7 @@
                   <div class="guess-value-display">
                     <span class="guess-value-label">Your estimate:</span>
                     <span id="guess-value-number" class="guess-value-number"
-                      >15,000</span
+                      >4,000</span
                     >
                     <span class="guess-value-suffix">players</span>
                   </div>
@@ -172,8 +180,8 @@
                   </div>
                   <div class="continue-prompt">
                     <p>
-                      These are not including approximately 300,000 online chess
-                      players in Canada.
+                      These are not including approximately
+                      <strong>300,000</strong> online chess players in Canada.
                     </p>
                     <p>
                       Explore how these players are distributed across rating
@@ -314,11 +322,12 @@
               challenging progressions in competitive games.
             </p>
             <p>
-              Less than 5% of online chess players ever play in a chess tournament. 
+              Less than 5% of online chess players ever play in a chess
+              tournament.
             </p>
             <p>
-              Only 1.78% of tournament players reach the 2400+ rating threshold where
-              FIDE titles like International Master and Grandmaster begin.
+              Only 1.78% of tournament players reach the 2400+ rating threshold
+              where FIDE titles like International Master and Grandmaster begin.
             </p>
             <p>
               Each step up the rating ladder represents exponentially increasing
@@ -434,7 +443,8 @@
             >
               <h2>Player Performance Analysis</h2>
               <p class="text-muted">
-                View statistics and game examples from our featured players - click on a player's portrait to see their featured game
+                View statistics and game examples from our featured players -
+                click on a player's portrait to see their featured game
               </p>
               <!-- Filter buttons for performance comparison -->
               <div class="portraits-wrapper">
@@ -442,13 +452,13 @@
                   <div
                     id="aaron-portrait-pie"
                     class="player-portrait aaron-portrait"
-                    >
+                  >
                     <img src="img/aaron.jpg" alt="Aaron Reeve Mendes" />
                   </div>
                   <div
                     id="nikolay-portrait-pie"
                     class="player-portrait nikolay-portrait"
-                    >
+                  >
                     <img src="img/noritsyn.jpg" alt="Nikolay Noritsyn" />
                   </div>
                 </div>
@@ -474,11 +484,12 @@
               challenging progressions in competitive games.
             </p>
             <p>
-              Less than 5% of online chess players ever play in a chess tournament. 
+              Less than 5% of online chess players ever play in a chess
+              tournament.
             </p>
             <p>
-              Only 1.78% of tournament players reach the 2400+ rating threshold where
-              FIDE titles like International Master and Grandmaster begin.
+              Only 1.78% of tournament players reach the 2400+ rating threshold
+              where FIDE titles like International Master and Grandmaster begin.
             </p>
             <p>
               Each step up the rating ladder represents exponentially increasing
@@ -629,15 +640,20 @@
                   chess openings and move paths. 
                 </p>
                 <p>
-                  The games consist of players at the National Championships, and any Canadian International Master or Grandmaster.
+                  The games consist of players at the National Championships,
+                  and any Canadian International Master or Grandmaster.
                 </p>
                 <p>
-                  The visualization on the left can be used to analyze the different openings top players play and the common lines starting with e4, d4, and c4.
+                  The visualization on the left can be used to analyze the
+                  different openings top players play and the common lines
+                  starting with e4, d4, and c4.
                 </p>
                 <p>
                   <strong>Hover over the visualization</strong> to see detailed
-                  information about the percentage of players who play the lines.
+                  information about the percentage of players who play the
+                  lines.
                 </p>
+
               </div> 
             </div> 
           </div> 
@@ -915,11 +931,12 @@
       };
     </script>
 
-
     <!-- add JS via CDN: -->
-    <script src="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.js"
-            integrity="sha384-/KwQCjA1GWovZNV3QDVtvSMDzO4reGgarF/RqHipr7hIUElH3r5zNl9WEPPOBRIF"
-            crossorigin="anonymous"></script>
+    <script
+      src="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.js"
+      integrity="sha384-/KwQCjA1GWovZNV3QDVtvSMDzO4reGgarF/RqHipr7hIUElH3r5zNl9WEPPOBRIF"
+      crossorigin="anonymous"
+    ></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.11.0/chess.min.js"></script>
     <!-- <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script> -->

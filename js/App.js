@@ -263,9 +263,9 @@ class ChessFederationApp {
         container: guessSection,
         instance: new ChessVis.GuessVisualization("guess-section", {
           minValue: 0,
-          maxValue: 30000,
-          step: 250,
-          defaultValue: 15000,
+          maxValue: 8000,
+          step: 100,
+          defaultValue: 4000,
           correctValue: 4866,
         }),
         initialized: false,

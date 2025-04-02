@@ -295,13 +295,13 @@ document.addEventListener("DOMContentLoaded", function () {
         // Function to determine dot opacity based on player selection
         function getDotOpacity(playerId) {
           if (selectedPlayer === null) return 1;
-          return selectedPlayer === playerId ? 1 : 0.3; // More transparent for unselected
+          return selectedPlayer === playerId ? 1 : 0.7; // Increased opacity for unselected players' dots (was 0.3)
         }
 
         // Function to determine dot size based on player selection
         function getDotSize(playerId) {
           if (selectedPlayer === null) return 3;
-          return selectedPlayer === playerId ? 3 : 2; // Smaller dots for unselected
+          return selectedPlayer === playerId ? 3.5 : 3; // Keep dots visible for unselected players (was 2)
         }
 
         // Add lines for main chart with selection-based styling
