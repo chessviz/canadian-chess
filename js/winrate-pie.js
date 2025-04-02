@@ -106,7 +106,8 @@ function renderPieChart(containerId, chartData, playerName) {
     .style("display", "flex")
     .style("justify-content", "center")
     .style("align-items", "center")
-    .style("height", "50%");
+    .style("height", "100%")
+    .style("position", "relative"); // Add relative positioning
 
   // Set up dimensions - make smaller than before
   const width = 220; // Reduced from 300
@@ -213,9 +214,58 @@ function renderPieChart(containerId, chartData, playerName) {
     .attr("font-size", "14px") // Increased font size
     .text((d) => `${categoryNames[d.name]}: ${d.value}`);
 
-  // Remove the player name display that was here
+  // Get the player ID based on the player name
+  let playerProfileUrl = "";
+  if (playerName.includes("Nikolay")) {
+    playerProfileUrl = "https://www.chess.ca/en/ratings/p/?id=132534";
+  } else if (playerName.includes("Aaron")) {
+    playerProfileUrl = "https://www.chess.ca/en/ratings/p/?id=167084";
+  }
 
-  // Note: The player name display code has been removed as requested
+  // Add hover overlay for chess.ca profile link
+  const overlay = container
+    .append("div")
+    .attr("class", "chart-overlay")
+    .style("position", "absolute")
+    .style("top", "0")
+    .style("left", "0")
+    .style("width", "100%")
+    .style("height", "100%")
+    .style("display", "flex")
+    .style("justify-content", "center")
+    .style("align-items", "center")
+    .style("opacity", "0")
+    .style("background-color", "rgba(0,0,0,0.5)")
+    .style("transition", "opacity 0.3s ease")
+    .style("pointer-events", "none") // Initially don't capture mouse events
+    .style("z-index", "10");
+
+  // Add link button
+  overlay
+    .append("a")
+    .attr("href", playerProfileUrl)
+    .attr("target", "_blank")
+    .attr("rel", "noopener noreferrer")
+    .style("text-decoration", "none")
+    .append("button")
+    .attr("class", "btn btn-primary")
+    .style("padding", "8px 16px")
+    .style("border-radius", "4px")
+    .style("cursor", "pointer")
+    .html('<i class="fas fa-external-link-alt mr-1"></i> View Official Profile');
+
+  // Add hover effects
+  container
+    .on("mouseenter", function() {
+      overlay
+        .style("opacity", "1")
+        .style("pointer-events", "auto"); // Enable pointer events on hover
+    })
+    .on("mouseleave", function() {
+      overlay
+        .style("opacity", "0")
+        .style("pointer-events", "none"); // Disable pointer events when not hovering
+    });
 }
 
 // Function to setup portrait listeners for filtering charts
@@ -378,7 +428,7 @@ function renderFilteredCharts(filter) {
   } else {
     // For individual player filters, render the chess game
     if (filter === 'aaron') {
-      renderChessGame("chessgame1", getAaronGamePGN());
+      renderChessGame("chessgame1", getAaronGamePGN(0), 0);
     } else if (filter === 'nikolay') {
       // For Nikolay, we now have multiple games, start with the first one
       renderChessGame("chessgame2", getNikolayGamePGN(0), 0);
@@ -402,7 +452,7 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
 
   // Set container dimensions - make it smaller and more responsive
   container.style.width = '100%';
-  container.style.height = '6`00px'; // Reduced from 600px
+  container.style.height = '600px'; // Fixed typo from 6`00px
   container.style.maxWidth = '400px'; // Add maximum width
   container.style.margin = '0 auto'; // Center the container
   
@@ -472,24 +522,25 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
       </div>
     `;
     
-    // For Nikolay's games, add game selector if we have multiple games
-    if (containerId === "chessgame2") {
-      const totalGames = getNikolayGamePGNs().length;
-      const gameNavDiv = document.createElement('div');
-      gameNavDiv.className = 'game-navigation mt-2';
-      gameNavDiv.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center">
-          <button id="${containerId}-prev-game" class="btn btn-sm btn-outline-primary" ${gameIndex === 0 ? 'disabled' : ''}>
-            <i class="fas fa-chevron-left"></i> Prev Game
-          </button>
-          <span class="mx-2 badge bg-primary">Game ${gameIndex + 1} of ${totalGames}</span>
-          <button id="${containerId}-next-game" class="btn btn-sm btn-outline-primary" ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
-            Next Game <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      `;
-      controlsDiv.appendChild(gameNavDiv);
-    }
+    // Add game navigation for both players, determine which collection to use
+    const isAaron = containerId === "chessgame1";
+    const games = isAaron ? getAaronGamePGNs() : getNikolayGamePGNs();
+    const totalGames = games.length;
+    
+    const gameNavDiv = document.createElement('div');
+    gameNavDiv.className = 'game-navigation mt-2';
+    gameNavDiv.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center">
+        <button id="${containerId}-prev-game" class="btn btn-sm btn-outline-primary" ${gameIndex === 0 ? 'disabled' : ''}>
+          <i class="fas fa-chevron-left"></i> Prev Game
+        </button>
+        <span class="mx-2 badge bg-primary">Game ${gameIndex + 1} of ${totalGames}</span>
+        <button id="${containerId}-next-game" class="btn btn-sm btn-outline-primary" ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
+          Next Game <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    `;
+    controlsDiv.appendChild(gameNavDiv);
     
     container.appendChild(controlsDiv);
     
@@ -555,31 +606,37 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
       updateBoard(currentMove);
     });
     
-    // Add game navigation event listeners if applicable
-    if (containerId === "chessgame2") {
-      const prevGameBtn = document.getElementById(`${containerId}-prev-game`);
-      const nextGameBtn = document.getElementById(`${containerId}-next-game`);
-      
-      if (prevGameBtn) {
-        prevGameBtn.addEventListener('click', () => {
-          if (gameIndex > 0) {
-            // Re-render with previous game
-            container.innerHTML = '';
+    // Add game navigation event listeners for both players
+    const prevGameBtn = document.getElementById(`${containerId}-prev-game`);
+    const nextGameBtn = document.getElementById(`${containerId}-next-game`);
+    
+    if (prevGameBtn) {
+      prevGameBtn.addEventListener('click', () => {
+        if (gameIndex > 0) {
+          // Re-render with previous game - use the appropriate function based on player
+          container.innerHTML = '';
+          if (isAaron) {
+            renderChessGame(containerId, getAaronGamePGNs()[gameIndex - 1], gameIndex - 1);
+          } else {
             renderChessGame(containerId, getNikolayGamePGNs()[gameIndex - 1], gameIndex - 1);
           }
-        });
-      }
-      
-      if (nextGameBtn) {
-        nextGameBtn.addEventListener('click', () => {
-          const totalGames = getNikolayGamePGNs().length;
-          if (gameIndex < totalGames - 1) {
-            // Re-render with next game
-            container.innerHTML = '';
+        }
+      });
+    }
+    
+    if (nextGameBtn) {
+      nextGameBtn.addEventListener('click', () => {
+        const totalGames = isAaron ? getAaronGamePGNs().length : getNikolayGamePGNs().length;
+        if (gameIndex < totalGames - 1) {
+          // Re-render with next game - use the appropriate function based on player
+          container.innerHTML = '';
+          if (isAaron) {
+            renderChessGame(containerId, getAaronGamePGNs()[gameIndex + 1], gameIndex + 1);
+          } else {
             renderChessGame(containerId, getNikolayGamePGNs()[gameIndex + 1], gameIndex + 1);
           }
-        });
-      }
+        }
+      });
     }
     
     // Start at the beginning position
@@ -620,33 +677,27 @@ function extractPgnTag(pgn, tagName) {
 function getNikolayGamePGNs() {
   return [
     // Game 1 - vs Hill (Olympiad)
-    `[Event "Olympiad"]
-[Site "Budapest HUN"]
-[Date "2024.09.11"]
-[Round "1.4"]
-[White "Hill, Jonathan"]
-[Black "Noritsyn, Nikolay"]
-[Result "0-1"]
-[ECO "A48"]
-[WhiteElo "1756"]
-[BlackElo "2451"]
-[PlyCount "66"]
-[EventDate "2024.09.11"]
-[EventType "team"]
-[EventRounds "11"]
-[EventCountry "HUN"]
-[Source "ChessMix "]
-[SourceDate "2024.10.01"]
-[WhiteTeam "Guernsey"]
-[BlackTeam "Canada"]
-[BlackTeamCountry "CAN"]
+    `[Event "CAN-ch"]
+[Site "Toronto CAN"]
+[Date "2023.04.08"]
+[Round "4.2"]
+[White "Noritsyn, Nikolay"]
+[Black "Rodrigue-Lemieux, Shawn"]
+[Result "1-0"]
+[ECO "C79"]
+[WhiteElo "2546"]
+[BlackElo "2539"]
+[PlyCount "63"]
+[EventDate "2023.04.06"]
+[EventType "swiss"]
+[EventRounds "9"]
+[EventCountry "CAN"]
 
-1. d4 Nf6 2. Nf3 g6 3. Bf4 d6 4. h3 c5 5. c3 Qb6 6. Qb3 Nc6 7. e3 cxd4 8. Qxb6
-axb6 9. exd4 Nd5 10. Bh2 Bh6 11. Be2 Bc1 12. a3 Bxb2 13. Ra2 Bxc3+ 14. Nxc3
-Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
-21. Rhd1 Rha8 22. f3 Bd5 23. Kf2 b4 24. Bc1 bxa3 25. Rd3 a2 26. Bb2 Na5 27. Ra3
-Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
-0-1`,
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 d6 5. O-O Bd7 6. c3 Nf6 7. Re1 g6 8. d4
+Qe7 9. d5 Nd8 10. Bg5 Bg7 11. c4 O-O 12. Nc3 h6 13. Bh4 Bxa4 14. Qxa4 g5 15.
+Bg3 Nh5 16. Rad1 Bf6 17. Nd2 g4 18. Nf1 Bg5 19. Rd3 Ng7 20. Qd1 h5 21. f3 Qd7
+22. fxg4 Qxg4 23. Rf3 Bh6 24. h3 Qg6 25. Bh4 f5 26. Rg3 Qh7 27. exf5 Bf4 28. f6
+Bxg3 29. Nxg3 Ne8 30. Rf1 Nf7 31. Nce4 b5 32. Rf5 1-0`,
     // Game 2 - vs Urkedal (Olympiad)
     `[Event "Maplewood inv."]
 [Site "Waterloo, QC CAN"]
@@ -696,7 +747,7 @@ Bxd2 21. Qxd2 Nc3+ 22. Kb3 1-0`,
 
 1. Nf3 d5 2. g3 b6 3. Bg2 Bb7 4. O-O Nf6 5. d3 e6 6. Re1 Bc5 7. d4 Be7 8. c4 c6
 9. Nc3 Nbd7 10. Bf4 Nh5 11. Bd2 Nhf6 12. Qb3 O-O 13. cxd5 cxd5 14. Rec1 a6 15.
-a4 Ne4 16. Be1 Nd6 17. e3 Rc8 18. Bf1 Rc7 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
+a4 Ne4 16. Be1 Nd6 17. e3 Rc7 18. Bf1 Rc8 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
 22. Qd1 Rfc8 23. Nf3 Ne4 24. b3 Na5 25. Ne5 Qd8 26. Rxc7 Rxc7 27. Rc1 Bd6 28.
 Rxc7 Qxc7 29. Nf3 h5 30. Bd3 g6 31. Qb1 Be7 32. Ne5 Bd6 33. b4 Nc6 34. Nf3 Ne7
 35. Nd2 Nxd2 36. Bxd2 h4 37. Be1 e5 38. Nc3 Qd7 39. Qb3 exd4 40. exd4 Qg4 41.
@@ -715,34 +766,91 @@ function getNikolayGamePGN(index = 0) {
 }
 
 // Function to get Aaron's sample game PGN
-function getAaronGamePGN() {
-  return `[Event "Olympiad"]
-[Site "Budapest HUN"]
-[Date "2024.09.11"]
-[Round "1.4"]
-[White "Hill, Jonathan"]
-[Black "Noritsyn, Nikolay"]
+function getAaronGamePGNs() {
+  return [
+    `[Event "CAN op"]
+[Site "Hamilton CAN"]
+[Date "2022.07.15"]
+[Round "7.15"]
+[White "Preotu, Razvan"]
+[Black "Mendes, Aaron Reeve"]
 [Result "0-1"]
-[ECO "A48"]
-[WhiteElo "1756"]
-[BlackElo "2451"]
-[PlyCount "66"]
-[EventDate "2024.09.11"]
-[EventType "team"]
-[EventRounds "11"]
-[EventCountry "HUN"]
-[Source "ChessMix "]
-[SourceDate "2024.10.01"]
-[WhiteTeam "Guernsey"]
-[BlackTeam "Canada"]
-[BlackTeamCountry "CAN"]
+[ECO "B90"]
+[WhiteElo "2608"]
+[BlackElo "2106"]
+[PlyCount "96"]
+[EventDate "2022.07.12"]
+[EventType "swiss"]
+[EventRounds "9"]
+[EventCountry "CAN"]
 
-1. d4 Nf6 2. Nf3 g6 3. Bf4 d6 4. h3 c5 5. c3 Qb6 6. Qb3 Nc6 7. e3 cxd4 8. Qxb6
-axb6 9. exd4 Nd5 10. Bh2 Bh6 11. Be2 Bc1 12. a3 Bxb2 13. Ra2 Bxc3+ 14. Nxc3
-Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
-21. Rhd1 Rha8 22. f3 Bd5 23. Kf2 b4 24. Bc1 bxa3 25. Rd3 a2 26. Bb2 Na5 27. Ra3
-Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
-0-1`}
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 e5 7. Nb3 Be7 8. h3
+Be6 9. Qf3 h5 10. O-O-O Nbd7 11. Nd5 Bxd5 12. exd5 Nb6 13. Kb1 Rc8 14. Bxb6
+Qxb6 15. Bd3 g6 16. g4 Qb4 17. a3 Qa4 18. Rhg1 Rc7 19. Rde1 hxg4 20. hxg4 Rh4
+21. Rxe5 dxe5 22. d6 Rc6 23. dxe7 Rxg4 24. Re1 Qf4 25. Qd1 Kxe7 26. Na5 Rc7 27.
+Qe2 Rg5 28. Nc4 Nd7 29. Ne3 Nb6 30. Bxa6 bxa6 31. Qxa6 Qxf2 32. Re2 Rg1+ 33.
+Ka2 Qf6 34. Qxb6 Qxb6 35. Nd5+ Ke6 36. Nxb6 f5 37. b3 f4 38. Nc4 Rc5 39. Rf2 g5
+40. Kb2 g4 41. Nd2 g3 42. Re2 Kf5 43. c4 e4 44. Rxe4 Rg2 45. Rd4 Re2 46. Kc1 g2
+47. Nf3 Kg4 48. Rd3 Re3 0-1`, 
+  // Game 3 - vs Kelires (Olympiad)
+  `[Event "CAN op"]
+[Site "Calgary CAN"]
+[Date "2023.07.23"]
+[Round "3.2"]
+[White "Bareev, Evgeny"]
+[Black "Mendes, Aaron Reeve"]
+[Result "1/2-1/2"]
+[ECO "D30"]
+[WhiteElo "2721"]
+[BlackElo "2305"]
+[PlyCount "65"]
+[EventDate "2023.07.22"]
+[EventType "swiss"]
+[EventRounds "10"]
+[EventCountry "CAN"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. e3 e6 5. b3 Nbd7 6. Nbd2 Bd6 7. Bb2 O-O 8. Bd3
+b6 9. O-O Bb7 10. Qe2 c5 11. cxd5 exd5 12. Rfd1 Qe7 13. Rac1 Rac8 14. Nf1 Rc7
+15. Ng3 g6 16. Rc2 Rfc8 17. Rdc1 Ne4 18. dxc5 Nxg3 19. hxg3 bxc5 20. Qd2 Ne5
+21. Be2 f6 22. Ba3 Kg7 23. Nxe5 fxe5 24. Bf3 Qe6 25. Bxd5 Qxd5 26. Qxd5 Bxd5
+27. Rd2 Bxb3 28. Rxd6 Bxa2 29. Bb2 Bf7 30. Bxe5+ Kg8 31. Rcd1 Re7 32. Bc3 Be8
+33. Rd8 1/2-1/2`,
+`[Event "Excelsior June GM Norm"]
+[Site "Toronto CAN"]
+[Date "2023.06.23"]
+[Round "9.5"]
+[White "Mendes, Aaron Reeve"]
+[Black "Noritsyn, Nikolay"]
+[Result "1-0"]
+[ECO "B40"]
+[WhiteElo "2200"]
+[BlackElo "2444"]
+[PlyCount "124"]
+[EventDate "2023.06.18"]
+[EventType "tourn"]
+[EventRounds "9"]
+[EventCountry "CAN"]
+
+1. e4 c5 2. Nf3 e6 3. b3 b6 4. Bb2 Bb7 5. Nc3 Nc6 6. d4 cxd4 7. Nxd4 Nf6 8.
+Nxc6 Bxc6 9. Qe2 Bb4 10. f3 Rc8 11. O-O-O Qc7 12. Nd5 Bxd5 13. exd5 O-O 14. Be5
+Qc5 15. Bd4 Qa5 16. Bxf6 gxf6 17. Qa6 Qc5 18. Bc4 Bc3 19. Rd3 Be5 20. g3 f5 21.
+f4 Bg7 22. Kb1 Qe7 23. d6 Qd8 24. a4 Rc6 25. Re1 Qb8 26. Red1 Rfc8 27. R1d2 b5
+28. Qxb5 Rb6 29. Qxd7 Rb7 30. Qe7 Rxe7 31. dxe7 Bf6 32. Rd8+ Kg7 33. e8=Q Rxd8
+34. Rxd8 Bxd8 35. Qd7 Kf8 36. Be2 Qb6 37. Bh5 Be7 38. Qc8+ Bd8 39. Qc3 Kg8 40.
+h3 Qd6 41. b4 Be7 42. b5 Bf8 43. Kc1 h6 44. a5 Bg7 45. Qc8+ Bf8 46. Qe8 Qa3+
+47. Kd1 Qd6+ 48. Ke2 Qc7 49. Qc6 Qxc6 50. bxc6 Bd6 51. Kd3 Bc7 52. Kc4 Kf8 53.
+Kb5 Ke7 54. Ka6 f6 55. Kb7 Kd8 56. a6 e5 57. Bg6 Ba5 58. Bxf5 exf4 59. gxf4 Bb6
+60. h4 Ba5 61. h5 Bb6 62. c4 Ke8 1-0`]
+}
+
+// Function to get a specific game from Nikolay's collection
+function getAaronGamePGN(index = 0) {
+  const games = getAaronGamePGNs();
+  if (index >= 0 && index < games.length) {
+    return games[index];
+  }
+  return games[0]; // Return first game as default
+}
 
 // Update explanation text function to include game commentary
 function updateExplanationText(filter) {
@@ -774,19 +882,19 @@ function updateExplanationText(filter) {
   
   // Add new explanations based on the filter
   if (filter === 'aaron') {
-    let newHtml = `<h3 class="explanation-title">Aaron's Featured Game</h3>`;
+    let newHtml = `<h3 class="explanation-title">Aaron's Games</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>This game showcases Aaron Reeve Mendes's tactical prowess in a Canadian Junior Championship match.</p>
-      <p>Notice his methodical buildup in the Modern Defense, using the e5 push on move 19 to secure a strong central presence.</p>
-      <p>The knight sacrifice on e5 (move 27) exemplifies his aggressive style, leading to a winning position with the powerful d6-pawn.</p>
+      <p>Explore three of Aaron Reeve Mendes's notable games, showcasing his impressive tactical abilities.</p>
+      <p>The first game features his famous win against GM Razvan Preotu, where his queenside play and patient maneuvering led to a significant upset victory.</p>
+      <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and witness his remarkable development as a young player.</p>
     `;
   } else if (filter === 'nikolay') {
     let newHtml = `<h3 class="explanation-title">Nikolay's Games</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>Explore three of Nikolay Noritsyn's games from the 2024 Olympiad in Budapest, showcasing his technical mastery.</p>
-      <p>The first game demonstrates his tactical play against a lower-rated opponent from Guernsey, where his queenside pawn majority eventually decides the game.</p>
+      <p>Explore three of Nikolay Noritsyn's games showcasing his technical mastery and precision.</p>
+      <p>The first game demonstrates his tactical play against Shawn Rodrigue Lemiuex at the 2023 Canadian Championship.</p>
       <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and see different aspects of his play style.</p>
     `;
   }
