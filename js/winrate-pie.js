@@ -747,7 +747,7 @@ Bxd2 21. Qxd2 Nc3+ 22. Kb3 1-0`,
 
 1. Nf3 d5 2. g3 b6 3. Bg2 Bb7 4. O-O Nf6 5. d3 e6 6. Re1 Bc5 7. d4 Be7 8. c4 c6
 9. Nc3 Nbd7 10. Bf4 Nh5 11. Bd2 Nhf6 12. Qb3 O-O 13. cxd5 cxd5 14. Rec1 a6 15.
-a4 Ne4 16. Be1 Nd6 17. e3 Rc7 18. Bf1 Rc8 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
+a4 Ne4 16. Be1 Nd6 17. e3 Rc8 18. Bf1 Rc7 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
 22. Qd1 Rfc8 23. Nf3 Ne4 24. b3 Na5 25. Ne5 Qd8 26. Rxc7 Rxc7 27. Rc1 Bd6 28.
 Rxc7 Qxc7 29. Nf3 h5 30. Bd3 g6 31. Qb1 Be7 32. Ne5 Bd6 33. b4 Nc6 34. Nf3 Ne7
 35. Nd2 Nxd2 36. Bxd2 h4 37. Be1 e5 38. Nc3 Qd7 39. Qb3 exd4 40. exd4 Qg4 41.
