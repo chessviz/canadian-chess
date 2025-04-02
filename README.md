@@ -11,6 +11,7 @@ Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase Januar
 - [Chess Federation of Canada](http://chess.ca/) for chess membership and player history
 - [GeoNames.org](https://www.geonames.org/postal-codes/) for geographic coordinate data in reference to postal codes in our original dataset
 - [opendatasoft](https://data.opendatasoft.com/explore/dataset/georef-canada-province%40public/export/?disjunctive.prov_name_en) for geojson data of Canadian provinces and territories
+- [world-atlas](https://github.com/topojson/world-atlas) for topojson file of world countries
 
 ###### Libraries Used:
 <ul>
