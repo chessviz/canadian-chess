@@ -316,58 +316,42 @@ function loadMastersData() {
         .attr("r", 3)
         .attr("fill", "#e41a1c")
         .on("mouseover", function (event, d) {
-          // Calculate position relative to the visualization container
-          const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
-          const xPosition = event.clientX - containerRect.left;
-          const yPosition = event.clientY - containerRect.top;
+          // Show tooltip on hover
+          tooltip.transition().duration(200).style("opacity", 0.9);
           
-          // Update tooltip with new positioning approach
-          const tooltip = d3.select("#masters-tooltip");
-          if (tooltip.empty()) {
-            // Create tooltip if it doesn't exist
-            d3.select("#masters-visualization")
-              .append("div")
-              .attr("id", "masters-tooltip")
-              .style("position", "absolute")
-              .style("background-color", "white")
-              .style("border", "solid")
-              .style("border-width", "1px")
-              .style("border-radius", "5px")
-              .style("padding", "10px")
-              .style("text-align", "center")
-              .style("pointer-events", "none")
-              .style("z-index", "100")
-              .html(`<div id="masters-value">Year: ${d.year}<br>Total Masters: ${d.count}</div>`)
-              .style("left", xPosition + "px")
-              .style("top", (yPosition - 40) + "px")
-              .classed("hidden", false)
-              .classed("visible", true);
-          } else {
-            // Update existing tooltip
-            tooltip
-              .select("#masters-value")
-              .html(`Year: ${d.year}<br>Total Masters: ${d.count}`);
-              
-            tooltip
-              .style("left", xPosition + "px")
-              .style("top", (yPosition - 40) + "px")
-              .classed("hidden", false)
-              .classed("visible", true);
-          }
+          // Content for the tooltip
+          let tooltipContent = `<strong>Year: ${d.year}</strong><br>Total Masters: ${d.count}`;
+          
+          // Get the position of the visualization container
+          const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
+          
+          // Calculate position - offset from the event coordinates relative to the container
+          const xPosition = event.pageX - containerRect.left - window.pageXOffset;
+          const yPosition = event.pageY - containerRect.top - window.pageYOffset - 60; // Position above cursor
+          
+          tooltip
+            .html(tooltipContent)
+            .style("left", xPosition + "px")
+            .style("top", yPosition + "px");
+            
+          d3.select(this).attr("r", 5); // Enlarge the dot on hover
         })
         .on("mouseout", function () {
-          hideTooltip();
+          // Hide tooltip
+          tooltip.transition().duration(500).style("opacity", 0);
+          d3.select(this).attr("r", 3); // Restore original size
         })
-        .on("mousemove", function (event, d) {
-          // Calculate position relative to the visualization container
+        .on("mousemove", function (event) {
+          // Get the position of the visualization container
           const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
-          const xPosition = event.clientX - containerRect.left;
-          const yPosition = event.clientY - containerRect.top;
           
           // Update tooltip position as mouse moves
-          d3.select("#masters-tooltip")
+          const xPosition = event.pageX - containerRect.left - window.pageXOffset;
+          const yPosition = event.pageY - containerRect.top - window.pageYOffset - 60; // Position above cursor
+          
+          tooltip
             .style("left", xPosition + "px")
-            .style("top", (yPosition - 40) + "px");
+            .style("top", yPosition + "px");
         });
 
       // Relocate legend to bottom right, below the graph
