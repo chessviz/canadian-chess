@@ -887,6 +887,8 @@ function updateExplanationText(filter) {
     explanationElement.innerHTML += `
       <p>Explore three of Aaron Reeve Mendes's notable games, showcasing his impressive tactical abilities.</p>
       <p>The first game features his famous win against GM Razvan Preotu, where his queenside play and patient maneuvering led to a significant upset victory.</p>
+      <p>The second game features Aaron against former Canadian Champion and current top-Canadian Evgeny Bareev where he is able to hold a draw as black at just 10 years of age.</p>
+      <p>The third game is a special feature where Aaron plays against Nikolay Noritsyn, showcasing their friendly rivalry.</p>
       <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and witness his remarkable development as a young player.</p>
     `;
   } else if (filter === 'nikolay') {
@@ -894,7 +896,9 @@ function updateExplanationText(filter) {
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
       <p>Explore three of Nikolay Noritsyn's games showcasing his technical mastery and precision.</p>
-      <p>The first game demonstrates his tactical play against Shawn Rodrigue Lemiuex at the 2023 Canadian Championship.</p>
+      <p>The first game demonstrates his tactical play to defeat Shawn Rodrigue Lemiuex at the 2023 Canadian Championship.</p>
+      <p>The second game features Nikolay's immaculate defence at the Maplewood Invitational.</p>
+      <p>The third game showcases the grinding-style of Nikolay and his ability to outplay his opponents in the middlegame.</p>
       <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and see different aspects of his play style.</p>
     `;
   }
