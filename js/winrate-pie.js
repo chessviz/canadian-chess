@@ -378,7 +378,7 @@ function renderFilteredCharts(filter) {
   } else {
     // For individual player filters, render the chess game
     if (filter === 'aaron') {
-      renderChessGame("chessgame1", getAaronGamePGN());
+      renderChessGame("chessgame1", getAaronGamePGN(0), 0);
     } else if (filter === 'nikolay') {
       // For Nikolay, we now have multiple games, start with the first one
       renderChessGame("chessgame2", getNikolayGamePGN(0), 0);
@@ -402,7 +402,7 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
 
   // Set container dimensions - make it smaller and more responsive
   container.style.width = '100%';
-  container.style.height = '6`00px'; // Reduced from 600px
+  container.style.height = '320px'; // Fixed typo from 6`00px
   container.style.maxWidth = '400px'; // Add maximum width
   container.style.margin = '0 auto'; // Center the container
   
@@ -472,24 +472,25 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
       </div>
     `;
     
-    // For Nikolay's games, add game selector if we have multiple games
-    if (containerId === "chessgame2") {
-      const totalGames = getNikolayGamePGNs().length;
-      const gameNavDiv = document.createElement('div');
-      gameNavDiv.className = 'game-navigation mt-2';
-      gameNavDiv.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center">
-          <button id="${containerId}-prev-game" class="btn btn-sm btn-outline-primary" ${gameIndex === 0 ? 'disabled' : ''}>
-            <i class="fas fa-chevron-left"></i> Prev Game
-          </button>
-          <span class="mx-2 badge bg-primary">Game ${gameIndex + 1} of ${totalGames}</span>
-          <button id="${containerId}-next-game" class="btn btn-sm btn-outline-primary" ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
-            Next Game <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      `;
-      controlsDiv.appendChild(gameNavDiv);
-    }
+    // Add game navigation for both players, determine which collection to use
+    const isAaron = containerId === "chessgame1";
+    const games = isAaron ? getAaronGamePGNs() : getNikolayGamePGNs();
+    const totalGames = games.length;
+    
+    const gameNavDiv = document.createElement('div');
+    gameNavDiv.className = 'game-navigation mt-2';
+    gameNavDiv.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center">
+        <button id="${containerId}-prev-game" class="btn btn-sm btn-outline-primary" ${gameIndex === 0 ? 'disabled' : ''}>
+          <i class="fas fa-chevron-left"></i> Prev Game
+        </button>
+        <span class="mx-2 badge bg-primary">Game ${gameIndex + 1} of ${totalGames}</span>
+        <button id="${containerId}-next-game" class="btn btn-sm btn-outline-primary" ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
+          Next Game <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    `;
+    controlsDiv.appendChild(gameNavDiv);
     
     container.appendChild(controlsDiv);
     
@@ -555,31 +556,37 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
       updateBoard(currentMove);
     });
     
-    // Add game navigation event listeners if applicable
-    if (containerId === "chessgame2") {
-      const prevGameBtn = document.getElementById(`${containerId}-prev-game`);
-      const nextGameBtn = document.getElementById(`${containerId}-next-game`);
-      
-      if (prevGameBtn) {
-        prevGameBtn.addEventListener('click', () => {
-          if (gameIndex > 0) {
-            // Re-render with previous game
-            container.innerHTML = '';
+    // Add game navigation event listeners for both players
+    const prevGameBtn = document.getElementById(`${containerId}-prev-game`);
+    const nextGameBtn = document.getElementById(`${containerId}-next-game`);
+    
+    if (prevGameBtn) {
+      prevGameBtn.addEventListener('click', () => {
+        if (gameIndex > 0) {
+          // Re-render with previous game - use the appropriate function based on player
+          container.innerHTML = '';
+          if (isAaron) {
+            renderChessGame(containerId, getAaronGamePGNs()[gameIndex - 1], gameIndex - 1);
+          } else {
             renderChessGame(containerId, getNikolayGamePGNs()[gameIndex - 1], gameIndex - 1);
           }
-        });
-      }
-      
-      if (nextGameBtn) {
-        nextGameBtn.addEventListener('click', () => {
-          const totalGames = getNikolayGamePGNs().length;
-          if (gameIndex < totalGames - 1) {
-            // Re-render with next game
-            container.innerHTML = '';
+        }
+      });
+    }
+    
+    if (nextGameBtn) {
+      nextGameBtn.addEventListener('click', () => {
+        const totalGames = isAaron ? getAaronGamePGNs().length : getNikolayGamePGNs().length;
+        if (gameIndex < totalGames - 1) {
+          // Re-render with next game - use the appropriate function based on player
+          container.innerHTML = '';
+          if (isAaron) {
+            renderChessGame(containerId, getAaronGamePGNs()[gameIndex + 1], gameIndex + 1);
+          } else {
             renderChessGame(containerId, getNikolayGamePGNs()[gameIndex + 1], gameIndex + 1);
           }
-        });
-      }
+        }
+      });
     }
     
     // Start at the beginning position
@@ -696,7 +703,7 @@ Bxd2 21. Qxd2 Nc3+ 22. Kb3 1-0`,
 
 1. Nf3 d5 2. g3 b6 3. Bg2 Bb7 4. O-O Nf6 5. d3 e6 6. Re1 Bc5 7. d4 Be7 8. c4 c6
 9. Nc3 Nbd7 10. Bf4 Nh5 11. Bd2 Nhf6 12. Qb3 O-O 13. cxd5 cxd5 14. Rec1 a6 15.
-a4 Ne4 16. Be1 Nd6 17. e3 Rc8 18. Bf1 Rc7 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
+a4 Ne4 16. Be1 Nd6 17. e3 Rc7 18. Bf1 Rc8 19. Na2 Nc4 20. Nd2 Nf6 21. Rab1 Qd7
 22. Qd1 Rfc8 23. Nf3 Ne4 24. b3 Na5 25. Ne5 Qd8 26. Rxc7 Rxc7 27. Rc1 Bd6 28.
 Rxc7 Qxc7 29. Nf3 h5 30. Bd3 g6 31. Qb1 Be7 32. Ne5 Bd6 33. b4 Nc6 34. Nf3 Ne7
 35. Nd2 Nxd2 36. Bxd2 h4 37. Be1 e5 38. Nc3 Qd7 39. Qb3 exd4 40. exd4 Qg4 41.
@@ -715,34 +722,96 @@ function getNikolayGamePGN(index = 0) {
 }
 
 // Function to get Aaron's sample game PGN
-function getAaronGamePGN() {
-  return `[Event "Olympiad"]
-[Site "Budapest HUN"]
-[Date "2024.09.11"]
-[Round "1.4"]
-[White "Hill, Jonathan"]
-[Black "Noritsyn, Nikolay"]
+function getAaronGamePGNs() {
+  return [`
+  [Event "CAN op"]
+[Site "Hamilton CAN"]
+[Date "2022.07.15"]
+[Round "7.15"]
+[White "Preotu, Razvan"]
+[Black "Mendes, Aaron Reeve"]
 [Result "0-1"]
-[ECO "A48"]
-[WhiteElo "1756"]
-[BlackElo "2451"]
-[PlyCount "66"]
-[EventDate "2024.09.11"]
-[EventType "team"]
-[EventRounds "11"]
-[EventCountry "HUN"]
-[Source "ChessMix "]
-[SourceDate "2024.10.01"]
-[WhiteTeam "Guernsey"]
-[BlackTeam "Canada"]
-[BlackTeamCountry "CAN"]
+[ECO "B90"]
+[WhiteElo "2608"]
+[BlackElo "2106"]
+[PlyCount "96"]
+[EventDate "2022.07.12"]
+[EventType "swiss"]
+[EventRounds "9"]
+[EventCountry "CAN"]
 
-1. d4 Nf6 2. Nf3 g6 3. Bf4 d6 4. h3 c5 5. c3 Qb6 6. Qb3 Nc6 7. e3 cxd4 8. Qxb6
-axb6 9. exd4 Nd5 10. Bh2 Bh6 11. Be2 Bc1 12. a3 Bxb2 13. Ra2 Bxc3+ 14. Nxc3
-Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
-21. Rhd1 Rha8 22. f3 Bd5 23. Kf2 b4 24. Bc1 bxa3 25. Rd3 a2 26. Bb2 Na5 27. Ra3
-Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
-0-1`}
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 e5 7. Nb3 Be7 8. h3
+Be6 9. Qf3 h5 10. O-O-O Nbd7 11. Nd5 Bxd5 12. exd5 Nb6 13. Kb1 Rc8 14. Bxb6
+Qxb6 15. Bd3 g6 16. g4 Qb4 17. a3 Qa4 18. Rhg1 Rc7 19. Rde1 hxg4 20. hxg4 Rh4
+21. Rxe5 dxe5 22. d6 Rc6 23. dxe7 Rxg4 24. Re1 Qf4 25. Qd1 Kxe7 26. Na5 Rc7 27.
+Qe2 Rg5 28. Nc4 Nd7 29. Ne3 Nb6 30. Bxa6 bxa6 31. Qxa6 Qxf2 32. Re2 Rg1+ 33.
+Ka2 Qf6 34. Qxb6 Qxb6 35. Nd5+ Ke6 36. Nxb6 f5 37. b3 f4 38. Nc4 Rc5 39. Rf2 g5
+40. Kb2 g4 41. Nd2 g3 42. Re2 Kf5 43. c4 e4 44. Rxe4 Rg2 45. Rd4 Re2 46. Kc1 g2
+47. Nf3 Kg4 48. Rd3 Re3 0-1`, 
+  // Game 3 - vs Kelires (Olympiad)
+  `[Event "Excelsior June GM Norm"]
+[Site "Toronto CAN"]
+[Date "2023.06.20"]
+[Round "3.2"]
+[White "Rodrigue-Lemieux, Shawn"]
+[Black "Mendes, Aaron Reeve"]
+[Result "1/2-1/2"]
+[ECO "A23"]
+[WhiteElo "2451"]
+[BlackElo "2200"]
+[PlyCount "144"]
+[EventDate "2023.06.18"]
+[EventType "tourn"]
+[EventRounds "9"]
+[EventCountry "CAN"]
+
+1. c4 e5 2. g3 Bc5 3. Bg2 c6 4. Nc3 Nf6 5. Na4 Be7 6. Nf3 e4 7. Nd4 d5 8. d3 c5
+9. Nb3 dxc4 10. dxc4 Qxd1+ 11. Kxd1 Na6 12. Bf4 Bf5 13. h3 O-O-O+ 14. Kc1 b6
+15. Nc3 Nb4 16. Nd2 Bd6 17. Be3 Rhe8 18. g4 Bg6 19. g5 Nh5 20. Bxe4 Bf4 21.
+Bxf4 Nxf4 22. f3 Ne6 23. a3 Na6 24. h4 Bxe4 25. Ncxe4 Nd4 26. Rh2 Re6 27. a4 f5
+28. Nc3 Re3 29. a5 Kb7 30. Ra3 Nb4 31. h5 Rd7 32. Rf2 g6 33. hxg6 hxg6 34. Rh6 Rg7
+35. Kd1 bxa5 36. Nce4 Kb6 37. Nxc5 Nbc2 40. Nde4
+Ne3+ 41. Rxe3 Rxb2 48. Rd5 e2+ 49. Ke1 Ng3 50. Nd3 Rb3 51. Kf2 Kf8 52. Ne1 Nf1
+53. Kxe2 Ne3 54. Rxa5 Nxc4 55. Rxa7 Rb2+ 56. Kd3 Ne5+ 57. Ke3 Rb1 58. Ng2 Rb3+
+59. Kf4 Nxf3 60. g6 Nd4 61. Nh4 Rb4+ 62. Rf7+ Kg8 63. Kg4 Nc6 64. Rc7 Ne5+ 65.
+Kg5 Nf7+ 66. Kf4 Rb4+ 67. Kg3 Ne5 68. Rc5 Rb3+ 69. Kg2 Rb2+ 70. Kf1 Rf2+ 71.
+Kg1 Rf4 72. Ng2 Re4 1/2-1/2`,
+// Game 3 - vs Noritsyn (Olympiad)
+  `[Event "Excelsior June GM Norm"]
+[Site "Toronto CAN"]
+[Date "2023.06.23"]
+[Round "9.5"]
+[White "Mendes, Aaron Reeve"]
+[Black "Noritsyn, Nikolay"]
+[Result "1-0"]
+[ECO "B40"]
+[WhiteElo "2200"]
+[BlackElo "2444"]
+[PlyCount "124"]
+[EventDate "2023.06.18"]
+[EventType "tourn"]
+[EventRounds "9"]
+[EventCountry "CAN"]
+
+1. e4 c5 2. Nf3 e6 3. b3 b6 4. Bb2 Bb7 5. Nc3 Nc6 6. d4 cxd4 7. Nxd4 Nf6 8.
+Nxc6 Bxc6 9. Qe2 Bb4 10. f3 Rc8 11. O-O-O Qc7 12. Nd5 Bxd5 13. exd5 Nb6 14. Be5
+Qc5 15. Bd4 Qa5 16. Bxf6 gxf6 17. Qa6 Qc5 18. Bc4 Bc3 19. Rd3 Be5 20. g3 f5 21.
+f4 Bg7 22. Kb1 Qe7 23. d6 Qd8 24. a4 Rc6 25. Re1 Qb8 26. Rd2 Rfc8 27. R1d1 b5
+28. Qxb5 Rb6 29. Qxd7 Rb7 30. Qe7 Rxe7 31. dxe7 Bf6 32. Rd8+ Kg7 33. e8=Q Rxd8
+34. Rxd8 Bxd8 35. Qd7 Kf8 36. Be2 Qb6 37. Bh5 Be7 38. Qc8+ Bd8 39. Qc3 Kg8 40.
+h3 Qd6 41. b4 Be7 42. b5 Bf8 43. Kc1 h6 44. a5 Bg7 45. Qc8+ Bf8 46. Qe8 Qa3+
+47. Kd1 Qd6+ 48. Ke2 Qc7 49. Qc6 Qxc6 50. bxc6 Bd6 51. Kd3 Bc7 52. Kc4 Kf8 53.
+Kb5 Ke7 54. Ka6 f6 55. Kb7 Kd8 56. a6 e5 57. Bg6 Ba5 58. Bxf5 exf4 59. gxf4 Bb6
+60. h4 Ba5 61. h5 Bb6 62. c4 Ke8 1-0`]}
+
+// Function to get a specific game from Nikolay's collection
+function getAaronGamePGN(index = 0) {
+  const games = getAaronGamePGNs();
+  if (index >= 0 && index < games.length) {
+    return games[index];
+  }
+  return games[0]; // Return first game as default
+}
 
 // Update explanation text function to include game commentary
 function updateExplanationText(filter) {
@@ -774,12 +843,12 @@ function updateExplanationText(filter) {
   
   // Add new explanations based on the filter
   if (filter === 'aaron') {
-    let newHtml = `<h3 class="explanation-title">Aaron's Featured Game</h3>`;
+    let newHtml = `<h3 class="explanation-title">Aaron's Games</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>This game showcases Aaron Reeve Mendes's tactical prowess in a Canadian Junior Championship match.</p>
-      <p>Notice his methodical buildup in the Modern Defense, using the e5 push on move 19 to secure a strong central presence.</p>
-      <p>The knight sacrifice on e5 (move 27) exemplifies his aggressive style, leading to a winning position with the powerful d6-pawn.</p>
+      <p>Explore three of Aaron Reeve Mendes's notable games, showcasing his impressive tactical abilities.</p>
+      <p>The first game features his famous win against GM Razvan Preotu, where his queenside play and patient maneuvering led to a significant upset victory.</p>
+      <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and witness his remarkable development as a young player.</p>
     `;
   } else if (filter === 'nikolay') {
     let newHtml = `<h3 class="explanation-title">Nikolay's Games</h3>`;
