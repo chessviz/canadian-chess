@@ -4,10 +4,10 @@
 const mastersMargin = { top: 50, right: 80, bottom: 100, left: 60 };
 
 // Reduce height to make room for explanation text
-let mastersHeight = 400 - mastersMargin.top - mastersMargin.bottom;
+let mastersHeight = 600 - mastersMargin.top - mastersMargin.bottom;
 
 let mastersWidth =
-  800 -
+  1000 -
   mastersMargin.left -
   mastersMargin.right;
 // let mastersWidth =
@@ -22,7 +22,9 @@ let mastersSvg = d3
   .append("svg")
   .attr("width", mastersWidth + mastersMargin.left + mastersMargin.right)
   .attr("height", mastersHeight + mastersMargin.top + mastersMargin.bottom)
-  .style("max-height", "400px") // Reduce max-height from 500px to 400px
+  .style("max-height", "600vh") // Reduce max-height from 500px to 400px
+  .style("display", "block") // Make SVG a block element
+  .style("margin", "0 auto") // Center the SVG horizontally
   .append("g")
   .attr("transform", `translate(${mastersMargin.left},${mastersMargin.top})`);
 
@@ -54,6 +56,14 @@ function createChessPatterns(svg) {
 const parseDate = d3.timeParse("%Y-%m-%d");
 // Function to load and visualize the data
 function loadMastersData() {
+  // First, ensure the parent container has proper centering styles
+  d3.select("#masters-visualization")
+    .style("display", "flex")
+    .style("flex-direction", "column")
+    .style("justify-content", "center")
+    .style("align-items", "center")
+    .style("min-height", "400px"); // Set minimum height for the container
+
   // Replace the d3.csv call with d3.dsv to explicitly set comma as delimiter
   d3.dsv(",", "data/national_masters.csv")
     .then((data) => {
@@ -167,7 +177,7 @@ function loadMastersData() {
         .attr("x", -mastersHeight / 2)
         .text("Number of New National Masters");
 
-      // Create tooltip div
+      // Create tooltip div with centered styling
       const tooltip = d3
         .select("#masters-visualization")
         .append("div")
@@ -178,7 +188,10 @@ function loadMastersData() {
         .style("border", "solid")
         .style("border-width", "1px")
         .style("border-radius", "5px")
-        .style("padding", "10px");
+        .style("padding", "10px")
+        .style("text-align", "center") // Center tooltip text
+        .style("pointer-events", "none") // Prevent tooltip from interfering with mouse events
+        .style("z-index", "100"); // Ensure tooltip appears above other elements
 
       // Draw bars
       mastersSvg
@@ -202,11 +215,15 @@ function loadMastersData() {
           const mastersThisYear = yearGroups.get(d.year) || [];
           let mastersText = `<strong>Year: ${d.year}</strong><br>New Masters: ${d.count}<br>`;
 
+          // Calculate position relative to the visualization container
+          const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
+          const xPosition = event.clientX - containerRect.left;
+          const yPosition = event.clientY - containerRect.top;
 
           tooltip
             .html(mastersText)
-            .style("left", event.pageX + 10 + "px")
-            .style("top", event.pageY - 28 + "px");
+            .style("left", xPosition + "px")
+            .style("top", (yPosition - 40) + "px"); // Position above cursor
 
           d3.select(this).attr("fill", "#ff7f0e");
         })
@@ -299,16 +316,58 @@ function loadMastersData() {
         .attr("r", 3)
         .attr("fill", "#e41a1c")
         .on("mouseover", function (event, d) {
-          showTooltip(event, d);
+          // Calculate position relative to the visualization container
+          const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
+          const xPosition = event.clientX - containerRect.left;
+          const yPosition = event.clientY - containerRect.top;
+          
+          // Update tooltip with new positioning approach
+          const tooltip = d3.select("#masters-tooltip");
+          if (tooltip.empty()) {
+            // Create tooltip if it doesn't exist
+            d3.select("#masters-visualization")
+              .append("div")
+              .attr("id", "masters-tooltip")
+              .style("position", "absolute")
+              .style("background-color", "white")
+              .style("border", "solid")
+              .style("border-width", "1px")
+              .style("border-radius", "5px")
+              .style("padding", "10px")
+              .style("text-align", "center")
+              .style("pointer-events", "none")
+              .style("z-index", "100")
+              .html(`<div id="masters-value">Year: ${d.year}<br>Total Masters: ${d.count}</div>`)
+              .style("left", xPosition + "px")
+              .style("top", (yPosition - 40) + "px")
+              .classed("hidden", false)
+              .classed("visible", true);
+          } else {
+            // Update existing tooltip
+            tooltip
+              .select("#masters-value")
+              .html(`Year: ${d.year}<br>Total Masters: ${d.count}`);
+              
+            tooltip
+              .style("left", xPosition + "px")
+              .style("top", (yPosition - 40) + "px")
+              .classed("hidden", false)
+              .classed("visible", true);
+          }
         })
         .on("mouseout", function () {
           hideTooltip();
         })
         .on("mousemove", function (event, d) {
+          // Calculate position relative to the visualization container
+          const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
+          const xPosition = event.clientX - containerRect.left;
+          const yPosition = event.clientY - containerRect.top;
+          
           // Update tooltip position as mouse moves
           d3.select("#masters-tooltip")
-            .style("left", event.pageX + 15 + "px")
-            .style("top", event.pageY - 28 + "px");
+            .style("left", xPosition + "px")
+            .style("top", (yPosition - 40) + "px");
         });
 
       // Relocate legend to bottom right, below the graph
@@ -375,7 +434,10 @@ function showMastersTable(year, mastersData) {
       .append("div")
       .attr("id", "masters-table-container")
       .style("max-height", "400px") // Reduce max-height from 500px to 400px to match SVG
-      .style("overflow-y", "auto"); // Add scrolling to the table itself
+      .style("overflow-y", "auto") // Add scrolling to the table itself
+      .style("margin", "auto") // Center the table vertically and horizontally
+      .style("max-width", "90%") // Limit width for better readability
+      .style("position", "relative"); // Position for centering
   }
   
   // Create the content for the masters table
@@ -439,6 +501,12 @@ function showMastersChart() {
 // Inside your visualization code add these functions for tooltip handling
 function showTooltip(event, d) {
   console.log("Show tooltip for data point");
+  
+  // Calculate position relative to the visualization container
+  const containerRect = document.getElementById("masters-visualization").getBoundingClientRect();
+  const xPosition = event.clientX - containerRect.left;
+  const yPosition = event.clientY - containerRect.top;
+  
   const tooltip = d3.select("#masters-tooltip");
 
   // Set tooltip content
@@ -446,10 +514,10 @@ function showTooltip(event, d) {
     .select("#masters-value")
     .html(`Year: ${d.year}<br>Total Masters: ${d.count}`);
 
-  // Position the tooltip near the mouse pointer
+  // Position the tooltip precisely
   tooltip
-    .style("left", event.pageX + 15 + "px")
-    .style("top", event.pageY - 28 + "px")
+    .style("left", xPosition + "px")
+    .style("top", (yPosition - 40) + "px")
     .classed("hidden", false)
     .classed("visible", true);
 }
@@ -469,10 +537,15 @@ function handleResize() {
     mastersMargin.right;
 
   // Update SVG dimensions
-  d3.select("#masters-visualization svg").attr(
-    "width",
-    mastersWidth + mastersMargin.left + mastersMargin.right
-  );
+  d3.select("#masters-visualization svg")
+    .attr("width", mastersWidth + mastersMargin.left + mastersMargin.right);
+
+  // Ensure the container maintains vertical centering
+  d3.select("#masters-visualization")
+    .style("display", "flex")
+    .style("flex-direction", "column")
+    .style("justify-content", "center")
+    .style("align-items", "center");
 
   // Redraw the visualization with new dimensions
   mastersSvg.selectAll("*").remove();
