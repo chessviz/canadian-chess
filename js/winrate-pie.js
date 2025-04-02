@@ -531,11 +531,11 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
     gameNavDiv.className = 'game-navigation mt-2';
     gameNavDiv.innerHTML = `
       <div class="d-flex justify-content-between align-items-center">
-        <button id="${containerId}-prev-game" class="btn btn-sm btn-outline-primary" ${gameIndex === 0 ? 'disabled' : ''}>
+        <button id="${containerId}-prev-game" class="btn btn-sm " ${gameIndex === 0 ? 'disabled' : ''}>
           <i class="fas fa-chevron-left"></i> Prev Game
         </button>
         <span class="mx-2 badge bg-primary">Game ${gameIndex + 1} of ${totalGames}</span>
-        <button id="${containerId}-next-game" class="btn btn-sm btn-outline-primary" ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
+        <button id="${containerId}-next-game" class="btn btn-sm " ${gameIndex === totalGames - 1 ? 'disabled' : ''}>
           Next Game <i class="fas fa-chevron-right"></i>
         </button>
       </div>
