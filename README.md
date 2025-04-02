@@ -19,9 +19,10 @@ Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase Januar
 <li>Bootstrap (basic CSS)</li>
 <li>FullPage (HTML structure)</li>
 <li>Chess-dataviz (pre-built d3 modules)</li>
-<li>Chess-dataviz (pre-built d3 modules)</li>
 </ul>
 
 
 ###### Relevant Links: 
 Live site at [chessviz.github.io/canadian-chess/](https://chessviz.github.io/canadian-chess/)
+
+Video Demo on [YouTube](https://www.youtube.com/watch?v=hX2T-h_Kodw) and also available [here](public/316-demo.mp4).
