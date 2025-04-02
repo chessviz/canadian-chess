@@ -5,7 +5,7 @@ Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase Januar
 <br/> Team Members: Victor Zheng, Andy Feng, Harsh Bawja
 
 ###### Overview
-Code is all stored in the root directory. There is a css, data, img, js folders for the code. `index.html` is deployed using GitHub Actions to our [website](https://chessviz.github.io/canadian-chess/), enabling CI/CD. 
+Code is all stored in the root directory. There is a css, data, img, js folders for the code. `index.html` is deployed using GitHub Actions to our [website](https://chessviz.github.io/canadian-chess/), enabling CI/CD. The data folder also contains the `scripts` folder which we used for manipulating and cleaning the data. We also have under the `pgns` folder game data for the players. 
 
 
 ###### References and Acknowledgements
