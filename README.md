@@ -9,6 +9,7 @@ Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase Januar
 - [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/) for extracting pgn games
 - [CanBase](https://canbase.fqechecs.qc.ca/players.htm) for Canadian master games
 - [Chess Federation of Canada](http://chess.ca/) for chess membership and player history
+- [Chess Federation of Canada Newsletter](https://www.facebook.com/ChessCanada/photos) for Canadian Chess photos
 - [GeoNames.org](https://www.geonames.org/postal-codes/) for geographic coordinate data in reference to postal codes in our original dataset
 - [opendatasoft](https://data.opendatasoft.com/explore/dataset/georef-canada-province%40public/export/?disjunctive.prov_name_en) for geojson data of Canadian provinces and territories
 - [world-atlas](https://github.com/topojson/world-atlas) for topojson file of world countries
