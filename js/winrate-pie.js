@@ -106,7 +106,7 @@ function renderPieChart(containerId, chartData, playerName) {
     .style("display", "flex")
     .style("justify-content", "center")
     .style("align-items", "center")
-    .style("height", "50%");
+    .style("height", "100%");
 
   // Set up dimensions - make smaller than before
   const width = 220; // Reduced from 300
@@ -402,7 +402,7 @@ function renderChessGame(containerId, pgn, gameIndex = 0) {
 
   // Set container dimensions - make it smaller and more responsive
   container.style.width = '100%';
-  container.style.height = '320px'; // Fixed typo from 6`00px
+  container.style.height = '600px'; // Fixed typo from 6`00px
   container.style.maxWidth = '400px'; // Add maximum width
   container.style.margin = '0 auto'; // Center the container
   
@@ -627,33 +627,27 @@ function extractPgnTag(pgn, tagName) {
 function getNikolayGamePGNs() {
   return [
     // Game 1 - vs Hill (Olympiad)
-    `[Event "Olympiad"]
-[Site "Budapest HUN"]
-[Date "2024.09.11"]
-[Round "1.4"]
-[White "Hill, Jonathan"]
-[Black "Noritsyn, Nikolay"]
-[Result "0-1"]
-[ECO "A48"]
-[WhiteElo "1756"]
-[BlackElo "2451"]
-[PlyCount "66"]
-[EventDate "2024.09.11"]
-[EventType "team"]
-[EventRounds "11"]
-[EventCountry "HUN"]
-[Source "ChessMix "]
-[SourceDate "2024.10.01"]
-[WhiteTeam "Guernsey"]
-[BlackTeam "Canada"]
-[BlackTeamCountry "CAN"]
+    `[Event "CAN-ch"]
+[Site "Toronto CAN"]
+[Date "2023.04.08"]
+[Round "4.2"]
+[White "Noritsyn, Nikolay"]
+[Black "Rodrigue-Lemieux, Shawn"]
+[Result "1-0"]
+[ECO "C79"]
+[WhiteElo "2546"]
+[BlackElo "2539"]
+[PlyCount "63"]
+[EventDate "2023.04.06"]
+[EventType "swiss"]
+[EventRounds "9"]
+[EventCountry "CAN"]
 
-1. d4 Nf6 2. Nf3 g6 3. Bf4 d6 4. h3 c5 5. c3 Qb6 6. Qb3 Nc6 7. e3 cxd4 8. Qxb6
-axb6 9. exd4 Nd5 10. Bh2 Bh6 11. Be2 Bc1 12. a3 Bxb2 13. Ra2 Bxc3+ 14. Nxc3
-Nxc3 15. Ra1 Bf5 16. Bf4 Be4 17. Be3 b5 18. Kd2 Nxe2 19. Kxe2 Kd7 20. Nh4 Ra4
-21. Rhd1 Rha8 22. f3 Bd5 23. Kf2 b4 24. Bc1 bxa3 25. Rd3 a2 26. Bb2 Na5 27. Ra3
-Rxa3 28. Bxa3 Nc4 29. Bc1 Na3 30. Bxa3 Rxa3 31. f4 b5 32. Nf3 Bxf3 33. gxf3 b4
-0-1`,
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 d6 5. O-O Bd7 6. c3 Nf6 7. Re1 g6 8. d4
+Qe7 9. d5 Nd8 10. Bg5 Bg7 11. c4 O-O 12. Nc3 h6 13. Bh4 Bxa4 14. Qxa4 g5 15.
+Bg3 Nh5 16. Rad1 Bf6 17. Nd2 g4 18. Nf1 Bg5 19. Rd3 Ng7 20. Qd1 h5 21. f3 Qd7
+22. fxg4 Qxg4 23. Rf3 Bh6 24. h3 Qg6 25. Bh4 f5 26. Rg3 Qh7 27. exf5 Bf4 28. f6
+Bxg3 29. Nxg3 Ne8 30. Rf1 Nf7 31. Nce4 b5 32. Rf5 1-0`,
     // Game 2 - vs Urkedal (Olympiad)
     `[Event "Maplewood inv."]
 [Site "Waterloo, QC CAN"]
@@ -849,8 +843,8 @@ function updateExplanationText(filter) {
     let newHtml = `<h3 class="explanation-title">Nikolay's Games</h3>`;
     explanationElement.innerHTML = newHtml;
     explanationElement.innerHTML += `
-      <p>Explore three of Nikolay Noritsyn's games from the 2024 Olympiad in Budapest, showcasing his technical mastery.</p>
-      <p>The first game demonstrates his tactical play against a lower-rated opponent from Guernsey, where his queenside pawn majority eventually decides the game.</p>
+      <p>Explore three of Nikolay Noritsyn's games showcasing his technical mastery and precision.</p>
+      <p>The first game demonstrates his tactical play against Shawn Rodrigue Lemiuex at the 2023 Canadian Championship.</p>
       <p>Use the "Prev Game" and "Next Game" buttons to browse through all three games and see different aspects of his play style.</p>
     `;
   }
