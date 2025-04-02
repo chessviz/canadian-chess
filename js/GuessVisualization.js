@@ -13,7 +13,7 @@ ChessVis.GuessVisualization = class extends ChessVis.ChessVisualization {
     this.step = options.step || 100;
     this.defaultValue = options.defaultValue || 4000;
     this.correctValue = options.correctValue || ChessVis.TOTAL_PLAYERS;
-    this.acceptableErrorPercent = options.acceptableErrorPercent || 10;
+    this.acceptableErrorPercent = options.acceptableErrorPercent || 5;
 
     // State
     this.currentValue = this.defaultValue;
