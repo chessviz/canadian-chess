@@ -803,6 +803,17 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* Info container */
+.info-movecharts-container {
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  border-right: 4px solid var(--primary-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(20px);
+}
+
 .info-container {
   padding: 25px;
   background-color: rgba(255, 255, 255, 0.95);
@@ -813,6 +824,8 @@ input[type="range"]::-moz-range-thumb {
   transition: opacity 0.5s ease, transform 0.5s ease;
   transform: translateY(20px);
 }
+
+
 
 .info-container.visible {
   opacity: 1;
