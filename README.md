@@ -32,3 +32,5 @@ Live site at [chessviz.github.io/canadian-chess/](https://chessviz.github.io/can
 Video Demo on [YouTube](https://www.youtube.com/watch?v=hX2T-h_Kodw) and also available [here](docs/316-demo.mp4).
 
 Project book that documents every step and design decision of your final project [project-book](docs/project-book.pdf).
+
+GitHub page available [here](https://github.com/chessviz/canadian-chess)
