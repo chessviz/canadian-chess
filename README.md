@@ -4,6 +4,10 @@
 Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase January Update
 <br/> Team Members: Victor Zheng, Andy Feng, Harsh Bawja
 
+###### Overview
+Code is all stored in the root directory. There is a css, data, img, js folders for the code. `index.html` is deployed using GitHub Actions to our website enabling CI/CD. 
+
+
 ###### References and Acknowledgements
 - [chess-dataviz](https://github.com/ebemunk/chess-dataviz) library
 - [pgn-extract](https://www.cs.kent.ac.uk/people/staff/djb/pgn-extract/) for extracting pgn games
@@ -25,4 +29,4 @@ Dataset: The 2025 January Canadian Chess Federation dataset, 2025 CanBase Januar
 ###### Relevant Links: 
 Live site at [chessviz.github.io/canadian-chess/](https://chessviz.github.io/canadian-chess/)
 
-Video Demo on [YouTube](https://www.youtube.com/watch?v=hX2T-h_Kodw) and also available [here](public/316-demo.mp4).
+Video Demo on [YouTube](https://www.youtube.com/watch?v=hX2T-h_Kodw) and also available [here](docs/316-demo.mp4).
