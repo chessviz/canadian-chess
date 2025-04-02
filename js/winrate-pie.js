@@ -106,7 +106,8 @@ function renderPieChart(containerId, chartData, playerName) {
     .style("display", "flex")
     .style("justify-content", "center")
     .style("align-items", "center")
-    .style("height", "100%");
+    .style("height", "100%")
+    .style("position", "relative"); // Add relative positioning
 
   // Set up dimensions - make smaller than before
   const width = 220; // Reduced from 300
@@ -213,9 +214,58 @@ function renderPieChart(containerId, chartData, playerName) {
     .attr("font-size", "14px") // Increased font size
     .text((d) => `${categoryNames[d.name]}: ${d.value}`);
 
-  // Remove the player name display that was here
+  // Get the player ID based on the player name
+  let playerProfileUrl = "";
+  if (playerName.includes("Nikolay")) {
+    playerProfileUrl = "https://www.chess.ca/en/ratings/p/?id=132534";
+  } else if (playerName.includes("Aaron")) {
+    playerProfileUrl = "https://www.chess.ca/en/ratings/p/?id=167084";
+  }
 
-  // Note: The player name display code has been removed as requested
+  // Add hover overlay for chess.ca profile link
+  const overlay = container
+    .append("div")
+    .attr("class", "chart-overlay")
+    .style("position", "absolute")
+    .style("top", "0")
+    .style("left", "0")
+    .style("width", "100%")
+    .style("height", "100%")
+    .style("display", "flex")
+    .style("justify-content", "center")
+    .style("align-items", "center")
+    .style("opacity", "0")
+    .style("background-color", "rgba(0,0,0,0.5)")
+    .style("transition", "opacity 0.3s ease")
+    .style("pointer-events", "none") // Initially don't capture mouse events
+    .style("z-index", "10");
+
+  // Add link button
+  overlay
+    .append("a")
+    .attr("href", playerProfileUrl)
+    .attr("target", "_blank")
+    .attr("rel", "noopener noreferrer")
+    .style("text-decoration", "none")
+    .append("button")
+    .attr("class", "btn btn-primary")
+    .style("padding", "8px 16px")
+    .style("border-radius", "4px")
+    .style("cursor", "pointer")
+    .html('<i class="fas fa-external-link-alt mr-1"></i> View Official Profile');
+
+  // Add hover effects
+  container
+    .on("mouseenter", function() {
+      overlay
+        .style("opacity", "1")
+        .style("pointer-events", "auto"); // Enable pointer events on hover
+    })
+    .on("mouseleave", function() {
+      overlay
+        .style("opacity", "0")
+        .style("pointer-events", "none"); // Disable pointer events when not hovering
+    });
 }
 
 // Function to setup portrait listeners for filtering charts
